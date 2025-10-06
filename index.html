@@ -83,6 +83,58 @@
       }
     }
   </style>
+  <style id="metrics-stability-fixes">
+    /* Metrics row stability + staggered reveal (no design changes) */
+    .metrics-row {
+      display: flex;
+      align-items: center;
+      gap: clamp(0.6rem, 2vw, 1rem);
+      pointer-events: auto;
+      will-change: transform;
+      transform: translateZ(0);
+      contain: layout paint;
+    }
+    .metrics-row .floating-element,
+    .metrics-row .certification-badge {
+      backface-visibility: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    /* Initial hidden state for smooth entry */
+    .metrics-row .floating-element,
+    .metrics-row .certification-badge {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 500ms var(--ease), transform 500ms var(--ease);
+    }
+    .metrics-row.ready .floating-element,
+    .metrics-row.ready .certification-badge {
+      opacity: 1;
+      transform: none;
+    }
+    /* Mobile jitter hardening */
+    @media (max-width: 640px) {
+      .metrics-row {
+        position: static !important;
+        top: auto !important; right: auto !important; left: auto !important;
+        width: 100%; margin: 0 auto; justify-content: center; flex-wrap: wrap;
+      }
+      .metrics-row .floating-element,
+      .metrics-row .certification-badge { 
+        position: relative !important;
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    }
+    /* Respect reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .metrics-row .floating-element,
+      .metrics-row .certification-badge {
+        transition: none !important;
+        transform: none !important;
+        opacity: 1 !important;
+      }
+    }
+  </style>
   <style id="anti-copy-style">
     /* Anti-copy global protection — non-intrusive and performant */
     html, body, *:not(input):not(textarea):not([contenteditable="true"]) {

@@ -372,7 +372,14 @@ function initScrollAnimations() {
     const sectionObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('in-view');
+          const sec = entry.target;
+          sec.classList.add('in-view');
+          // Stagger children inside the section for premium feel
+          const kids = sec.querySelectorAll('.animate-on-scroll, .animate-slide-left, .animate-slide-right');
+          kids.forEach((el, i) => {
+            try { el.style.transitionDelay = `${i * 90}ms`; } catch(_){}
+            el.classList.add('visible');
+          });
         }
       });
     }, { threshold: 0.15, rootMargin: '0px 0px -10% 0px' });
@@ -552,7 +559,7 @@ function arrangeHeroMetricsRow() {
     const visual = document.querySelector('.hero-visual');
     if (!visual) return;
 
-    // التأكد من وجود الحاوية
+    // Ensure wrapper exists
     let wrapper = visual.querySelector('.metrics-row');
     if (!wrapper) {
       wrapper = document.createElement('div');
@@ -560,49 +567,53 @@ function arrangeHeroMetricsRow() {
       visual.prepend(wrapper);
     }
 
-    // جمع المربعات
+    const isMobile = window.matchMedia('(max-width: 640px)').matches;
+
+    // Collect elements
     const boxes = Array.from(visual.querySelectorAll('.floating-element'));
     const badge = document.querySelector('.certification-badge');
 
-    // ترتيب المربعات حسب المحتوى
-    const getRank = (el) => {
-      const t = (el.textContent || '').toLowerCase();
-      // Place the dedicated CERTIFIED EXPERT CSWE box at the end (4th)
-      if (t.includes('certified') && t.includes('expert')) return 3;
-      // First metric: CSWE Certified 1/129
-      if (t.includes('cswe') && t.includes('certified')) return 0;
-      // Second: Years Experience
-      if (t.includes('years') && t.includes('experience')) return 1;
-      // Third: Projects Completed
-      if (t.includes('projects') && t.includes('completed')) return 2;
-      // Others go after
-      return 4;
-    };
+    if (!isMobile) {
+      // Desktop: deterministic order beside title
+      const getRank = (el) => {
+        const t = (el.textContent || '').toLowerCase();
+        if (t.includes('certified') && t.includes('expert')) return 3; // 4th
+        if (t.includes('cswe') && t.includes('certified')) return 0;   // 1st
+        if (t.includes('years') && t.includes('experience')) return 1;  // 2nd
+        if (t.includes('projects') && t.includes('completed')) return 2;// 3rd
+        return 4;
+      };
 
-    boxes.sort((a, b) => getRank(a) - getRank(b));
+      const sorted = boxes.slice().sort((a, b) => getRank(a) - getRank(b));
+      sorted.forEach(el => { if (el && el.parentNode !== wrapper) wrapper.appendChild(el); else if (el && el.parentNode === wrapper) wrapper.appendChild(el); });
+      if (badge && badge.parentNode !== wrapper) wrapper.appendChild(badge);
 
-    // إضافة المربعات بالترتيب
-    boxes.forEach((el) => {
-      if (el) wrapper.appendChild(el);
-    });
-
-    // إضافة الشارة في النهاية
-    if (badge) wrapper.appendChild(badge);
-
-    // محاذاة الصف مع العنوان
-    const titleEl = document.querySelector('.hero-title .line2')
-      || document.querySelector('.hero-title .line1')
-      || document.querySelector('.hero-title');
-    const visRect = visual.getBoundingClientRect();
-    if (titleEl) {
-      const titleRect = titleEl.getBoundingClientRect();
-      const topOffset = Math.max(0, Math.round(titleRect.top - visRect.top));
+      // Align wrapper with hero title
+      const titleEl = document.querySelector('.hero-title .line2')
+        || document.querySelector('.hero-title .line1')
+        || document.querySelector('.hero-title');
+      const visRect = visual.getBoundingClientRect();
+      let topOffset = 0;
+      if (titleEl) {
+        const titleRect = titleEl.getBoundingClientRect();
+        topOffset = Math.max(0, Math.round(titleRect.top - visRect.top));
+      }
+      wrapper.style.position = 'absolute';
+      wrapper.style.right = '0px';
       wrapper.style.top = `${topOffset}px`;
     } else {
-      wrapper.style.top = '0px';
+      // Mobile: CSS-driven layout only to eliminate jitter
+      wrapper.style.removeProperty('position');
+      wrapper.style.removeProperty('right');
+      wrapper.style.removeProperty('top');
+      boxes.forEach(el => { if (el && el.parentNode !== wrapper) wrapper.appendChild(el); });
+      if (badge && badge.parentNode !== wrapper) wrapper.appendChild(badge);
     }
-    wrapper.style.position = 'absolute';
-    wrapper.style.right = '0px';
+
+    // Staggered reveal for metrics items
+    const items = Array.from(wrapper.querySelectorAll('.floating-element, .certification-badge'));
+    items.forEach((el, i) => { try { el.style.transitionDelay = `${80 + i * 90}ms`; } catch(_){} });
+    requestAnimationFrame(() => wrapper.classList.add('ready'));
   } catch (err) {
     console.error('Error arranging metrics row:', err);
   }
