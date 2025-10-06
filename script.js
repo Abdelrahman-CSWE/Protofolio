@@ -612,8 +612,24 @@ function arrangeHeroMetricsRow() {
 
     // Staggered reveal for metrics items
     const items = Array.from(wrapper.querySelectorAll('.floating-element, .certification-badge'));
-    items.forEach((el, i) => { try { el.style.transitionDelay = `${80 + i * 90}ms`; } catch(_){} });
-    requestAnimationFrame(() => wrapper.classList.add('ready'));
+    items.forEach((el, i) => { 
+      try { 
+        el.style.transitionDelay = `${80 + i * 90}ms`; 
+        // Ensure shine layer element exists
+        if (!el.querySelector('.shine-layer')) {
+          const s = document.createElement('span');
+          s.className = 'shine-layer';
+          el.appendChild(s);
+        }
+        // Enable shine with per-item offset
+        el.classList.add('shine-active');
+        el.style.setProperty('--shine-offset', `${0.1 + i * 0.4}s`);
+      } catch(_){}
+    });
+    requestAnimationFrame(() => {
+      wrapper.classList.add('ready');
+      try { document.body.classList.add('metrics-shine-on'); } catch(_){}
+    });
   } catch (err) {
     console.error('Error arranging metrics row:', err);
   }
@@ -694,6 +710,25 @@ if (document.readyState === 'loading') {
 } else {
   init();
 }
+
+// Fallback: force-enable shine if metrics-row is found but not ready
+setTimeout(() => {
+  try {
+    const wrapper = document.querySelector('.hero-visual .metrics-row');
+    if (wrapper && !wrapper.classList.contains('ready')) {
+      wrapper.querySelectorAll('.floating-element').forEach((el, i) => {
+        if (!el.querySelector('.shine-layer')) {
+          const s = document.createElement('span');
+          s.className = 'shine-layer';
+          el.appendChild(s);
+        }
+        el.classList.add('shine-active');
+        el.style.setProperty('--shine-offset', `${0.1 + i * 0.4}s`);
+      });
+      wrapper.classList.add('ready');
+    }
+  } catch(_){}
+}, 1200);
 
 // Advanced Content Protection
 document.addEventListener('contextmenu', function(e) {

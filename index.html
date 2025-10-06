@@ -5750,6 +5750,51 @@
     .certification-badge .cert-title,
     .certification-badge .cert-value { text-shadow: none !important; }
   </style>
+<style id="metrics-shine-layer-css">
+    /* Force relative container and overlay shine layer inside metric boxes */
+    .metrics-row .floating-element { position: relative !important; overflow: hidden !important; }
+    .metrics-row .floating-element .shine-layer {
+      position: absolute;
+      top: -55%;
+      left: -55%;
+      width: 210%;
+      height: 210%;
+      background: linear-gradient(
+        45deg,
+        transparent 0%,
+        transparent 42%,
+        rgba(255, 255, 255, 0.08) 46%,
+        rgba(255, 255, 255, 0.25) 50%,
+        rgba(255, 255, 255, 0.08) 54%,
+        transparent 58%,
+        transparent 100%
+      );
+      transform: translateX(-110%) translateY(-110%) rotate(45deg);
+      animation: metrics-shine 4.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      animation-play-state: paused;
+      mix-blend-mode: screen;
+      pointer-events: none;
+      z-index: 2;
+      will-change: transform, opacity;
+    }
+    .metrics-row.ready .floating-element.shine-active .shine-layer {
+      animation-play-state: running;
+      animation-delay: var(--shine-offset, 0s);
+    }
+    .metrics-row .floating-element:hover .shine-layer { animation-duration: 2.2s; }
+
+    /* Keyframes (safe to redeclare) */
+    @keyframes metrics-shine {
+      0% { transform: translateX(-110%) translateY(-110%) rotate(45deg); opacity: 0; }
+      10% { opacity: 1; }
+      25% { transform: translateX(110%) translateY(110%) rotate(45deg); opacity: 0.9; }
+      100% { transform: translateX(110%) translateY(110%) rotate(45deg); opacity: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .metrics-row .floating-element .shine-layer { animation: none !important; }
+    }
+  </style>
 </head>
 <body>
   <div class="blueprint-bg"></div>
