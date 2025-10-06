@@ -11,19 +11,10 @@
   <!-- Preload critical above-the-fold images to speed up LCP -->
   <link rel="preload" as="image" href="Certificat.png" fetchpriority="high">
     <!-- ⬡ Refined Hexagon Animations for Navbar - Elegant & Balanced -->
-  <link rel="preload" href="nav-hexagon-refined-animations.css" as="style">
-  <link rel="preload" href="metrics-boxes-new.css" as="style">
-  <link rel="preload" href="cert-smooth-animation.css" as="style">
-  <link rel="preload" href="wave-animation.css" as="style">
+  <!-- removed heavy animation CSS preloads -->
   <link rel="preload" href="cswe-highlight.js" as="script">
   <link rel="preload" href="sw.js" as="script">
-  <link rel="stylesheet" href="nav-hexagon-refined-animations.css">
-  <!-- 📦 Metrics Boxes New Animations -->
-  <link rel="stylesheet" href="metrics-boxes-new.css">
-  <!-- 🎨 Certificate Smooth Animation - Fast & Professional -->
-  <link rel="stylesheet" href="cert-smooth-animation.css">
-  <!-- ✨ Elite Shiny Wave Animation -->
-  <link rel="stylesheet" href="wave-animation.css">
+  <!-- removed heavy animation CSS stylesheets -->
   <script defer src="cswe-highlight.js"></script>
   <style id="anti-copy-style">
     /* Anti-copy global protection — non-intrusive and performant */
@@ -354,11 +345,12 @@
     }
 
     function computeSize(iw, ih){
-      var maxSide=1200;
-      var scale = Math.min(maxSide/iw, maxSide/ih, 1);
+      var maxW = 1200;
+      var w = Math.min(maxW, iw || 0);
+      var scale = (iw && iw > 0) ? (w / iw) : 1;
       return {
-        w: Math.max(1, Math.round(iw*scale)),
-        h: Math.max(1, Math.round(ih*scale))
+        w: Math.max(1, Math.round(w || 1)),
+        h: Math.max(1, Math.round((ih || 1) * scale))
       };
     }
 
@@ -366,6 +358,8 @@
       return new Promise(function(resolve,reject){
         if ((imgEl.complete || imgEl.naturalWidth) && imgEl.naturalWidth>0) return resolve(imgEl);
         var tmp = new Image();
+        // Allow compression on same-origin or CORS-enabled images to avoid canvas taint
+        try { tmp.crossOrigin = 'anonymous'; } catch(_) {}
         tmp.onload = function(){ resolve(tmp); };
         tmp.onerror = function(){ reject(new Error('img load failed')); };
         tmp.src = imgEl.currentSrc || imgEl.src;
@@ -385,7 +379,7 @@
           if (typeof OffscreenCanvas !== 'undefined') {
             var oc = new OffscreenCanvas(sz.w, sz.h);
             var ocx = oc.getContext('2d', {alpha:false, desynchronized:true});
-            ocx.imageSmoothingEnabled = true; ocx.imageSmoothingQuality = 'medium';
+            ocx.imageSmoothingEnabled = true; ocx.imageSmoothingQuality = 'low';
             var draw = function(bitmap){
               ocx.drawImage(bitmap || srcEl, 0, 0, sz.w, sz.h);
               if (oc.convertToBlob) {
@@ -423,7 +417,7 @@
         var canvas = document.createElement('canvas');
         canvas.width = sz.w; canvas.height = sz.h;
         var ctx = canvas.getContext('2d', {alpha:false, desynchronized:true});
-        ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'medium';
+        ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'low';
         ctx.drawImage(srcEl, 0, 0, sz.w, sz.h);
         if (canvas.toBlob) {
           return new Promise(function(resolve){
@@ -482,6 +476,10 @@
 
     function isExcluded(img){
       if (img.closest('.nav, header, footer, .logo, .certification-badge')) return true;
+      if (img.closest('.gallery-thumbnail')) return true;
+      if (img.closest('[data-project]')) return true;
+      if (img.closest('a, button')) return true;
+      if (img.id === 'galleryMainImage' || img.closest('.gallery-main-image')) return true;
       return false;
     }
 
@@ -496,6 +494,108 @@
       var oldCanvas = wrap.querySelector('canvas'); if(oldCanvas) oldCanvas.remove();
       showFor(t);
     }, true);
+  })();
+  </script>
+  <script id="lowq-gallery-enforcer" defer>
+  (function(){
+    function computeSize(iw, ih){
+      var maxW = 1200;
+      var w = Math.min(maxW, iw || 0);
+      var scale = (iw && iw > 0) ? (w / iw) : 1;
+      return { w: Math.max(1, Math.round(w || 1)), h: Math.max(1, Math.round((ih || 1) * scale)) };
+    }
+    function canvasCompress(img, sz, q){
+      try{
+        if (typeof OffscreenCanvas !== 'undefined'){
+          var oc = new OffscreenCanvas(sz.w, sz.h);
+          var ocx = oc.getContext('2d', {alpha:false, desynchronized:true});
+          ocx.imageSmoothingEnabled = true; ocx.imageSmoothingQuality = 'low';
+          var draw = function(bitmap){
+            ocx.drawImage(bitmap || img, 0, 0, sz.w, sz.h);
+            if (oc.convertToBlob){
+              return oc.convertToBlob({type:'image/jpeg', quality:q}).then(function(blob){
+                return URL.createObjectURL(blob);
+              });
+            }
+            return new Promise(function(res){
+              oc.toBlob(function(blob){
+                if (blob) res(URL.createObjectURL(blob));
+                else res(oc.convertToBlob ? '' : oc.toDataURL('image/jpeg', q));
+              }, 'image/jpeg', q);
+            });
+          };
+          if (self.createImageBitmap){
+            return createImageBitmap(img, {resizeWidth: sz.w, resizeHeight: sz.h, resizeQuality:'high'}).then(function(bmp){
+              return draw(bmp);
+            }).catch(function(){ return draw(null); });
+          }
+          return draw(null);
+        }
+      }catch(_){}
+      return new Promise(function(resolve){
+        try{
+          var canvas = document.createElement('canvas');
+          canvas.width = sz.w; canvas.height = sz.h;
+          var ctx = canvas.getContext('2d', {alpha:false, desynchronized:true});
+          ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'low';
+          ctx.drawImage(img, 0, 0, sz.w, sz.h);
+          if (canvas.toBlob){
+            canvas.toBlob(function(blob){
+              if (blob) resolve(URL.createObjectURL(blob));
+              else resolve(canvas.toDataURL('image/jpeg', q));
+            }, 'image/jpeg', q);
+          } else {
+            resolve(canvas.toDataURL('image/jpeg', q));
+          }
+        } catch(e){
+          resolve('');
+        }
+      });
+    }
+    function compressUrlToJpeg(url){
+      return new Promise(function(resolve){
+        var im = new Image();
+        try{ im.crossOrigin = 'anonymous'; }catch(_){}
+        im.onload = function(){
+          var iw = im.naturalWidth || im.width || 0;
+          var ih = im.naturalHeight || im.height || 0;
+          var sz = computeSize(iw, ih);
+          var q = 0.55;
+          canvasCompress(im, sz, q).then(function(out){
+            if (out) resolve(out); else resolve('');
+          }).catch(function(){ resolve(''); });
+        };
+        im.onerror = function(){ resolve(''); };
+        im.src = url;
+      });
+    }
+    function initObserver(){
+      var img = document.getElementById('galleryMainImage');
+      if (!img) return;
+      img.addEventListener('error', function(){
+        var orig = img.getAttribute('data-lowq-original');
+        if (orig) { img.src = orig; }
+      });
+      var busy = false;
+      var mo = new MutationObserver(function(muts){
+        if (busy) return;
+        muts.forEach(function(m){
+          if (m.type === 'attributes' && m.attributeName === 'src'){
+            var src = img.getAttribute('src') || '';
+            if (!src || /^(blob:|data:)/.test(src)) return;
+            if (src === img.getAttribute('data-lowq-original')) return;
+            busy = true;
+            img.setAttribute('data-lowq-original', src);
+            compressUrlToJpeg(src).then(function(out){
+              if (out) img.src = out;
+            }).finally(function(){ busy = false; });
+          }
+        });
+      });
+      mo.observe(img, {attributes:true, attributeFilter:['src']});
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initObserver, {once:true});
+    else initObserver();
   })();
   </script>
   <script id="responsive-nav" defer>
@@ -535,37 +635,6 @@
     .gear, .mechanical-bolts, .pcb-pattern { will-change: transform; backface-visibility: hidden; }
     .hero-title .line2 { will-change: transform; backface-visibility: hidden; }
     body { touch-action: manipulation; }
-    
-    /* Intro Sweep — Minimal, Professional, On-Load Only */
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -120%;
-      left: -120%;
-      width: 340%;
-      height: 340%;
-      background: linear-gradient(
-        135deg,
-        transparent 44%,
-        rgba(14, 165, 233, 0.10) 48%,
-        rgba(255, 255, 255, 0.14) 50%,
-        rgba(14, 165, 233, 0.10) 52%,
-        transparent 56%
-      );
-      filter: blur(10px);
-      z-index: 2; /* behind text (z=3) and above bg (z=1) */
-      pointer-events: none;
-      animation: intro-sweep 4.5s cubic-bezier(0.4, 0, 0.2, 1) both;
-    }
-
-    @keyframes intro-sweep {
-      0%   { transform: translate(-120%, -120%) scale(1);      opacity: 0; }
-      20%  { transform: translate(-80%,  -80%)  scale(1.005);  opacity: 0.45; }
-      40%  { transform: translate(-35%,  -35%)  scale(1.008);  opacity: 0.65; }
-      60%  { transform: translate(-5%,   -5%)   scale(1.010);  opacity: 0.75; }
-      80%  { transform: translate(60%,   60%)   scale(1.015);  opacity: 0.35; }
-      100% { transform: translate(120%, 120%)  scale(1.020);  opacity: 0; }
-    }
     :root {
       /* Premium Color Palette */
       --bg-primary: #0b1220;
@@ -1614,16 +1683,35 @@
       }
     }
 
-    /* 🖱️ حالة Hover على .hero */
+    /* 🖱️ حالة Hover على .hero - DISABLED */
     .hero:hover .certification-cover {
-      opacity: 0.55;
-      transform: translateY(-50%) rotate(-5deg) perspective(1200px) rotateY(-6deg) scale(1.12);
+      /* No hover effect - keep original state */
+      opacity: 0.48;
+      transform: translateY(-50%) rotate(-3deg) perspective(1200px) rotateY(-5deg) scale(1.08);
       box-shadow: 
-        0 35px 80px rgba(14, 165, 233, 0.3),
-        0 25px 55px rgba(139, 92, 246, 0.25),
-        0 15px 30px rgba(0, 0, 0, 0.2);
-      filter: brightness(1.15) contrast(1.18) saturate(1.2);
+        0 30px 70px rgba(14, 165, 233, 0.25),
+        0 20px 45px rgba(139, 92, 246, 0.2),
+        0 10px 25px rgba(0, 0, 0, 0.15);
+      filter: brightness(1.12) contrast(1.15) saturate(1.18);
     }
+
+    /* ⛔ Disable top-of-page shine/glow effects explicitly */
+    .certification-cover::before,
+    .certification-cover::after,
+    .certification-badge::before,
+    .certification-badge::after,
+    .nav::before,
+    .nav::after {
+      content: none !important;
+      background: none !important;
+      animation: none !important;
+      box-shadow: none !important;
+      filter: none !important;
+      opacity: 0 !important;
+    }
+
+    /* Remove nav bar glow/shadows */
+    .nav { box-shadow: none !important; }
 
     /* 🔴 Premium Certification Badge - SOLIDWORKS Red Diamond Elite Theme */
     .certification-badge {
@@ -5406,6 +5494,39 @@
     let t=null; new MutationObserver(()=>{ clearTimeout(t); t=setTimeout(applyAll,120); }).observe(document.documentElement,{childList:true,subtree:true});
   })();
   </script>
+<style id="disable-heavy-animations">
+    /* Global kill switch: disable all animations and transitions site-wide to ensure zero motion */
+    *, *::before, *::after {
+      animation: none !important;
+      transition: none !important;
+    }
+    html { scroll-behavior: auto !important; }
+    /* Extra assurance for known animated decorations */
+    .blueprint-bg,
+    .nav::before,
+    .nav::after,
+    .certification-cover,
+    .certification-cover::before,
+    .certification-cover::after { animation: none !important; }
+  </style>
+<style id="remove-top-shine">
+    /* Remove shiny glow at the top: navbar bars, hero sweep, and badge halo */
+    .nav { box-shadow: none !important; }
+    .nav::before,
+    .nav::after,
+    .hero::before,
+    .certification-badge::before,
+    .certification-badge::after {
+      content: none !important;
+      display: none !important;
+      background: none !important;
+      box-shadow: none !important;
+      filter: none !important;
+    }
+    .certification-badge { box-shadow: none !important; }
+    .certification-badge .cert-title,
+    .certification-badge .cert-value { text-shadow: none !important; }
+  </style>
 </head>
 <body>
   <div class="blueprint-bg"></div>
