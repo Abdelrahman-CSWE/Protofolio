@@ -139,6 +139,21 @@ function openGallery(projectKey) {
 function updateGalleryImage() {
   const mainImage = document.getElementById('galleryMainImage');
   const counter = document.getElementById('galleryCounter');
+
+  // Soft fade/zoom transition for main image
+  if (mainImage) {
+    try {
+      mainImage.style.opacity = '0';
+      mainImage.style.transform = 'scale(0.985)';
+      const onload = () => {
+        requestAnimationFrame(() => {
+          mainImage.style.opacity = '1';
+          mainImage.style.transform = 'scale(1)';
+        });
+      };
+      mainImage.addEventListener('load', onload, { once: true });
+    } catch (_) {}
+  }
   
   mainImage.src = currentGallery[currentImageIndex];
   // Preload adjacent images for instant navigation
@@ -340,6 +355,7 @@ function populateChassisGallery() {
 // Enhanced scroll animations
 function initScrollAnimations() {
   const targets = document.querySelectorAll('.animate-on-scroll, .animate-slide-left, .animate-slide-right');
+  const sections = document.querySelectorAll('section');
   if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -352,9 +368,19 @@ function initScrollAnimations() {
       rootMargin: '0px 0px -50px 0px'
     });
     targets.forEach(el => observer.observe(el));
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -10% 0px' });
+    sections.forEach(s => sectionObserver.observe(s));
   } else {
     // Fallback: reveal immediately
     targets.forEach(el => el.classList.add('visible'));
+    sections.forEach(s => s.classList.add('in-view'));
   }
 }
 
@@ -413,16 +439,20 @@ function handleSubmit(event) {
 
 // Smooth scrolling for navigation links
 function initSmoothScrolling() {
+  const overlay = ensureTransitionOverlay();
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
+      const href = this.getAttribute('href');
+      if (!href || href === '#') return;
+      const target = document.querySelector(href);
+      if (!target) return;
       e.preventDefault();
-      const target = document.querySelector(this.getAttribute('href'));
-      if (target) {
-        target.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-      }
+      // Page transition overlay + smooth scroll
+      overlay.classList.add('show');
+      setTimeout(() => {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        setTimeout(() => overlay.classList.remove('show'), 450);
+      }, 80);
     });
   });
 }
@@ -588,8 +618,38 @@ function setLazyLoadingForImages() {
   } catch (_) {}
 }
 
+// Lightweight CSS injection for animations and transition overlay
+function installAnimationStyles() {
+  if (document.getElementById('pro-animations-css')) return;
+  const css = `
+    section { opacity: 0; transform: translateY(24px); transition: transform 600ms var(--ease), opacity 600ms var(--ease); will-change: transform, opacity; }
+    section.in-view { opacity: 1; transform: none; }
+    #page-transition-overlay { position: fixed; inset: 0; background: radial-gradient(1200px 800px at 10% 10%, rgba(14,165,233,.10), transparent 60%), radial-gradient(1200px 800px at 90% 90%, rgba(245,158,11,.08), transparent 60%), rgba(3,7,18,0.65); backdrop-filter: blur(2px); opacity: 0; pointer-events: none; transition: opacity 300ms ease; z-index: 2147483000; }
+    #page-transition-overlay.show { opacity: 1; pointer-events: auto; }
+    @media (prefers-reduced-motion: reduce) {
+      section, #page-transition-overlay { transition: none !important; transform: none !important; }
+    }
+  `;
+  const style = document.createElement('style');
+  style.id = 'pro-animations-css';
+  style.textContent = css;
+  document.head.appendChild(style);
+}
+
+function ensureTransitionOverlay() {
+  let ov = document.getElementById('page-transition-overlay');
+  if (!ov) {
+    ov = document.createElement('div');
+    ov.id = 'page-transition-overlay';
+    document.body.appendChild(ov);
+  }
+  return ov;
+}
+
 // Initialize all functions
 function init() {
+  installAnimationStyles();
+  ensureTransitionOverlay();
   // Apply lazy loading to existing images
   setLazyLoadingForImages();
 

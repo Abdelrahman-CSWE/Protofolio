@@ -18,6 +18,71 @@
   <!-- MOBILE RESPONSIVE FIX - CRITICAL - UPDATED -->
   <link rel="stylesheet" href="mobile-responsive.css">
   <script defer src="cswe-highlight.js"></script>
+  <style id="animation-enhancements">
+    /* High-performance scroll reveal animations */
+    .animate-on-scroll,
+    .animate-slide-left,
+    .animate-slide-right {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: transform 600ms var(--ease), opacity 600ms var(--ease);
+      will-change: transform, opacity;
+    }
+    .animate-slide-left { transform: translateX(-28px); }
+    .animate-slide-right { transform: translateX(28px); }
+    .animate-on-scroll.visible,
+    .animate-slide-left.visible,
+    .animate-slide-right.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* Smooth, fast modal fade/zoom that doesn't change layout */
+    .gallery-modal {
+      display: flex !important; /* ensure layout is ready, hide via visibility */
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 250ms ease, visibility 0s linear 250ms;
+      will-change: opacity;
+    }
+    .gallery-modal.active {
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 250ms ease;
+    }
+    .gallery-modal .gallery-modal-content {
+      transform: scale(0.985) translateY(6px);
+      opacity: 0.98;
+      transition: transform 280ms var(--ease), opacity 280ms var(--ease);
+      will-change: transform, opacity;
+    }
+    .gallery-modal.active .gallery-modal-content {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+    }
+
+    /* Main image fade + subtle zoom on change */
+    #galleryMainImage {
+      transition: opacity 220ms ease, transform 220ms ease;
+      will-change: opacity, transform;
+    }
+
+    /* Respect user preference to reduce motion */
+    @media (prefers-reduced-motion: reduce) {
+      .animate-on-scroll,
+      .animate-slide-left,
+      .animate-slide-right,
+      .gallery-modal,
+      .gallery-modal .gallery-modal-content,
+      #galleryMainImage {
+        transition: none !important;
+        animation: none !important;
+        transform: none !important;
+      }
+    }
+  </style>
   <style id="anti-copy-style">
     /* Anti-copy global protection — non-intrusive and performant */
     html, body, *:not(input):not(textarea):not([contenteditable="true"]) {
