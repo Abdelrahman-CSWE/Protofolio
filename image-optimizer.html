@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Optimizer - Portfolio</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .container {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 800px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    h1 {
+      color: #667eea;
+      margin-bottom: 10px;
+      font-size: 2rem;
+    }
+    .subtitle {
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 0.95rem;
+    }
+    .upload-area {
+      border: 3px dashed #667eea;
+      border-radius: 15px;
+      padding: 40px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-bottom: 30px;
+    }
+    .upload-area:hover {
+      background: #f8f9ff;
+      border-color: #764ba2;
+    }
+    .upload-area.dragover {
+      background: #e8ebff;
+      border-color: #667eea;
+      transform: scale(1.02);
+    }
+    input[type="file"] { display: none; }
+    .upload-icon {
+      font-size: 3rem;
+      margin-bottom: 15px;
+    }
+    .settings {
+      background: #f8f9ff;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    .setting-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .setting-row:last-child { margin-bottom: 0; }
+    label {
+      font-weight: 600;
+      color: #333;
+    }
+    input[type="range"] {
+      width: 200px;
+      cursor: pointer;
+    }
+    .value-display {
+      background: #667eea;
+      color: white;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-weight: 600;
+      min-width: 60px;
+      text-align: center;
+    }
+    button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 15px 40px;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      transition: transform 0.2s;
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+    }
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .progress {
+      margin-top: 20px;
+      display: none;
+    }
+    .progress-bar {
+      background: #e0e0e0;
+      height: 30px;
+      border-radius: 15px;
+      overflow: hidden;
+      position: relative;
+    }
+    .progress-fill {
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      height: 100%;
+      width: 0%;
+      transition: width 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+    }
+    .results {
+      margin-top: 20px;
+      display: none;
+    }
+    .result-item {
+      background: #f8f9ff;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .result-name {
+      font-weight: 600;
+      color: #333;
+    }
+    .result-size {
+      color: #10b981;
+      font-weight: 600;
+    }
+    .alert {
+      background: #fef3c7;
+      border-left: 4px solid #f59e0b;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      color: #92400e;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🚀 Image Optimizer</h1>
+    <p class="subtitle">ضغط الصور لتحسين سرعة الموقع - جودة عالية مع حجم صغير</p>
+    
+    <div class="alert">
+      ⚠️ <strong>تنبيه:</strong> سيتم ضغط الصور في المتصفح فقط. احفظ نسخة احتياطية من الصور الأصلية.
+    </div>
+
+    <div class="upload-area" id="uploadArea">
+      <div class="upload-icon">📁</div>
+      <h3>اسحب الصور هنا أو انقر للاختيار</h3>
+      <p style="color: #666; margin-top: 10px;">يدعم: JPG, PNG, WebP</p>
+      <input type="file" id="fileInput" multiple accept="image/*">
+    </div>
+
+    <div class="settings">
+      <div class="setting-row">
+        <label>جودة الصورة:</label>
+        <input type="range" id="quality" min="10" max="100" value="65" step="5">
+        <span class="value-display" id="qualityValue">65%</span>
+      </div>
+      <div class="setting-row">
+        <label>الحد الأقصى للعرض:</label>
+        <input type="range" id="maxWidth" min="400" max="2000" value="1200" step="100">
+        <span class="value-display" id="maxWidthValue">1200px</span>
+      </div>
+      <div class="setting-row">
+        <label>تحويل إلى WebP:</label>
+        <input type="checkbox" id="convertWebP" checked>
+      </div>
+    </div>
+
+    <button id="optimizeBtn" disabled>تحسين الصور</button>
+
+    <div class="progress" id="progress">
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill">0%</div>
+      </div>
+    </div>
+
+    <div class="results" id="results"></div>
+  </div>
+
+  <script>
+    const uploadArea = document.getElementById('uploadArea');
+    const fileInput = document.getElementById('fileInput');
+    const optimizeBtn = document.getElementById('optimizeBtn');
+    const progress = document.getElementById('progress');
+    const progressFill = document.getElementById('progressFill');
+    const results = document.getElementById('results');
+    const qualitySlider = document.getElementById('quality');
+    const qualityValue = document.getElementById('qualityValue');
+    const maxWidthSlider = document.getElementById('maxWidth');
+    const maxWidthValue = document.getElementById('maxWidthValue');
+    const convertWebP = document.getElementById('convertWebP');
+
+    let selectedFiles = [];
+
+    // Update slider values
+    qualitySlider.addEventListener('input', (e) => {
+      qualityValue.textContent = e.target.value + '%';
+    });
+
+    maxWidthSlider.addEventListener('input', (e) => {
+      maxWidthValue.textContent = e.target.value + 'px';
+    });
+
+    // Upload area interactions
+    uploadArea.addEventListener('click', () => fileInput.click());
+
+    uploadArea.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      uploadArea.classList.add('dragover');
+    });
+
+    uploadArea.addEventListener('dragleave', () => {
+      uploadArea.classList.remove('dragover');
+    });
+
+    uploadArea.addEventListener('drop', (e) => {
+      e.preventDefault();
+      uploadArea.classList.remove('dragover');
+      handleFiles(e.dataTransfer.files);
+    });
+
+    fileInput.addEventListener('change', (e) => {
+      handleFiles(e.target.files);
+    });
+
+    function handleFiles(files) {
+      selectedFiles = Array.from(files).filter(file => file.type.startsWith('image/'));
+      if (selectedFiles.length > 0) {
+        optimizeBtn.disabled = false;
+        uploadArea.querySelector('h3').textContent = `تم اختيار ${selectedFiles.length} صورة`;
+      }
+    }
+
+    optimizeBtn.addEventListener('click', async () => {
+      if (selectedFiles.length === 0) return;
+
+      optimizeBtn.disabled = true;
+      progress.style.display = 'block';
+      results.style.display = 'none';
+      results.innerHTML = '';
+
+      const quality = parseInt(qualitySlider.value) / 100;
+      const maxWidth = parseInt(maxWidthSlider.value);
+      const useWebP = convertWebP.checked;
+
+      let totalOriginalSize = 0;
+      let totalOptimizedSize = 0;
+
+      for (let i = 0; i < selectedFiles.length; i++) {
+        const file = selectedFiles[i];
+        const percent = Math.round(((i + 1) / selectedFiles.length) * 100);
+        progressFill.style.width = percent + '%';
+        progressFill.textContent = percent + '%';
+
+        try {
+          const optimized = await optimizeImage(file, quality, maxWidth, useWebP);
+          totalOriginalSize += file.size;
+          totalOptimizedSize += optimized.size;
+
+          const resultItem = document.createElement('div');
+          resultItem.className = 'result-item';
+          
+          const originalSizeMB = (file.size / 1024 / 1024).toFixed(2);
+          const optimizedSizeMB = (optimized.size / 1024 / 1024).toFixed(2);
+          const savings = Math.round((1 - optimized.size / file.size) * 100);
+
+          resultItem.innerHTML = `
+            <div>
+              <div class="result-name">${optimized.name}</div>
+              <small style="color: #666;">${originalSizeMB}MB → ${optimizedSizeMB}MB</small>
+            </div>
+            <div class="result-size">-${savings}%</div>
+          `;
+          results.appendChild(resultItem);
+
+          // Download optimized image
+          const link = document.createElement('a');
+          link.href = URL.createObjectURL(optimized.blob);
+          link.download = optimized.name;
+          link.click();
+          URL.revokeObjectURL(link.href);
+
+        } catch (error) {
+          console.error('Error optimizing:', file.name, error);
+        }
+      }
+
+      results.style.display = 'block';
+      
+      const totalSavings = Math.round((1 - totalOptimizedSize / totalOriginalSize) * 100);
+      const summaryItem = document.createElement('div');
+      summaryItem.className = 'result-item';
+      summaryItem.style.background = '#10b981';
+      summaryItem.style.color = 'white';
+      summaryItem.innerHTML = `
+        <div class="result-name">✅ إجمالي التوفير</div>
+        <div class="result-size" style="color: white;">${totalSavings}%</div>
+      `;
+      results.insertBefore(summaryItem, results.firstChild);
+
+      optimizeBtn.disabled = false;
+      progressFill.style.width = '100%';
+      progressFill.textContent = 'تم!';
+    });
+
+    async function optimizeImage(file, quality, maxWidth, useWebP) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+          img.src = e.target.result;
+        };
+
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+
+          // Resize if needed
+          if (width > maxWidth) {
+            height = (height * maxWidth) / width;
+            width = maxWidth;
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+
+          const ctx = canvas.getContext('2d');
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = 'high';
+          ctx.drawImage(img, 0, 0, width, height);
+
+          const outputFormat = useWebP ? 'image/webp' : file.type;
+          const extension = useWebP ? '.webp' : file.name.substring(file.name.lastIndexOf('.'));
+          const baseName = file.name.substring(0, file.name.lastIndexOf('.'));
+
+          canvas.toBlob(
+            (blob) => {
+              resolve({
+                blob: blob,
+                size: blob.size,
+                name: baseName + '-optimized' + extension
+              });
+            },
+            outputFormat,
+            quality
+          );
+        };
+
+        img.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+  </script>
+</body>
+</html>

@@ -18,6 +18,48 @@
   <!-- MOBILE RESPONSIVE FIX - CRITICAL - UPDATED -->
   <link rel="stylesheet" href="mobile-responsive.css">
   <script defer src="cswe-highlight.js"></script>
+  <style id="ultra-fast-image-loading">
+    /* Ultra-fast image loading with blur-up technique */
+    img {
+      background: linear-gradient(135deg, rgba(14,165,233,0.1), rgba(139,92,246,0.1));
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+    }
+    img[loading="lazy"] {
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    img[loading="lazy"].loaded {
+      opacity: 1;
+    }
+    /* Blur-up placeholder */
+    .img-wrapper {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+    }
+    .img-wrapper::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(14,165,233,0.05), rgba(139,92,246,0.05));
+      animation: shimmer 2s infinite;
+    }
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+    /* Progressive image loading */
+    img.progressive {
+      filter: blur(20px);
+      transform: scale(1.1);
+      transition: filter 0.5s ease, transform 0.5s ease;
+    }
+    img.progressive.loaded {
+      filter: blur(0);
+      transform: scale(1);
+    }
+  </style>
   <style id="animation-enhancements">
     /* High-performance scroll reveal animations */
     .animate-on-scroll,
@@ -362,25 +404,57 @@
       return r.top < (innerHeight + margin);
     };
 
-    // Images: lazy + async decode + smart priority + pre-decode near viewport
+    // Ultra-fast image loading with progressive enhancement
     const ioImg = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const img = entry.target;
-          if (img.decode) img.decode().catch(()=>{});
+          
+          // Progressive loading
+          if (!img.classList.contains('loaded')) {
+            img.classList.add('progressive');
+            
+            // Decode and load
+            if (img.decode) {
+              img.decode()
+                .then(() => {
+                  img.classList.add('loaded');
+                  img.classList.remove('progressive');
+                })
+                .catch(() => {
+                  img.classList.add('loaded');
+                });
+            } else {
+              img.onload = () => {
+                img.classList.add('loaded');
+                img.classList.remove('progressive');
+              };
+            }
+          }
+          
           ioImg.unobserve(img);
         }
       });
-    }, { rootMargin: '300px 0px' });
+    }, { rootMargin: '400px 0px', threshold: 0.01 });
 
     function optimizeImages(){
       const imgs = document.images;
       for (let i=0;i<imgs.length;i++){
         const img = imgs[i];
+        
+        // Set optimal attributes
         if (!img.getAttribute('loading')) img.setAttribute('loading','lazy');
         if (!img.getAttribute('decoding')) img.setAttribute('decoding','async');
-        if (!img.getAttribute('fetchpriority')) img.setAttribute('fetchpriority','low');
-        if (nearViewport(img, 800)) img.setAttribute('fetchpriority','high');
+        
+        // Priority based on position
+        if (nearViewport(img, 600)) {
+          img.setAttribute('fetchpriority','high');
+          img.setAttribute('loading','eager');
+        } else {
+          img.setAttribute('fetchpriority','low');
+        }
+        
+        // Add to observer
         ioImg.observe(img);
       }
     }
@@ -411,16 +485,44 @@
       optimizeImages(); optimizeVideos();
     }
 
-    // Idle-time warm up for first media to avoid jank
+    // Aggressive preloading for critical images
     window.addEventListener('load', () => {
+      // Preload hero and above-fold images immediately
+      const criticalImages = document.querySelectorAll('.hero img, .certification-cover, .certification-badge img');
+      criticalImages.forEach(img => {
+        if (img.decode) img.decode().catch(()=>{});
+      });
+
+      // Idle-time warm up for remaining media
       if ('requestIdleCallback' in window) {
         requestIdleCallback(() => {
-          [...document.querySelectorAll('img, video')].slice(0, 8).forEach(el => {
+          const allMedia = [...document.querySelectorAll('img, video')].slice(0, 15);
+          allMedia.forEach(el => {
             if (el.tagName === 'IMG' && el.decode) el.decode().catch(()=>{});
             if (el.tagName === 'VIDEO') { try { el.load(); } catch(_){} }
           });
-        }, {timeout: 1000});
+        }, {timeout: 500});
       }
+
+      // Prefetch next section images on scroll
+      let prefetched = false;
+      const prefetchNext = () => {
+        if (prefetched) return;
+        prefetched = true;
+        
+        requestIdleCallback(() => {
+          const nextImages = document.querySelectorAll('#portfolio img, #chassis img');
+          nextImages.forEach(img => {
+            const link = document.createElement('link');
+            link.rel = 'prefetch';
+            link.as = 'image';
+            link.href = img.src || img.dataset.src;
+            document.head.appendChild(link);
+          });
+        }, {timeout: 2000});
+      };
+      
+      window.addEventListener('scroll', prefetchNext, {once: true, passive: true});
     }, {once:true, passive:true});
   })();
   </script>
