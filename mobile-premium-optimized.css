@@ -1,0 +1,436 @@
+/* ========================================
+   🔥 MOBILE PREMIUM OPTIMIZATION (v2)
+   Abdelrahman Okasha - Mechanical Design Engineer
+   Ultra-Fast, Smooth, Professional Mobile Experience
+   ======================================== */
+
+/* ============================================
+   🎯 CORE MOBILE OPTIMIZATIONS
+   ============================================ */
+
+* {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+body {
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* ============================================
+   🚀 HERO SECTION - MOBILE CENTERED DESIGN
+   ============================================ */
+
+@media (max-width: 992px) {
+  /* Layout */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: calc(var(--nav-height) + 2rem) 1.5rem 3rem 1.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-container {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 1.25rem !important;
+    margin: 0 auto !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .hero-content {
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 640px !important;
+    text-align: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 10;
+  }
+
+  .hero-title {
+    text-align: center !important;
+    margin: 0 0 1.25rem 0 !important;
+    width: 100% !important;
+    line-height: 1.2 !important;
+  }
+
+  /* ============================================
+     🔴 NAME (hero-name) — BRIGHT RED ANIMATION
+     ============================================ */
+  .hero-title .hero-name {
+    display: block !important;
+    font-size: clamp(2.2rem, 8vw, 3.5rem) !important;
+    font-weight: 900 !important;
+    font-family: 'Orbitron', sans-serif !important;
+    text-align: center !important;
+    margin: 0.35rem auto 0.35rem auto !important;
+    letter-spacing: 0.05em !important;
+
+    background: linear-gradient(
+      135deg,
+      #ff0000 0%,
+      #ff3333 15%,
+      #ff6666 30%,
+      #ff1a1a 45%,
+      #cc0000 60%,
+      #ff4444 75%,
+      #ff0000 90%,
+      #ff3333 100%
+    ) !important;
+    background-size: 300% 300% !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+
+    filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.8))
+            drop-shadow(0 0 40px rgba(255, 51, 51, 0.6))
+            drop-shadow(0 0 60px rgba(255, 0, 0, 0.4)) !important;
+
+    animation:
+      name-red-glow 3s ease-in-out infinite,
+      name-gradient-flow 8s ease-in-out infinite,
+      name-entrance 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) both !important;
+
+    will-change: transform, filter, opacity;
+    transform: translateZ(0);
+  }
+
+  @keyframes name-red-glow {
+    0%, 100% {
+      filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.8))
+              drop-shadow(0 0 40px rgba(255, 51, 51, 0.6))
+              drop-shadow(0 0 60px rgba(255, 0, 0, 0.4));
+      transform: scale(1);
+    }
+    50% {
+      filter: drop-shadow(0 0 30px rgba(255, 0, 0, 1))
+              drop-shadow(0 0 60px rgba(255, 51, 51, 0.8))
+              drop-shadow(0 0 90px rgba(255, 0, 0, 0.6))
+              drop-shadow(0 0 120px rgba(255, 0, 0, 0.4));
+      transform: scale(1.02);
+    }
+  }
+
+  @keyframes name-gradient-flow {
+    0%, 100% { background-position: 0% 50%; }
+    25% { background-position: 50% 25%; }
+    50% { background-position: 100% 50%; }
+    75% { background-position: 50% 75%; }
+  }
+
+  @keyframes name-entrance {
+    0% { opacity: 0; transform: translateY(-30px) scale(0.92); filter: blur(8px); }
+    70% { opacity: 0.9; transform: translateY(4px) scale(1.02); }
+    100% { opacity: 1; transform: translateY(0) scale(1); filter: none; }
+  }
+
+  /* ============================================
+     💼 JOB TITLE (hero-job-title) — PREMIUM BLUE
+     ============================================ */
+  .hero-title .hero-job-title {
+    display: block !important;
+    font-size: clamp(1.3rem, 5.2vw, 2.1rem) !important;
+    font-weight: 800 !important;
+    font-family: 'Space Grotesk', sans-serif !important;
+    text-align: center !important;
+    margin: 0.25rem auto 0.15rem auto !important;
+    letter-spacing: 0.08em !important;
+
+    background: linear-gradient(
+      135deg,
+      #0ea5e9 0%,
+      #3b82f6 25%,
+      #8b5cf6 50%,
+      #3b82f6 75%,
+      #0ea5e9 100%
+    ) !important;
+    background-size: 220% 220% !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+
+    filter: drop-shadow(0 0 15px rgba(14, 165, 233, 0.6))
+            drop-shadow(0 0 30px rgba(59, 130, 246, 0.4)) !important;
+
+    animation:
+      job-title-glow 4s ease-in-out infinite,
+      job-title-gradient 6s ease-in-out infinite,
+      job-title-entrance 1.35s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both !important;
+
+    will-change: transform, filter, opacity;
+    transform: translateZ(0);
+  }
+
+  @keyframes job-title-glow {
+    0%, 100% {
+      filter: drop-shadow(0 0 15px rgba(14, 165, 233, 0.6))
+              drop-shadow(0 0 30px rgba(59, 130, 246, 0.4));
+    }
+    50% {
+      filter: drop-shadow(0 0 25px rgba(14, 165, 233, 0.8))
+              drop-shadow(0 0 50px rgba(59, 130, 246, 0.6))
+              drop-shadow(0 0 65px rgba(139, 92, 246, 0.35));
+    }
+  }
+
+  @keyframes job-title-gradient {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  @keyframes job-title-entrance {
+    0% { opacity: 0; transform: translateY(22px) scale(0.96); filter: blur(6px); }
+    70% { opacity: 0.9; transform: translateY(-2px) scale(1.01); }
+    100% { opacity: 1; transform: translateY(0) scale(1); filter: none; }
+  }
+
+  /* ============================================
+     📝 SUBTITLE & LEAD
+     ============================================ */
+  .hero-subtitle {
+    font-size: clamp(1rem, 3.5vw, 1.15rem) !important;
+    line-height: 1.8 !important;
+    text-align: center !important;
+    max-width: 90% !important;
+    margin: 0.2rem auto 1.2rem auto !important;
+    color: rgba(226, 232, 240, 0.95) !important;
+    font-weight: 400 !important;
+    animation: subtitle-fade-in 1.6s ease-out 0.2s both;
+  }
+
+  @keyframes subtitle-fade-in {
+    0% { opacity: 0; transform: translateY(16px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-lead {
+    font-size: clamp(0.95rem, 3vw, 1.05rem) !important;
+    line-height: 1.7 !important;
+    text-align: center !important;
+    max-width: 85% !important;
+    margin: 0 auto 1.6rem auto !important;
+    color: rgba(148, 163, 184, 0.92) !important;
+    animation: lead-fade-in 1.8s ease-out 0.35s both;
+  }
+
+  @keyframes lead-fade-in {
+    0% { opacity: 0; transform: translateY(16px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ============================================
+     🎯 CTA & BUTTONS
+     ============================================ */
+  .hero-cta {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.9rem !important;
+    width: 100% !important;
+    max-width: 420px !important;
+    margin: 0 auto !important;
+    animation: cta-fade-in 1.9s ease-out 0.45s both !important;
+  }
+
+  @keyframes cta-fade-in {
+    0% { opacity: 0; transform: translateY(14px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  .btn {
+    width: 100% !important;
+    padding: 1rem 2rem !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    border-radius: 50px !important;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
+  }
+
+  .btn:active { transform: scale(0.97) !important; }
+
+  /* ============================================
+     🖼️ CERTIFICATION COVER & BADGE — MOBILE
+     ============================================ */
+  .certification-cover {
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
+    transform: none !important;
+    width: 100% !important;
+    max-width: 520px !important;
+    height: auto !important;
+    min-height: 300px !important;
+    margin: 1.2rem auto 0 auto !important;
+    opacity: 0.6 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 20px 50px rgba(14, 165, 233, 0.28) !important;
+    animation: cert-mobile-entrance 1.6s ease-out 0.6s both !important;
+  }
+
+  @keyframes cert-mobile-entrance {
+    0% { opacity: 0; transform: scale(0.94) translateY(18px); }
+    100% { opacity: 0.6; transform: scale(1) translateY(0); }
+  }
+
+  .certification-badge {
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
+    margin: 1rem auto 0.5rem auto !important;
+    display: block !important;
+    width: fit-content !important;
+    max-width: 90% !important;
+    animation: badge-mobile-entrance 1.7s ease-out 0.7s both !important;
+  }
+
+  @keyframes badge-mobile-entrance {
+    0% { opacity: 0; transform: scale(0.9) translateY(14px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* ============================================
+     📊 METRICS ROW — MOBILE
+     ============================================ */
+  .metrics-row {
+    position: static !important;
+    transform: none !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 0.9rem !important;
+    margin: 1.2rem auto 0 auto !important;
+    width: 100% !important;
+    max-width: 640px !important;
+  }
+
+  .metrics-row .floating-element,
+  .metrics-row .certification-badge {
+    position: relative !important;
+    width: calc(50% - 0.45rem) !important;
+    min-width: 140px !important;
+    max-width: 200px !important;
+    margin: 0 !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* ============================================
+     🎭 HEAVY DECORATIVE EFFECTS — DISABLED ON MOBILE
+     ============================================ */
+  .mechanical-3d-showcase,
+  .mechanical-gear-system,
+  .mechanical-framework,
+  .mechanical-bolts,
+  .pcb-pattern,
+  .hero-visual { display: none !important; }
+
+  /* Blueprint background — lighter */
+  .blueprint-bg { opacity: 0.28 !important; animation-duration: 90s !important; }
+}
+
+/* ============================================
+   📱 EXTRA SMALL DEVICES (< 640px)
+   ============================================ */
+@media (max-width: 640px) {
+  .hero { padding: calc(var(--nav-height) + 1.4rem) 1rem 1.8rem 1rem !important; }
+  .hero-title .hero-name { font-size: clamp(1.9rem, 8vw, 2.6rem) !important; }
+  .hero-title .hero-job-title { font-size: clamp(1.1rem, 4.6vw, 1.55rem) !important; }
+  .hero-subtitle { font-size: clamp(0.92rem, 3.2vw, 1rem) !important; max-width: 95% !important; }
+  .hero-lead { font-size: clamp(0.86rem, 3vw, 0.98rem) !important; max-width: 90% !important; }
+  .btn { padding: 0.9rem 1.5rem !important; font-size: 0.95rem !important; }
+  .certification-cover { min-height: 240px !important; }
+}
+
+/* ============================================
+   🚀 PERFORMANCE OPTIMIZATIONS
+   ============================================ */
+@media (max-width: 992px) {
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  .hero-title .hero-name,
+  .hero-title .hero-job-title,
+  .certification-cover,
+  .certification-badge {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  img { image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges; }
+}
+
+/* ============================================
+   📐 SECTION SPACING
+   ============================================ */
+@media (max-width: 992px) {
+  section { padding: 2.2rem 1rem !important; }
+  .section-title { font-size: clamp(1.8rem, 6vw, 2.5rem) !important; margin-bottom: 1.8rem !important; }
+  .container { padding-left: 1rem !important; padding-right: 1rem !important; }
+}
+
+/* ============================================
+   🎯 NAVIGATION - MOBILE OPTIMIZATION
+   ============================================ */
+@media (max-width: 992px) {
+  .nav { backdrop-filter: blur(20px) saturate(180%) !important; }
+  .nav-container { padding: 0.75rem 1rem !important; }
+  .logo { font-size: 1.3rem !important; }
+  .logo::before { font-size: 1.5rem !important; }
+  .nav-links { padding: 1.5rem 1rem !important; }
+  .nav-links a { padding: 1rem 1.5rem !important; font-size: 1rem !important; margin: 0.25rem 0 !important; }
+}
+
+/* ============================================
+   ✨ SMOOTH TRANSITIONS & TOUCH FEEDBACK
+   ============================================ */
+@media (max-width: 992px) {
+  * { transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }
+  a, button, .btn { transition: all 0.25s ease; }
+  a:active, button:active, .btn:active { transform: scale(0.98); opacity: 0.95; }
+  .nav-links a:active { background: rgba(14, 165, 233, 0.2); }
+}
+
+/* ============================================
+   📱 SAFE AREA INSETS (iPhone X+)
+   ============================================ */
+@media (max-width: 992px) {
+  .hero { padding-left: max(1.5rem, env(safe-area-inset-left)); padding-right: max(1.5rem, env(safe-area-inset-right)); }
+  .nav-container { padding-left: max(1rem, env(safe-area-inset-left)); padding-right: max(1rem, env(safe-area-inset-right)); }
+}
+
+/* ============================================
+   🎯 ACCESSIBILITY IMPROVEMENTS
+   ============================================ */
+@media (max-width: 992px) {
+  a, button, .btn { min-height: 44px; min-width: 44px; }
+  a:focus, button:focus, .btn:focus { outline: 3px solid rgba(14, 165, 233, 0.5); outline-offset: 2px; }
+  .hero-subtitle, .hero-lead { text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); }
+}
