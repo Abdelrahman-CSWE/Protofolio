@@ -3,66 +3,66 @@ const portfolioData = {
   'formula-chassis': {
     title: 'Formula Student Chassis',
     images: [
-      'Photos/Formula Student Chassis/A.jpg',
-      'Photos/Formula Student Chassis/B.jpg',
-      'Photos/Formula Student Chassis/C.jpg',
-      'Photos/Formula Student Chassis/D.jpg',
-      'Photos/Formula Student Chassis/E.jpg',
-      'Photos/Formula Student Chassis/R.jpg'
+      'Photos/Formula Student Chassis/A.webp',
+      'Photos/Formula Student Chassis/B.webp',
+      'Photos/Formula Student Chassis/C.webp',
+      'Photos/Formula Student Chassis/D.webp',
+      'Photos/Formula Student Chassis/E.webp',
+      'Photos/Formula Student Chassis/R.webp'
     ]
   },
   'ever': {
     title: 'EVER Monaco',
     images: [
-      'Photos/EVER/A.jpg',
-      'Photos/EVER/B.jpg',
-      'Photos/EVER/C.jpeg'
+      'Photos/EVER/1.webp',
+      'Photos/EVER/2.webp',
+      'Photos/EVER/C.webp'
     ]
   },
   'shell-eco': {
     title: 'Shell Eco-Marathon Vehicle',
     images: [
-      'Photos/Shell Eco-Marathon Vehicle/1.jpg',
-      'Photos/Shell Eco-Marathon Vehicle/2.jpg',
-      'Photos/Shell Eco-Marathon Vehicle/3.jpg',
-      'Photos/Shell Eco-Marathon Vehicle/4.jpg',
-      'Photos/Shell Eco-Marathon Vehicle/5.jpg',
-      'Photos/Shell Eco-Marathon Vehicle/6.png',
-      'Photos/Shell Eco-Marathon Vehicle/7.png',
-      'Photos/Shell Eco-Marathon Vehicle/8.jpg',
-      'Photos/Shell Eco-Marathon Vehicle/9.png',
-      'Photos/Shell Eco-Marathon Vehicle/A.jpg'
+      'Photos/Shell Eco-Marathon Vehicle/1.webp',
+      'Photos/Shell Eco-Marathon Vehicle/2.webp',
+      'Photos/Shell Eco-Marathon Vehicle/3.webp',
+      'Photos/Shell Eco-Marathon Vehicle/4.webp',
+      'Photos/Shell Eco-Marathon Vehicle/5.webp',
+      'Photos/Shell Eco-Marathon Vehicle/6.webp',
+      'Photos/Shell Eco-Marathon Vehicle/7.webp',
+      'Photos/Shell Eco-Marathon Vehicle/8.webp',
+      'Photos/Shell Eco-Marathon Vehicle/9.webp',
+      'Photos/Shell Eco-Marathon Vehicle/A.webp'
     ]
   },
   'achievements': {
     title: 'Engineering Achievements',
     images: [
-      'Photos/Achievements/A-1.jpg',
-      'Photos/Achievements/A.jpg',
-      'Photos/Achievements/B.jpg',
-      'Photos/Achievements/C.jpg',
-      'Photos/Achievements/D.jpeg',
-      'Photos/Achievements/E.jpg'
+      'Photos/Achievements/A-1.webp',
+      'Photos/Achievements/A.webp',
+      'Photos/Achievements/B.webp',
+      'Photos/Achievements/C.webp',
+      'Photos/Achievements/D.webp',
+      'Photos/Achievements/E.webp'
     ]
   },
   'helmet': {
     title: 'Helmet Design & FEA',
     images: [
-      'Photos/Helemt/A.jpg',
-      'Photos/Helemt/B.jpg',
-      'Photos/Helemt/C.jpg',
-      'Photos/Helemt/D.jpg',
-      'Photos/Helemt/FEA-Helmet.jpg'
+      'Photos/Helemt/A.webp',
+      'Photos/Helemt/B.webp',
+      'Photos/Helemt/C.webp',
+      'Photos/Helemt/D.webp',
+      'Photos/Helemt/FEA-Helmet.webp'
     ]
   },
   'manufacturing': {
     title: 'Manufacturing & Prototyping',
     images: [
-      'Photos/Manufacturing & Prototyping/1.jpg',
-      'Photos/Manufacturing & Prototyping/2.jpg',
-      'Photos/Manufacturing & Prototyping/3.jpg',
-      'Photos/Manufacturing & Prototyping/4.jpg',
-      'Photos/Manufacturing & Prototyping/5.jpg'
+      'Photos/Manufacturing & Prototyping/1.webp',
+      'Photos/Manufacturing & Prototyping/2.webp',
+      'Photos/Manufacturing & Prototyping/3.webp',
+      'Photos/Manufacturing & Prototyping/4.webp',
+      'Photos/Manufacturing & Prototyping/5.webp'
     ]
   },
   'sheet-metal': {
@@ -78,37 +78,37 @@ const portfolioData = {
   'solidworks-champion': {
     title: 'SolidWorks Champion',
     images: [
-      'Photos/Solidwork Champion/1.jpg',
-      'Photos/Solidwork Champion/2.jpg',
-      'Photos/Solidwork Champion/3.jpg'
+      'Photos/Solidwork Champion/1-optimized.jpg',
+      'Photos/Solidwork Champion/2-optimized.jpg',
+      'Photos/Solidwork Champion/3-optimized.jpg'
     ]
   },
   'drawing': {
     title: 'Technical Drawing',
     images: [
-      'Photos/Drawing/1.jpg',
-      'Photos/Drawing/2.jpg',
-      'Photos/Drawing/3.jpg',
-      'Photos/Drawing/4.jpg',
-      'Photos/Drawing/5.jpg',
-      'Photos/Drawing/6.jpg',
-      'Photos/Drawing/7.jpg',
-      'Photos/Drawing/8.jpg',
-      'Photos/Drawing/9.jpg',
-      'Photos/Drawing/10.jpg',
-      'Photos/Drawing/11.jpg',
-      'Photos/Drawing/12.jpg'
+      'Photos/Drawing/1.webp',
+      'Photos/Drawing/2.webp',
+      'Photos/Drawing/3.webp',
+      'Photos/Drawing/4.webp',
+      'Photos/Drawing/5.webp',
+      'Photos/Drawing/6.webp',
+      'Photos/Drawing/7.webp',
+      'Photos/Drawing/8.webp',
+      'Photos/Drawing/9.webp',
+      'Photos/Drawing/10.webp',
+      'Photos/Drawing/11.webp',
+      'Photos/Drawing/12.webp'
     ]
   }
 };
 
 // Chassis data
 const chassisData = [
-  { src: 'shell eco marathon chassis 2023.png', title: 'Shell Eco-Marathon Chassis 2023' },
-  { src: 'shell eco marathon chassis 2025.png', title: 'Shell Eco-Marathon Chassis 2025' },
-  { src: 'Global chassis.png', title: 'Global Chassis Design' },
-  { src: 'Ever Chassis.png', title: 'EVER Chassis' },
-  { src: 'Formula Student chassis.png', title: 'Formula Student Chassis' }
+  { src: 'shell eco marathon chassis 2023.webp', title: 'Shell Eco-Marathon Chassis 2023' },
+  { src: 'shell eco marathon chassis 2025.webp', title: 'Shell Eco-Marathon Chassis 2025' },
+  { src: 'Global chassis.webp', title: 'Global Chassis Design' },
+  { src: 'Ever Chassis.webp', title: 'EVER Chassis' },
+  { src: 'Formula Student chassis.webp', title: 'Formula Student Chassis' }
 ];
 
 // Gallery functionality
@@ -139,32 +139,8 @@ function openGallery(projectKey) {
 function updateGalleryImage() {
   const mainImage = document.getElementById('galleryMainImage');
   const counter = document.getElementById('galleryCounter');
-
-  // Soft fade/zoom transition for main image
-  if (mainImage) {
-    try {
-      mainImage.style.opacity = '0';
-      mainImage.style.transform = 'scale(0.985)';
-      const onload = () => {
-        requestAnimationFrame(() => {
-          mainImage.style.opacity = '1';
-          mainImage.style.transform = 'scale(1)';
-        });
-      };
-      mainImage.addEventListener('load', onload, { once: true });
-    } catch (_) {}
-  }
   
   mainImage.src = currentGallery[currentImageIndex];
-  // Preload adjacent images for instant navigation
-  const len = currentGallery.length;
-  const prevIdx = (currentImageIndex - 1 + len) % len;
-  const nextIdx = (currentImageIndex + 1) % len;
-  [currentGallery[prevIdx], currentGallery[nextIdx]].forEach(src => {
-    const i = new Image();
-    i.decoding = 'async';
-    i.src = src;
-  });
   counter.textContent = `${currentImageIndex + 1} / ${currentGallery.length}`;
   
   // Update active thumbnail
@@ -178,8 +154,6 @@ function createThumbnails() {
   thumbnails.innerHTML = currentGallery.map((src, index) => `
     <img src="${src}" alt="Thumbnail ${index + 1}" class="gallery-thumbnail" onclick="goToImage(${index})" loading="lazy" decoding="async">
   `).join('');
-  // Ensure native lazy attributes are applied
-  setLazyLoadingForImages();
 }
 
 function goToImage(index) {
@@ -287,54 +261,8 @@ function animateHeroTitle() {
 function animateNameWithEngineering() {
   const heroName = document.getElementById('hero-name'); // Fixed ID
   if (!heroName) return;
-  
-  const text = heroName.textContent;
-  heroName.textContent = '';
-  
-  text.split('').forEach((char, index) => {
-    const span = document.createElement('span');
-    span.className = 'char';
-    span.textContent = char === ' ' ? '\u00A0' : char;
-    span.style.animationDelay = `${0.1 + index * 0.08}s`;
-    
-    // Add engineering-themed effects to each character
-    span.style.display = 'inline-block';
-    span.style.transform = 'translateY(50px) rotateX(90deg)';
-    span.style.opacity = '0';
-    span.style.transition = 'all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-    
-    // Add mechanical precision effect
-    setTimeout(() => {
-      span.style.transform = 'translateY(0) rotateX(0deg)';
-      span.style.opacity = '1';
-      
-      // Add subtle glow effect to each character
-      span.style.textShadow = `
-        0 0 5px rgba(139, 92, 246, 0.3),
-        0 2px 4px rgba(0, 0, 0, 0.1)
-      `;
-      
-      // Add hover effect for engineering precision
-      span.addEventListener('mouseenter', () => {
-        span.style.transform = 'translateY(-3px) scale(1.1)';
-        span.style.textShadow = `
-          0 0 15px rgba(139, 92, 246, 0.6),
-          0 4px 8px rgba(0, 0, 0, 0.2)
-        `;
-      });
-      
-      span.addEventListener('mouseleave', () => {
-        span.style.transform = 'translateY(0) scale(1)';
-        span.style.textShadow = `
-          0 0 5px rgba(139, 92, 246, 0.3),
-          0 2px 4px rgba(0, 0, 0, 0.1)
-        `;
-      });
-      
-    }, 100 + index * 80);
-    
-    heroName.appendChild(span);
-  });
+  // Simple, performant CSS-only animation trigger
+  heroName.classList.add('hero-name-animate');
 }
 
 // Populate chassis gallery
@@ -355,7 +283,6 @@ function populateChassisGallery() {
 // Enhanced scroll animations
 function initScrollAnimations() {
   const targets = document.querySelectorAll('.animate-on-scroll, .animate-slide-left, .animate-slide-right');
-  const sections = document.querySelectorAll('section');
   if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -368,26 +295,9 @@ function initScrollAnimations() {
       rootMargin: '0px 0px -50px 0px'
     });
     targets.forEach(el => observer.observe(el));
-
-    const sectionObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const sec = entry.target;
-          sec.classList.add('in-view');
-          // Stagger children inside the section for premium feel
-          const kids = sec.querySelectorAll('.animate-on-scroll, .animate-slide-left, .animate-slide-right');
-          kids.forEach((el, i) => {
-            try { el.style.transitionDelay = `${i * 90}ms`; } catch(_){}
-            el.classList.add('visible');
-          });
-        }
-      });
-    }, { threshold: 0.15, rootMargin: '0px 0px -10% 0px' });
-    sections.forEach(s => sectionObserver.observe(s));
   } else {
     // Fallback: reveal immediately
     targets.forEach(el => el.classList.add('visible'));
-    sections.forEach(s => s.classList.add('in-view'));
   }
 }
 
@@ -446,20 +356,16 @@ function handleSubmit(event) {
 
 // Smooth scrolling for navigation links
 function initSmoothScrolling() {
-  const overlay = ensureTransitionOverlay();
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
-      const href = this.getAttribute('href');
-      if (!href || href === '#') return;
-      const target = document.querySelector(href);
-      if (!target) return;
       e.preventDefault();
-      // Page transition overlay + smooth scroll
-      overlay.classList.add('show');
-      setTimeout(() => {
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        setTimeout(() => overlay.classList.remove('show'), 450);
-      }, 80);
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
     });
   });
 }
@@ -474,11 +380,6 @@ function initMouseParallax() {
 function initVideoControls() {
   const videoCards = document.querySelectorAll('.video-card');
   
-  const isElementInViewport = (el) => {
-    const rect = el.getBoundingClientRect();
-    return rect.top < window.innerHeight && rect.bottom > 0 && rect.left < window.innerWidth && rect.right > 0;
-  };
-  
   videoCards.forEach((card, index) => {
     const video = card.querySelector('.video-player');
     const overlay = card.querySelector('.video-overlay');
@@ -491,16 +392,13 @@ function initVideoControls() {
       video.muted = true;
       video.autoplay = true;
       video.loop = true;
-      // Avoid heavy buffering until near viewport
-      video.preload = 'metadata';
+      video.preload = 'auto';
     }
     
-    // Auto-play first video if it's visible to the user
+    // Auto-play first video immediately
     if (index === 0 && video) {
-      if (typeof IntersectionObserver === 'undefined' ? true : isElementInViewport(card)) {
-        try { const p = video.play(); if (p && typeof p.catch === 'function') p.catch(() => {}); } catch (_) {}
-        card.classList.add('auto-playing');
-      }
+      try { const p = video.play(); if (p && typeof p.catch === 'function') p.catch(() => {}); } catch (_) {}
+      card.classList.add('auto-playing');
     }
     
     // Play button click handler
@@ -528,18 +426,11 @@ function initVideoControls() {
       });
     }
     
-    // Intersection observer for auto-play and smart preloading
+    // Intersection observer for auto-play - optimized, instant play when visible
     if ('IntersectionObserver' in window && video) {
-      let preloaded = false;
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-          if (entry.isIntersecting && entry.intersectionRatio > 0.15) {
-            if (!preloaded) {
-              // Start buffering shortly before it becomes visible
-              video.preload = 'auto';
-              try { video.load(); } catch(_) {}
-              preloaded = true;
-            }
+          if (entry.isIntersecting && entry.intersectionRatio > 0.25) {
             try { const p = video.play(); if (p && typeof p.catch === 'function') p.catch(() => {}); } catch (_) {}
             card.classList.add('auto-playing');
           } else {
@@ -547,7 +438,7 @@ function initVideoControls() {
             card.classList.remove('auto-playing');
           }
         });
-      }, { threshold: 0.15, rootMargin: '200px 0px 200px 0px' });
+      }, { threshold: 0.25, rootMargin: '0px 0px -10% 0px' });
       observer.observe(card);
     }
   });
@@ -559,7 +450,7 @@ function arrangeHeroMetricsRow() {
     const visual = document.querySelector('.hero-visual');
     if (!visual) return;
 
-    // Ensure wrapper exists
+    // التأكد من وجود الحاوية
     let wrapper = visual.querySelector('.metrics-row');
     if (!wrapper) {
       wrapper = document.createElement('div');
@@ -567,73 +458,54 @@ function arrangeHeroMetricsRow() {
       visual.prepend(wrapper);
     }
 
-    const isMobile = window.matchMedia('(max-width: 640px)').matches;
-
-    // Collect elements
+    // جمع المربعات
     const boxes = Array.from(visual.querySelectorAll('.floating-element'));
     const badge = document.querySelector('.certification-badge');
 
-    if (!isMobile) {
-      // Desktop: deterministic order beside title
-      const getRank = (el) => {
-        const t = (el.textContent || '').toLowerCase();
-        if (t.includes('certified') && t.includes('expert')) return 3; // 4th
-        if (t.includes('cswe') && t.includes('certified')) return 0;   // 1st
-        if (t.includes('years') && t.includes('experience')) return 1;  // 2nd
-        if (t.includes('projects') && t.includes('completed')) return 2;// 3rd
-        return 4;
-      };
+    // ترتيب المربعات حسب المحتوى
+    const getRank = (el) => {
+      const t = (el.textContent || '').toLowerCase();
+      // Place the dedicated CERTIFIED EXPERT CSWE box at the end (4th)
+      if (t.includes('certified') && t.includes('expert')) return 3;
+      // First metric: CSWE Certified 1/129
+      if (t.includes('cswe') && t.includes('certified')) return 0;
+      // Second: Years Experience
+      if (t.includes('years') && t.includes('experience')) return 1;
+      // Third: Projects Completed
+      if (t.includes('projects') && t.includes('completed')) return 2;
+      // Others go after
+      return 4;
+    };
 
-      const sorted = boxes.slice().sort((a, b) => getRank(a) - getRank(b));
-      sorted.forEach(el => { if (el && el.parentNode !== wrapper) wrapper.appendChild(el); else if (el && el.parentNode === wrapper) wrapper.appendChild(el); });
-      if (badge && badge.parentNode !== wrapper) wrapper.appendChild(badge);
+    boxes.sort((a, b) => getRank(a) - getRank(b));
 
-      // Align wrapper with hero title
-      const titleEl = document.querySelector('.hero-title .line2')
-        || document.querySelector('.hero-title .line1')
-        || document.querySelector('.hero-title');
-      const visRect = visual.getBoundingClientRect();
-      let topOffset = 0;
-      if (titleEl) {
-        const titleRect = titleEl.getBoundingClientRect();
-        topOffset = Math.max(0, Math.round(titleRect.top - visRect.top));
-      }
-      wrapper.style.position = 'absolute';
-      wrapper.style.right = '0px';
+    // إضافة المربعات بالترتيب
+    boxes.forEach((el) => {
+      if (el) wrapper.appendChild(el);
+    });
+
+    // إضافة الشارة في النهاية
+    if (badge) wrapper.appendChild(badge);
+
+    // محاذاة الصف مع العنوان
+    const titleEl = document.querySelector('.hero-title .line2')
+      || document.querySelector('.hero-title .line1')
+      || document.querySelector('.hero-title');
+    const visRect = visual.getBoundingClientRect();
+    if (titleEl) {
+      const titleRect = titleEl.getBoundingClientRect();
+      const topOffset = Math.max(0, Math.round(titleRect.top - visRect.top));
       wrapper.style.top = `${topOffset}px`;
     } else {
-      // Mobile: CSS-driven layout only to eliminate jitter
-      wrapper.style.removeProperty('position');
-      wrapper.style.removeProperty('right');
-      wrapper.style.removeProperty('top');
-      boxes.forEach(el => { if (el && el.parentNode !== wrapper) wrapper.appendChild(el); });
-      if (badge && badge.parentNode !== wrapper) wrapper.appendChild(badge);
+      wrapper.style.top = '0px';
     }
-
-    // Staggered reveal for metrics items
-    const items = Array.from(wrapper.querySelectorAll('.floating-element, .certification-badge'));
-    items.forEach((el, i) => { 
-      try { 
-        el.style.transitionDelay = `${80 + i * 90}ms`; 
-        // Ensure shine layer element exists
-        if (!el.querySelector('.shine-layer')) {
-          const s = document.createElement('span');
-          s.className = 'shine-layer';
-          el.appendChild(s);
-        }
-        // Enable shine with per-item offset
-        el.classList.add('shine-active');
-        el.style.setProperty('--shine-offset', `${0.1 + i * 0.4}s`);
-      } catch(_){}
-    });
-    requestAnimationFrame(() => {
-      wrapper.classList.add('ready');
-      try { document.body.classList.add('metrics-shine-on'); } catch(_){}
-    });
+    wrapper.style.position = 'absolute';
+    wrapper.style.right = '0px';
   } catch (err) {
     console.error('Error arranging metrics row:', err);
   }
 }
+
 
 // Utility: ensure all images use native lazy loading for better performance
 function setLazyLoadingForImages() {
@@ -645,38 +517,9 @@ function setLazyLoadingForImages() {
   } catch (_) {}
 }
 
-// Lightweight CSS injection for animations and transition overlay
-function installAnimationStyles() {
-  if (document.getElementById('pro-animations-css')) return;
-  const css = `
-    section { opacity: 0; transform: translateY(24px); transition: transform 600ms var(--ease), opacity 600ms var(--ease); will-change: transform, opacity; }
-    section.in-view { opacity: 1; transform: none; }
-    #page-transition-overlay { position: fixed; inset: 0; background: radial-gradient(1200px 800px at 10% 10%, rgba(14,165,233,.10), transparent 60%), radial-gradient(1200px 800px at 90% 90%, rgba(245,158,11,.08), transparent 60%), rgba(3,7,18,0.65); backdrop-filter: blur(2px); opacity: 0; pointer-events: none; transition: opacity 300ms ease; z-index: 2147483000; }
-    #page-transition-overlay.show { opacity: 1; pointer-events: auto; }
-    @media (prefers-reduced-motion: reduce) {
-      section, #page-transition-overlay { transition: none !important; transform: none !important; }
-    }
-  `;
-  const style = document.createElement('style');
-  style.id = 'pro-animations-css';
-  style.textContent = css;
-  document.head.appendChild(style);
-}
-
-function ensureTransitionOverlay() {
-  let ov = document.getElementById('page-transition-overlay');
-  if (!ov) {
-    ov = document.createElement('div');
-    ov.id = 'page-transition-overlay';
-    document.body.appendChild(ov);
-  }
-  return ov;
-}
 
 // Initialize all functions
 function init() {
-  installAnimationStyles();
-  ensureTransitionOverlay();
   // Apply lazy loading to existing images
   setLazyLoadingForImages();
 
@@ -689,11 +532,11 @@ function init() {
   initVideoControls();
   initPortfolioHandlers();
 
+  
   // Re-apply lazy attributes to dynamically inserted images
   try {
     const mo = new MutationObserver(() => setLazyLoadingForImages());
-    const targets = [document.getElementById('galleryThumbnails'), document.getElementById('chassisGrid')].filter(Boolean);
-    targets.forEach(t => mo.observe(t, { childList: true, subtree: true }));
+    mo.observe(document.documentElement, { childList: true, subtree: true });
   } catch (_) {}
 
   // Arrange metrics row after initial layout and on resize
@@ -710,25 +553,6 @@ if (document.readyState === 'loading') {
 } else {
   init();
 }
-
-// Fallback: force-enable shine if metrics-row is found but not ready
-setTimeout(() => {
-  try {
-    const wrapper = document.querySelector('.hero-visual .metrics-row');
-    if (wrapper && !wrapper.classList.contains('ready')) {
-      wrapper.querySelectorAll('.floating-element').forEach((el, i) => {
-        if (!el.querySelector('.shine-layer')) {
-          const s = document.createElement('span');
-          s.className = 'shine-layer';
-          el.appendChild(s);
-        }
-        el.classList.add('shine-active');
-        el.style.setProperty('--shine-offset', `${0.1 + i * 0.4}s`);
-      });
-      wrapper.classList.add('ready');
-    }
-  } catch(_){}
-}, 1200);
 
 // Advanced Content Protection
 document.addEventListener('contextmenu', function(e) {

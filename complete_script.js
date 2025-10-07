@@ -3,66 +3,65 @@
       'formula-chassis': {
         title: 'Formula Student Chassis',
         images: [
-          'Photos/Formula Student Chassis/A.jpg',
-          'Photos/Formula Student Chassis/B.jpg',
-          'Photos/Formula Student Chassis/C.jpg',
-          'Photos/Formula Student Chassis/D.jpg',
-          'Photos/Formula Student Chassis/E.jpg',
-          'Photos/Formula Student Chassis/R.jpg'
+          'Photos/Formula Student Chassis/A.webp',
+          'Photos/Formula Student Chassis/B.webp',
+          'Photos/Formula Student Chassis/C.webp',
+          'Photos/Formula Student Chassis/D.webp',
+          'Photos/Formula Student Chassis/E.webp',
+          'Photos/Formula Student Chassis/R.webp'
         ]
       },
       'ever': {
         title: 'EVER Monaco',
         images: [
-          'Photos/EVER/A.jpg',
-          'Photos/EVER/B.jpg',
-          'Photos/EVER/C.jpeg'
+          'Photos/EVER/1.webp',
+          'Photos/EVER/2.webp'
         ]
       },
       'shell-eco': {
         title: 'Shell Eco-Marathon Vehicle',
         images: [
-          'Photos/Shell Eco-Marathon Vehicle/1.jpg',
-          'Photos/Shell Eco-Marathon Vehicle/2.jpg',
-          'Photos/Shell Eco-Marathon Vehicle/3.jpg',
-          'Photos/Shell Eco-Marathon Vehicle/4.jpg',
-          'Photos/Shell Eco-Marathon Vehicle/5.jpg',
-          'Photos/Shell Eco-Marathon Vehicle/6.png',
-          'Photos/Shell Eco-Marathon Vehicle/7.png',
-          'Photos/Shell Eco-Marathon Vehicle/8.jpg',
-          'Photos/Shell Eco-Marathon Vehicle/9.png',
-          'Photos/Shell Eco-Marathon Vehicle/A.jpg'
+          'Photos/Shell Eco-Marathon Vehicle/1.webp',
+          'Photos/Shell Eco-Marathon Vehicle/2.webp',
+          'Photos/Shell Eco-Marathon Vehicle/3.webp',
+          'Photos/Shell Eco-Marathon Vehicle/4.webp',
+          'Photos/Shell Eco-Marathon Vehicle/5.webp',
+          'Photos/Shell Eco-Marathon Vehicle/6.webp',
+          'Photos/Shell Eco-Marathon Vehicle/7.webp',
+          'Photos/Shell Eco-Marathon Vehicle/8.webp',
+          'Photos/Shell Eco-Marathon Vehicle/9.webp',
+          'Photos/Shell Eco-Marathon Vehicle/A.webp'
         ]
       },
       'achievements': {
         title: 'Engineering Achievements',
         images: [
-          'Photos/Achievements/A-1.jpg',
-          'Photos/Achievements/A.jpg',
-          'Photos/Achievements/B.jpg',
-          'Photos/Achievements/C.jpg',
-          'Photos/Achievements/D.jpeg',
-          'Photos/Achievements/E.jpg'
+          'Photos/Achievements/A-1.webp',
+          'Photos/Achievements/A.webp',
+          'Photos/Achievements/B.webp',
+          'Photos/Achievements/C.webp',
+          'Photos/Achievements/D.webp',
+          'Photos/Achievements/E.webp'
         ]
       },
       'helmet': {
         title: 'Helmet Design & FEA',
         images: [
-          'Photos/Helemt/A.jpg',
-          'Photos/Helemt/B.jpg',
-          'Photos/Helemt/C.jpg',
-          'Photos/Helemt/D.jpg',
-          'Photos/Helemt/FEA-Helmet.jpg'
+          'Photos/Helemt/A.webp',
+          'Photos/Helemt/B.webp',
+          'Photos/Helemt/C.webp',
+          'Photos/Helemt/D.webp',
+          'Photos/Helemt/FEA-Helmet.webp'
         ]
       },
       'manufacturing': {
         title: 'Manufacturing & Prototyping',
         images: [
-          'Photos/Manufacturing & Prototyping/1.jpg',
-          'Photos/Manufacturing & Prototyping/2.jpg',
-          'Photos/Manufacturing & Prototyping/3.jpg',
-          'Photos/Manufacturing & Prototyping/4.jpg',
-          'Photos/Manufacturing & Prototyping/5.jpg'
+          'Photos/Manufacturing & Prototyping/1.webp',
+          'Photos/Manufacturing & Prototyping/2.webp',
+          'Photos/Manufacturing & Prototyping/3.webp',
+          'Photos/Manufacturing & Prototyping/4.webp',
+          'Photos/Manufacturing & Prototyping/5.webp'
         ]
       },
       'sheet-metal': {
@@ -78,26 +77,26 @@
       'solidworks-champion': {
         title: 'SolidWorks Champion',
         images: [
-          'Photos/Solidwork Champion/1.jpg',
-          'Photos/Solidwork Champion/2.jpg',
-          'Photos/Solidwork Champion/3.jpg'
+          'Photos/Solidwork Champion/1-optimized.jpg',
+          'Photos/Solidwork Champion/2-optimized.jpg',
+          'Photos/Solidwork Champion/3-optimized.jpg'
         ]
       },
       'drawing': {
         title: 'Technical Drawing',
         images: [
-          'Photos/Drawing/1.jpg',
-          'Photos/Drawing/2.jpg',
-          'Photos/Drawing/3.jpg',
-          'Photos/Drawing/4.jpg',
-          'Photos/Drawing/5.jpg',
-          'Photos/Drawing/6.jpg',
-          'Photos/Drawing/7.jpg',
-          'Photos/Drawing/8.jpg',
-          'Photos/Drawing/9.jpg',
-          'Photos/Drawing/10.jpg',
-          'Photos/Drawing/11.jpg',
-          'Photos/Drawing/12.jpg'
+          'Photos/Drawing/1.webp',
+          'Photos/Drawing/2.webp',
+          'Photos/Drawing/3.webp',
+          'Photos/Drawing/4.webp',
+          'Photos/Drawing/5.webp',
+          'Photos/Drawing/6.webp',
+          'Photos/Drawing/7.webp',
+          'Photos/Drawing/8.webp',
+          'Photos/Drawing/9.webp',
+          'Photos/Drawing/10.webp',
+          'Photos/Drawing/11.webp',
+          'Photos/Drawing/12.webp'
         ]
       }
     };

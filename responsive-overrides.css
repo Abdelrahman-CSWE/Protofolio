@@ -1,0 +1,158 @@
+/* Responsive and performance-friendly overrides without changing desktop look */
+
+/* 0) Media defaults: responsive media and layout fixes */
+img, video { max-width: 100%; height: auto; display: block; }
+html, body { overflow-x: hidden; }
+
+/* 1) Navbar: Hamburger setup (mobile only) */
+.hamburger {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .nav-container { gap: 0.5rem; }
+  .nav-links { display: none; }
+  .nav.open .nav-links { display: flex; }
+
+  .hamburger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px; height: 42px;
+    border-radius: 10px;
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    background: linear-gradient(135deg, rgba(14,165,233,0.10), rgba(139,92,246,0.08));
+    box-shadow: 0 4px 12px rgba(14,165,233,0.15), inset 0 1px 0 rgba(255,255,255,0.08);
+    cursor: pointer;
+    transition: transform .2s ease, box-shadow .25s ease;
+  }
+  .hamburger:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(14,165,233,0.25); }
+  .hamburger span,
+  .hamburger span::before,
+  .hamburger span::after {
+    content: '';
+    display: block;
+    width: 20px; height: 2px;
+    background: rgba(255,255,255,0.95);
+    border-radius: 2px;
+    position: relative;
+    transition: all .25s ease;
+  }
+  .hamburger span::before { position: absolute; top: -6px; left: 0; }
+  .hamburger span::after { position: absolute; top: 6px; left: 0; }
+  .nav.open .hamburger span { background: transparent; }
+  .nav.open .hamburger span::before { top: 0; transform: rotate(45deg); }
+  .nav.open .hamburger span::after  { top: 0; transform: rotate(-45deg); }
+
+  /* Mobile menu panel */
+  .nav-links {
+    position: absolute;
+    top: var(--nav-height);
+    right: 1rem; left: 1rem;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    border-radius: 14px;
+    background: linear-gradient(180deg, rgba(15,23,42,0.98), rgba(15,23,42,0.9));
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    animation: menu-fade .2s ease-out both;
+    z-index: 1001;
+  }
+  @keyframes menu-fade { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+
+  .nav-links a { min-height: 44px; padding: 0.9rem 1rem; width: 100%; justify-content: flex-start; }
+}
+
+/* 2) Hero + grid responsiveness without changing desktop */
+@media (max-width: 1100px) {
+  .hero-container { grid-template-columns: 1fr; gap: 2rem; margin: 0 1rem; }
+  .hero-content { margin-left: 0; }
+}
+
+@media (max-width: 900px) {
+  .hero { padding: calc(var(--nav-height) + 1rem) 1rem 1.5rem 1rem; }
+  .hero-title .line2 { font-size: clamp(1.8rem, 6.5vw, 2.4rem); white-space: normal; }
+  .hero-subtitle { font-size: clamp(0.95rem, 1.1vw + 0.9rem, 1.05rem); line-height: 1.85; max-width: 65ch; }
+  .hero-cta { flex-wrap: wrap; gap: 0.9rem; }
+}
+
+/* 3) Metrics row relocation on mobile to prevent overflow */
+@media (max-width: 1100px) {
+  .metrics-row { position: static; transform: none; justify-content: flex-start; flex-wrap: wrap; gap: 0.75rem; }
+  .metrics-row .floating-element { width: calc(50% - 0.4rem) !important; min-width: 160px; }
+}
+@media (max-width: 640px) {
+  .metrics-row .floating-element { width: 100% !important; }
+}
+
+/* 4) Media (images/videos) responsive survivors */
+.video-card, .video-player { width: 100%; height: auto; }
+.gallery-main-image { max-width: 100%; }
+.gallery-thumbnail { width: clamp(64px, 14vw, 96px); height: auto; }
+
+/* 5) Buttons touch targets on mobile */
+@media (max-width: 900px) {
+  .btn { min-height: 44px; padding: 0.9rem 1.1rem; }
+  .btn + .btn { margin-left: 0; }
+}
+
+/* 6) Contact section centering on mobile (non-intrusive selectors) */
+section[id*="contact"],
+#contact,
+.contact-section {
+  margin: 0 auto;
+  max-width: min(640px, 92vw);
+}
+section[id*="contact"] form,
+#contact form,
+.contact-section form { display: grid; gap: 0.8rem; }
+section[id*="contact"] input,
+section[id*="contact"] textarea,
+#contact input,
+#contact textarea,
+.contact-section input,
+.contact-section textarea {
+  width: 100%;
+  min-height: 44px;
+  border-radius: 12px;
+}
+
+/* 7) Typography refinements on small screens (readability only) */
+@media (max-width: 900px) {
+  p, li { max-width: 70ch; }
+}
+
+/* 8) Mobile overrides to preserve desktop navbar look (no hamburger) */
+@media (max-width: 900px) {
+  /* Keep the desktop navbar without changing visuals */
+  .hamburger { display: none !important; }
+
+  /* Ensure nav links stay visible and wrap to prevent overflow */
+  .nav-links {
+    display: flex !important;
+    position: static !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    gap: 0.5rem !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: auto !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+
+  .nav-links li { width: auto !important; }
+  .nav-links li::after { display: none; }
+
+  .nav-links a {
+    width: auto !important;
+    min-height: 44px !important;
+    padding: 0.7rem 1rem !important;
+    text-align: left !important;
+    justify-content: center !important;
+  }
+
+  /* Allow container to wrap content naturally without shifting visuals */
+  .nav-container { flex-wrap: wrap; }
+}
