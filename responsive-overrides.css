@@ -289,5 +289,26 @@ html, body { overscroll-behavior-x: none; }
     will-change: auto;
   }
 }
+/* 12) Mobile-first hero centering + navbar flicker fix (keeps desktop intact) */
+@media (max-width: 900px) {
+  /* Center hero texts and CTAs */
+  .hero-content,
+  .hero-title,
+  .hero-subtitle { text-align: center !important; }
+  .hero-title .line1,
+  .hero-title .line2 { margin-left: auto !important; margin-right: auto !important; display: block !important; }
+  .hero-cta { justify-content: center !important; }
+
+  /* Center metrics row to keep balance below hero text */
+  .metrics-row { justify-content: center !important; }
+
+  /* Remove navbar animated border/grid on mobile to prevent flicker and save GPU */
+  .nav::before,
+  .nav::after { display: none !important; }
+
+  /* Lighten animated background on mobile only */
+  .blueprint-bg { animation: none !important; opacity: 0.04 !important; }
+}
+
 -----
 -----
