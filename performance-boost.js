@@ -92,6 +92,16 @@
     toggle();
   }
 
+  function registerSW() {
+    try {
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('sw.js').catch(function(){});
+        }, { once: true });
+      }
+    } catch (e) {}
+  }
+
   function init() {
     // Run critical hints quickly
     optimizeImages();
@@ -100,6 +110,7 @@
     // Defer heavier steps
     idle(()=> optimizeVideos());
     idle(()=> { injectHiddenTabCSS(); handleVisibility(); });
+    idle(()=> registerSW());
 
     // Re-run on resize (debounced)
     let t;

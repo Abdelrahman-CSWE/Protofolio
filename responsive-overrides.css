@@ -220,4 +220,74 @@ html, body { overscroll-behavior-x: none; }
 
 /* Avoid horizontal scrollbars from wide animated layers while keeping visuals.
    We rely on body/html overflow-x hidden above; no clipping of content is applied here. */
+
+/* 11) Performance layer: enable GPU path for animated elements (no visual changes) */
+/* Hint the compositor to optimize transforms/opacity on frequently animated elements */
+.nav,
+.nav::before,
+.nav::after,
+.hero,
+.hero-title .line1,
+.hero-title .line2,
+.hero-subtitle,
+.hero-name,
+.hero-name.hero-name-animate,
+.certification-cover,
+.certification-badge,
+.mechanical-3d-showcase,
+.mechanical-gear-system,
+.gear,
+.mechanical-framework,
+.framework-line,
+.mechanical-bolts,
+.bolt,
+.pcb-pattern,
+.circuit-line,
+.circuit-node,
+.metrics-row,
+.metrics-row .floating-element,
+.floating-element::before,
+.floating-element::after,
+.nav-links a::before,
+.nav-links a::after,
+.blueprint-bg {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Keep this safe layer responsive-aware */
+@media (prefers-reduced-motion: reduce) {
+  .nav,
+  .nav::before,
+  .nav::after,
+  .hero,
+  .hero-title .line1,
+  .hero-title .line2,
+  .hero-subtitle,
+  .hero-name,
+  .hero-name.hero-name-animate,
+  .certification-cover,
+  .certification-badge,
+  .mechanical-3d-showcase,
+  .mechanical-gear-system,
+  .gear,
+  .mechanical-framework,
+  .framework-line,
+  .mechanical-bolts,
+  .bolt,
+  .pcb-pattern,
+  .circuit-line,
+  .circuit-node,
+  .metrics-row,
+  .metrics-row .floating-element,
+  .floating-element::before,
+  .floating-element::after,
+  .nav-links a::before,
+  .nav-links a::after,
+  .blueprint-bg {
+    will-change: auto;
+  }
+}
+-----
 -----
