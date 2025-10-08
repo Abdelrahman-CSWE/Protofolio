@@ -87,7 +87,7 @@ html, body { overflow-x: hidden; }
 
 /* 4) Media (images/videos) responsive survivors */
 .video-card, .video-player { width: 100%; height: auto; }
-.gallery-main-image { max-width: 100%; height: auto; max-height: 70vh; object-fit: contain; }
+.gallery-main-image { max-width: 100%; }
 .gallery-thumbnail { width: clamp(64px, 14vw, 96px); height: auto; }
 
 /* 5) Buttons touch targets on mobile */
@@ -174,9 +174,10 @@ section[id*="contact"] textarea,
   /* Certificate cover: center, scale safely, and keep all animations */
   .certification-cover {
     left: 50%;
+    right: 50%;
     top: 58%;
     width: min(88vw, 560px);
-    height: min(70vh, 520px);
+    height: auto;
     transform: translate(-50%, -50%) rotate(-3deg) perspective(1200px) rotateY(-5deg) scale(0.95);
     transform-origin: center;
     pointer-events: none; /* avoid blocking taps while preserving visuals */
@@ -207,31 +208,15 @@ section[id*="contact"] textarea,
   .certification-cover {
     top: 60%;
     width: min(92vw, 520px);
-    height: min(68vh, 480px);
     transform: translate(-50%, -50%) rotate(-3deg) perspective(1200px) rotateY(-4deg) scale(0.9);
   }
 
   /* Extra breathing room for metrics blocks when wrapping */
   .metrics-row { gap: 0.6rem; }
-
-  /* Reduce decorative overlap on very small screens while preserving visuals */
-  .mechanical-gear-system,
-  .mechanical-framework,
-  .mechanical-bolts,
-  .pcb-pattern {
-    transform: scale(0.75) translateZ(0);
-    opacity: 0.06;
-    pointer-events: none;
-  }
 }
 
 /* 10) Global safeguards for sideways scroll from animated abs/pseudo layers */
 html, body { overscroll-behavior-x: none; }
-
-/* Very small screens: tighten nav link spacing to avoid wrapping overflow without changing style */
-@media (max-width: 480px) {
-  .nav-links a { padding: 0.6rem 0.8rem !important; font-size: 0.85rem !important; }
-}
 
 /* Avoid horizontal scrollbars from wide animated layers while keeping visuals.
    We rely on body/html overflow-x hidden above; no clipping of content is applied here. */
