@@ -1,0 +1,72 @@
+/* Mobile-only robust fixes: layout, centering and performance. Desktop remains untouched. */
+
+/* 1) Global: prevent horizontal jitter on mobile */
+html, body { overflow-x: hidden; overscroll-behavior-x: none; }
+
+/* 2) Disable navbar flicker bar and heavy grid only on mobile */
+@media (max-width: 900px) {
+  .nav::before,
+  .nav::after { display: none !important; }
+}
+
+/* 3) Hero: single column, clean centering */
+@media (max-width: 900px) {
+  .hero { padding: calc(var(--nav-height) + 0.6rem) 1rem 1.25rem 1rem !important; }
+  .hero-container { grid-template-columns: 1fr !important; justify-items: center !important; align-items: center !important; gap: 1.25rem !important; margin: 0 auto !important; }
+  .hero-content { margin: 0 !important; text-align: center !important; max-width: min(92vw, 720px) !important; }
+  .hero-title, .hero-subtitle { text-align: center !important; }
+  .hero-title .line1, .hero-title .line2 { margin-left: auto !important; margin-right: auto !important; display: block !important; }
+  .hero-cta { justify-content: center !important; }
+}
+
+/* 4) Certificate cover: place inside flow and center on mobile (keep desktop animations intact) */
+@media (max-width: 900px) {
+  .certification-cover {
+    position: static !important;
+    display: block !important;
+    width: min(88vw, 520px) !important;
+    height: auto !important;
+    margin: 0.25rem auto 0 !important;
+    transform: none !important;
+    animation: none !important;
+    filter: none !important;
+    box-shadow: none !important;
+    opacity: 1 !important;
+    pointer-events: none !important; /* avoid overlap issues while preserving image */
+  }
+}
+
+/* 5) Metrics row: grid layout and centered text */
+@media (max-width: 900px) {
+  .hero-visual { height: auto !important; }
+  .metrics-row { width: 100% !important; margin: 0.25rem auto 0 !important; display: grid !important; grid-template-columns: repeat(2, minmax(0,1fr)) !important; gap: 0.75rem !important; justify-items: stretch !important; }
+  .metrics-row .floating-element {
+    position: static !important;
+    width: 100% !important; max-width: none !important;
+    padding: 0.9rem 1rem !important;
+    display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important;
+    text-align: center !important;
+  }
+  .metrics-row .floating-element .element-title,
+  .metrics-row .floating-element .element-value { text-align: center !important; }
+}
+@media (max-width: 640px) {
+  .metrics-row { grid-template-columns: 1fr !important; }
+}
+
+/* 6) Lighten heavy decorative animations on mobile only (keep desktop visuals) */
+@media (max-width: 900px) {
+  .blueprint-bg { animation: none !important; opacity: 0.04 !important; }
+  .mechanical-gear-system,
+  .mechanical-framework,
+  .mechanical-bolts,
+  .pcb-pattern { transform: scale(0.9) translateZ(0) !important; transform-origin: center !important; }
+}
+
+/* 7) Strengthen GPU compositing hints for smoother scrolling */
+@media (max-width: 900px) {
+  .hero, .hero-content, .hero-title .line1, .hero-title .line2, .hero-subtitle,
+  .certification-cover, .metrics-row, .metrics-row .floating-element, .blueprint-bg, .nav {
+    will-change: transform, opacity; transform: translateZ(0); backface-visibility: hidden;
+  }
+}
