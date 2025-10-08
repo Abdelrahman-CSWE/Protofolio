@@ -1,0 +1,98 @@
+/* Mobile-first layout fixes: metrics isolation, two-column gallery, contact fit. Desktop untouched. */
+
+/* 1) Metrics section: isolate and center on mobile/tablet */
+@media (max-width: 1100px) {
+  /* Make visual area flexible to avoid overlap */
+  .hero-visual { height: auto !important; overflow: visible !important; }
+
+  /* Isolate metrics row below text content in its own space */
+  .metrics-row {
+    position: static !important;
+    transform: none !important;
+    width: 100% !important;
+    margin: 0.75rem auto 0 !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0,1fr)) !important;
+    gap: 0.8rem !important;
+    justify-items: stretch !important;
+    z-index: 3 !important;
+  }
+  .metrics-row .floating-element {
+    position: static !important;
+    width: 100% !important;
+    max-width: none !important;
+    padding: 0.9rem 1rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+  .metrics-row .floating-element .element-title,
+  .metrics-row .floating-element .element-value { text-align: center !important; }
+}
+@media (max-width: 640px) {
+  .metrics-row { grid-template-columns: 1fr !important; }
+}
+
+/* 2) Gallery section: two-column layout on larger screens, one column on phones */
+/* Target common gallery containers (non-destructive: only applies if IDs/classes exist) */
+#chassisGrid,
+.gallery-grid,
+.gallery-section .gallery-grid,
+.gallery,
+.galleries {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 0.75rem !important;
+  align-items: start !important;
+}
+#chassisGrid > *,
+.gallery-grid > *,
+.gallery > *,
+.galleries > * { width: 100% !important; }
+
+@media (max-width: 900px) {
+  #chassisGrid,
+  .gallery-grid,
+  .gallery,
+  .galleries { grid-template-columns: 1fr !important; gap: 0.65rem !important; }
+}
+
+/* 3) Contact section: fit container and border on mobile */
+section[id*="contact"],
+#contact,
+.contact-section {
+  margin: 1rem auto !important;
+  max-width: min(680px, 92vw) !important;
+  padding: 1rem !important;
+  box-sizing: border-box !important;
+  border-radius: 14px !important;
+  border: 1.5px solid var(--border) !important;
+}
+section[id*="contact"] .contact-inner,
+#contact .contact-inner,
+.contact-section .contact-inner {
+  display: grid !important;
+  gap: 0.85rem !important;
+}
+section[id*="contact"] form,
+#contact form,
+.contact-section form { display: grid !important; gap: 0.75rem !important; }
+
+section[id*="contact"] input,
+section[id*="contact"] textarea,
+#contact input,
+#contact textarea,
+.contact-section input,
+.contact-section textarea {
+  width: 100% !important;
+  min-height: 44px !important;
+  border-radius: 12px !important;
+  box-sizing: border-box !important;
+}
+
+/* Clean extra white space below contact on phones */
+@media (max-width: 900px) {
+  section[id*="contact"], #contact, .contact-section { margin-bottom: 1.25rem !important; }
+}
