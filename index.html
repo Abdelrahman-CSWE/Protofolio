@@ -104,6 +104,52 @@
 
     } /* end mobile-only normalize */
   </style>
+  <style id="mobile-portfolio-chassis-last">
+    /* Mobile-only: move Chassis Gallery card to the end within Engineering Portfolio */
+    @media (max-width: 900px) {
+      /* Stack portfolio projects vertically on mobile */
+      #portfolio .engineering-portfolio-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 1rem !important;
+      }
+      /* Push Chassis Gallery card to the end */
+      #portfolio .engineering-portfolio-grid .portfolio-project[data-project="chassis-gallery"] {
+        order: 9999 !important;
+      }
+    }
+  </style>
+  <style id="video-info-center">
+    /* Center video titles and descriptions under each video card */
+    #videos .video-info,
+    #engineering-in-motion .video-info,
+    #motion .video-info,
+    .videos-grid .video-info,
+    .video-card .video-info,
+    .video-info {
+      text-align: center !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
+    }
+    #videos .video-info .video-title,
+    #engineering-in-motion .video-info .video-title,
+    #motion .video-info .video-title,
+    .videos-grid .video-info .video-title,
+    .video-card .video-info .video-title,
+    .video-info .video-title,
+    #videos .video-info .video-description,
+    #engineering-in-motion .video-info .video-description,
+    #motion .video-info .video-description,
+    .videos-grid .video-info .video-description,
+    .video-card .video-info .video-description,
+    .video-info .video-description {
+      text-align: center !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+  </style>
   <script>
     (function(){
       function setNavHeightVar(){
@@ -2018,7 +2064,8 @@
     .hero-title .line2::after {
       content: '';
       position: absolute;
-      bottom: -8px;
+      top: 100%;
+      margin-top: 2px;
       left: 0;
       width: 100%;
       height: 3px;
@@ -5666,8 +5713,8 @@
             
       <div class="hero-content">
         <h1 class="hero-title">
-          <span class="line1 hero-job-title" id="hero-title">Mechanical Design Engineer</span>
-          <span class="line2 hero-name" id="hero-name" data-text="Abdelrahman Okasha">Abdelrahman Okasha</span>
+          <span class="line1 hero-name" id="hero-name" data-text="Hi, I'm Abdelrahman Okasha">Hi, I'm Abdelrahman Okasha</span>
+          <span class="line2 hero-job-title" id="hero-title">Mechanical Design Engineer</span>
         </h1>
         <p class="hero-subtitle"><span class="hero-lead">I craft <span class="keyword">engineering solutions</span> that merge <span class="keyword">mechanical precision</span> with <span class="keyword">mechatronics innovation</span>.</span> From advanced chassis architectures to ergonomic systems and high-performance prototypes, my work reflects creativity, technical mastery, and a pursuit of excellence.</p>
         <p class="hero-subtitle">With expertise in CAD, FEA, and automation systems, I transform concepts into optimized designs that are reliable, impactful, and engineered for real-world performance.</p>
