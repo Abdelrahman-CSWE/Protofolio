@@ -53,6 +53,70 @@
       } 
     }
   </style>
+  <style id="global-text-normalize">
+    /* Global text normalization: tighten lines and remove ugly justify gaps across the site */
+    :root { --text-lh: 1.1; }
+
+    /* Common text elements (exclude headings) */
+    body p,
+    body li,
+    body span,
+    body a,
+    body blockquote,
+    body figcaption,
+    body label,
+    body dd,
+    body dt,
+    body small,
+    body code,
+    body pre,
+    body em,
+    body strong,
+    body address {
+      line-height: var(--text-lh) !important;
+      text-align: center !important;
+      text-align-last: center !important;
+      text-justify: auto !important;
+      word-spacing: normal !important;
+      letter-spacing: normal !important;
+      hyphens: auto !important;
+      -webkit-hyphens: auto !important;
+      overflow-wrap: break-word !important;
+      word-break: normal !important;
+      white-space: normal !important;
+      text-wrap: balance !important;
+    }
+
+    /* Reset justify on typical text containers */
+    body [class*="text"],
+    body [class*="content"],
+    body [class*="desc"],
+    body [class*="paragraph"] {
+      text-align: center !important;
+      text-justify: auto !important;
+      word-spacing: normal !important;
+      letter-spacing: normal !important;
+    }
+
+    /* Keep buttons centered visually */
+    .btn, .btn * { text-align: center !important; }
+
+    /* Mobile reinforcement */
+    @media (max-width: 900px) {
+      body p,
+      body li,
+      body span,
+      body a,
+      body blockquote,
+      body figcaption,
+      body label,
+      body dd,
+      body dt,
+      body small {
+        line-height: var(--text-lh) !important;
+      }
+    }
+  </style>
   <script>
     (function(){
       function setNavHeightVar(){
@@ -1906,8 +1970,8 @@
         line-height: 1.15 !important;
       }
       .hero-subtitle {
-        text-align: left !important;
-        text-align-last: auto !important;
+        text-align: center !important;
+        text-align-last: center !important;
         text-justify: auto !important;
         max-width: 100% !important;
         margin-left: auto !important;
@@ -2192,11 +2256,11 @@
       color: var(--text-secondary);
       margin-bottom: 2.5rem;
       max-width: clamp(320px, 40vw, 720px);
-      margin-left: 0;
+      margin-left: auto;
       margin-right: auto;
       line-height: 1.1;
-      text-align: left;
-      text-align-last: auto;
+      text-align: center;
+      text-align-last: center;
       text-justify: auto;
       -webkit-hyphens: auto;
       -ms-hyphens: auto;
