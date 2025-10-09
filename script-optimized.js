@@ -5,6 +5,16 @@
 
 // Portfolio data - Optimized structure
 const portfolioData = {
+  'chassis-gallery': {
+    title: 'Chassis Gallery',
+    images: [
+      'shell eco marathon chassis 2025.webp',
+      'shell eco marathon chassis 2023.webp',
+      'Formula Student chassis.webp',
+      'Global chassis.webp',
+      'Ever Chassis.webp'
+    ]
+  },
   'formula-chassis': {
     title: 'Formula Student Chassis',
     images: [

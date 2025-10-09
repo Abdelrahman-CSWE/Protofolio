@@ -1,0 +1,153 @@
+/* Mobile size reduction: balanced, proportional sizing for all elements */
+
+@media (max-width: 900px) {
+  /* Logo size reduction */
+  .logo { font-size: 1.2rem !important; gap: 0.5rem !important; }
+  .logo::before { font-size: 1.3rem !important; }
+  
+  /* Hero container padding */
+  .hero-container { padding: 0 1rem !important; }
+  
+  /* Hero title sizes */
+  .hero-title { font-size: clamp(1.5rem, 5vw, 2rem) !important; margin-bottom: 1rem !important; }
+  .hero-title .line1 { font-size: clamp(1.3rem, 4vw, 1.6rem) !important; margin-bottom: 0.4rem !important; }
+  .hero-title .line2 { font-size: clamp(1.6rem, 5.5vw, 2.2rem) !important; }
+  
+  /* Subtitle size */
+  .hero-subtitle { 
+    font-size: clamp(0.85rem, 3vw, 0.95rem) !important; 
+    margin-bottom: 1.5rem !important; 
+    line-height: 1.6 !important;
+    max-width: 100% !important;
+  }
+  
+  /* Button sizes */
+  .hero-cta { gap: 1rem !important; flex-wrap: wrap !important; }
+  .btn { 
+    padding: 0.75rem 1.5rem !important; 
+    font-size: 0.85rem !important;
+    border-radius: 12px !important;
+  }
+  
+  /* Certification badge size */
+  .certification-badge { 
+    padding: 0.7rem 0.9rem !important; 
+    font-size: 0.75rem !important;
+    top: 0.75rem !important;
+    right: 0.75rem !important;
+    border-radius: 14px !important;
+  }
+  .certification-badge .cert-title { 
+    font-size: 0.55rem !important; 
+    margin-bottom: 0.3rem !important; 
+    letter-spacing: 0.8px !important;
+  }
+  .certification-badge .cert-value { 
+    font-size: 0.95rem !important;
+    letter-spacing: 1px !important;
+  }
+  
+  /* Metrics boxes size */
+  .metrics-row .floating-element {
+    padding: 0.7rem 0.85rem !important;
+    min-height: 75px !important;
+  }
+  .metrics-row .floating-element .element-title { 
+    font-size: 0.7rem !important;
+    margin-bottom: 0.3rem !important;
+  }
+  .metrics-row .floating-element .element-value { 
+    font-size: 1.3rem !important;
+  }
+  
+  /* Section titles */
+  h2, .section-title { 
+    font-size: clamp(1.5rem, 5vw, 2rem) !important; 
+    margin-bottom: 1.2rem !important; 
+  }
+  h3 { font-size: clamp(1.2rem, 4vw, 1.5rem) !important; }
+  
+  /* Section padding */
+  section { padding: 2rem 1rem !important; }
+  
+  /* Gallery gaps */
+  #chassisGrid,
+  .gallery-grid,
+  .gallery,
+  .galleries { gap: 0.6rem !important; }
+  
+  /* Contact section */
+  section[id*="contact"],
+  #contact,
+  .contact-section {
+    padding: 0.85rem !important;
+    border-radius: 12px !important;
+  }
+  
+  section[id*="contact"] .contact-inner,
+  #contact .contact-inner,
+  .contact-section .contact-inner {
+    gap: 0.7rem !important;
+  }
+  
+  section[id*="contact"] form,
+  #contact form,
+  .contact-section form { gap: 0.65rem !important; }
+  
+  section[id*="contact"] h2,
+  #contact h2,
+  .contact-section h2 { 
+    font-size: clamp(1.3rem, 4.5vw, 1.8rem) !important; 
+    margin-bottom: 0.8rem !important; 
+  }
+  
+  section[id*="contact"] input,
+  section[id*="contact"] textarea,
+  #contact input,
+  #contact textarea,
+  .contact-section input,
+  .contact-section textarea {
+    min-height: 42px !important;
+    border-radius: 10px !important;
+    font-size: 0.9rem !important;
+    padding: 0.65rem 0.85rem !important;
+  }
+  
+  section[id*="contact"] button,
+  #contact button,
+  .contact-section button {
+    padding: 0.75rem 1.5rem !important;
+    font-size: 0.9rem !important;
+    border-radius: 10px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  /* Further reductions for very small screens */
+  .logo { font-size: 1.1rem !important; }
+  .logo::before { font-size: 1.2rem !important; }
+  
+  .metrics-row { gap: 0.6rem !important; }
+  
+  section[id*="contact"], 
+  #contact, 
+  .contact-section { padding: 0.75rem !important; }
+  
+  section[id*="contact"] input,
+  section[id*="contact"] textarea,
+  #contact input,
+  #contact textarea,
+  .contact-section input,
+  .contact-section textarea {
+    min-height: 40px !important;
+    font-size: 0.85rem !important;
+    padding: 0.6rem 0.75rem !important;
+  }
+  
+  section[id*="contact"] button,
+  #contact button,
+  .contact-section button {
+    padding: 0.7rem 1.3rem !important;
+    font-size: 0.85rem !important;
+  }
+}

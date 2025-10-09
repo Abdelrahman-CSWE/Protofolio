@@ -92,7 +92,533 @@ section[id*="contact"] textarea,
   box-sizing: border-box !important;
 }
 
-/* Clean extra white space below contact on phones */
+/* Enhanced mobile contact section - professional fit */
 @media (max-width: 900px) {
-  section[id*="contact"], #contact, .contact-section { margin-bottom: 1.25rem !important; }
+  section[id*="contact"],
+  #contact,
+  .contact-section {
+    position: relative !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin: 1rem auto 1.5rem auto !important; /* centered with auto margins */
+    max-width: calc(100vw - 32px) !important; /* 16px margin on each side */
+    width: calc(100vw - 32px) !important; /* fully inside viewport */
+    padding: 1.2rem 1rem !important; /* proper padding */
+    box-sizing: border-box !important;
+    overflow: hidden !important; /* prevent content from overflowing */
+    transform: none !important;
+  }
+
+  /* Contact info items - vertical flex layout with icon on top */
+  section[id*="contact"] .contact-info,
+  #contact .contact-info,
+  .contact-section .contact-info,
+  section[id*="contact"] .contact-item,
+  #contact .contact-item,
+  .contact-section .contact-item {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 1rem 0.5rem !important;
+    margin: 0 auto 20px auto !important; /* perfectly centered */
+    box-sizing: border-box !important;
+    gap: 8px !important; /* space between icon, title, and text */
+    text-align: center !important;
+  }
+
+  /* Center items inside contact inner container */
+  section[id*="contact"] .contact-inner,
+  #contact .contact-inner,
+  .contact-section .contact-inner {
+    justify-items: center !important;
+    align-items: center !important;
+  }
+
+  /* Icon styling - centered on top, slightly larger and proportional size */
+  section[id*="contact"] .contact-item i,
+  section[id*="contact"] .contact-item svg,
+  section[id*="contact"] .contact-item .icon,
+  section[id*="contact"] .contact-item .contact-icon,
+  #contact .contact-item i,
+  #contact .contact-item svg,
+  #contact .contact-item .icon,
+  #contact .contact-item .contact-icon,
+  .contact-section .contact-item i,
+  .contact-section .contact-item svg,
+  .contact-section .contact-item .icon,
+  .contact-section .contact-item .contact-icon {
+    flex-shrink: 0 !important;
+    width: 1.3rem !important; /* slightly larger proportional width */
+    height: 1.3rem !important; /* slightly larger proportional height */
+    min-width: 1.3rem !important;
+    max-width: 1.3rem !important;
+    min-height: 1.3rem !important;
+    max-height: 1.3rem !important;
+    font-size: 1.3rem !important; /* slightly larger emoji icon size */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-bottom: 0.35rem !important;
+    line-height: 1 !important;
+  }
+
+  /* Text content wrapper - vertical stacked layout */
+  section[id*="contact"] .contact-item .contact-text,
+  section[id*="contact"] .contact-item .text,
+  section[id*="contact"] .contact-item > div:not(.contact-icon):not(.icon),
+  #contact .contact-item .contact-text,
+  #contact .contact-item .text,
+  #contact .contact-item > div:not(.contact-icon):not(.icon),
+  .contact-section .contact-item .contact-text,
+  .contact-section .contact-item .text,
+  .contact-section .contact-item > div:not(.contact-icon):not(.icon) {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 6px !important;
+    width: 100% !important;
+    text-align: center !important;
+  }
+
+  /* Contact item title/label - centered */
+  section[id*="contact"] .contact-item h4,
+  section[id*="contact"] .contact-item .label,
+  section[id*="contact"] .contact-item .contact-title,
+  section[id*="contact"] .contact-item strong,
+  #contact .contact-item h4,
+  #contact .contact-item .label,
+  #contact .contact-item .contact-title,
+  #contact .contact-item strong,
+  .contact-section .contact-item h4,
+  .contact-section .contact-item .label,
+  .contact-section .contact-item .contact-title,
+  .contact-section .contact-item strong {
+    font-size: 0.95rem !important;
+    font-weight: 700 !important;
+    margin: 0 0 0.3rem 0 !important;
+    text-align: center !important;
+    display: block !important;
+    width: 100% !important;
+  }
+
+  /* Contact item value (email, phone, link) - centered, single line */
+  section[id*="contact"] .contact-item p,
+  section[id*="contact"] .contact-item .value,
+  section[id*="contact"] .contact-item .contact-link,
+  #contact .contact-item p,
+  #contact .contact-item .value,
+  #contact .contact-item .contact-link,
+  .contact-section .contact-item p,
+  .contact-section .contact-item .value,
+  .contact-section .contact-item .contact-link {
+    font-size: clamp(0.75rem, 2.2vw, 0.85rem) !important;
+    line-height: 1.3 !important;
+    white-space: nowrap !important; /* keep on single line */
+    word-break: keep-all !important;
+    overflow-wrap: normal !important;
+    overflow-x: auto !important; /* allow horizontal scroll if too long */
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important; /* hide scrollbar Firefox */
+    -ms-overflow-style: none !important; /* hide scrollbar IE/Edge */
+    margin: 0 auto !important; /* center with auto margins */
+    display: inline-block !important;
+    width: auto !important; /* auto width for natural centering */
+    max-width: 100% !important;
+    text-align: center !important;
+    padding: 0 0.25rem !important;
+  }
+
+  /* Hide scrollbar for webkit browsers */
+  section[id*="contact"] .contact-item p::-webkit-scrollbar,
+  section[id*="contact"] .contact-item .value::-webkit-scrollbar,
+  section[id*="contact"] .contact-item .contact-link::-webkit-scrollbar,
+  #contact .contact-item p::-webkit-scrollbar,
+  #contact .contact-item .value::-webkit-scrollbar,
+  #contact .contact-item .contact-link::-webkit-scrollbar,
+  .contact-section .contact-item p::-webkit-scrollbar,
+  .contact-section .contact-item .value::-webkit-scrollbar,
+  .contact-section .contact-item .contact-link::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  /* Contact links - centered, single line */
+  section[id*="contact"] .contact-item a,
+  #contact .contact-item a,
+  .contact-section .contact-item a {
+    white-space: nowrap !important; /* keep on single line */
+    word-break: keep-all !important;
+    overflow-wrap: normal !important;
+    font-size: clamp(0.75rem, 2.2vw, 0.85rem) !important;
+    line-height: 1.3 !important;
+    text-decoration: none !important;
+    display: inline-block !important;
+    text-align: center !important;
+    max-width: 100% !important;
+  }
+
+  /* General text inside contact section */
+  section[id*="contact"] p:not(.contact-item p):not(.contact-item .value),
+  section[id*="contact"] span:not(.contact-item span),
+  #contact p:not(.contact-item p):not(.contact-item .value),
+  #contact span:not(.contact-item span),
+  .contact-section p:not(.contact-item p):not(.contact-item .value),
+  .contact-section span:not(.contact-item span) {
+    max-width: 100% !important;
+    word-break: break-word !important;
+    overflow-wrap: anywhere !important;
+    font-size: clamp(0.9rem, 3.5vw, 1rem) !important;
+    line-height: 1.5 !important;
+  }
+
+  /* Form inputs - ensure proper sizing */
+  section[id*="contact"] input,
+  section[id*="contact"] textarea,
+  #contact input,
+  #contact textarea,
+  .contact-section input,
+  .contact-section textarea {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0.85rem 0.75rem !important;
+    font-size: 0.95rem !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Contact heading */
+  section[id*="contact"] h2,
+  section[id*="contact"] h3,
+  #contact h2,
+  #contact h3,
+  .contact-section h2,
+  .contact-section h3 {
+    font-size: clamp(1.4rem, 5vw, 1.8rem) !important;
+    text-align: center !important;
+    margin-bottom: 1rem !important;
+    word-break: normal !important;
+  }
+  /* Hide manual line breaks inside contact on mobile */
+  #contact br,
+  section[id*="contact"] br,
+  .contact-section br { display: none !important; }
+
+  /* Social links container */
+  section[id*="contact"] .social-links,
+  #contact .social-links,
+  .contact-section .social-links {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 0.6rem !important;
+    width: 100% !important;
+  }
+
+  /* Social link items */
+  section[id*="contact"] .social-links a,
+  #contact .social-links a,
+  .contact-section .social-links a {
+    flex: 0 0 auto !important;
+    max-width: 45% !important;
+    padding: 0.7rem 0.9rem !important;
+    font-size: 0.9rem !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+  }
+}
+
+/* 4) Core Competencies: two-column skills on mobile */
+@media (max-width: 900px) {
+  .skills-grid {
+    position: relative !important;
+    left: 0 !important;
+    right: 0 !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important; /* force two columns on mobile */
+    grid-auto-rows: minmax(62px, auto) !important; /* taller rows for better spacing */
+    gap: 0.25rem !important; /* maximize card width while keeping two columns */
+    align-items: stretch !important;
+    align-content: start !important;
+    justify-content: center !important; /* center grid within container */
+    justify-items: stretch !important; /* items fill their cells */
+    width: 100% !important; /* fit parent content box */
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    box-sizing: border-box !important;
+    transform: none !important;
+    overflow: hidden !important; /* avoid half-pixel overflow */
+  }
+  .skills-grid .skill-item {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    min-height: 62px !important;
+    height: auto !important;
+    padding: 0.7rem 0.8rem !important; /* slimmer padding to free more horizontal space */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    line-height: 1.2 !important; /* tighter for single line */
+    font-size: clamp(0.80rem, 2.4vw, 1.05rem) !important; /* slightly smaller floor to fit long words */
+    font-weight: 600 !important;
+    letter-spacing: -0.01em !important; /* tighten spacing to fit long words */
+    white-space: nowrap !important; /* force single line */
+    overflow: hidden !important; /* keep animation clip */
+    text-overflow: clip !important; /* no ellipsis, show full text (fits due to clamp) */
+    box-sizing: border-box !important;
+    border-radius: 12px !important;
+    background: rgba(15, 23, 42, 0.92) !important;
+    border: 1px solid var(--border) !important;
+    color: var(--text-primary) !important;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25),
+                0 1px 0 rgba(255, 255, 255, 0.04) !important;
+    transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease !important;
+  }
+
+  /* Restore animated purple sweep effect on mobile */
+  .skills-grid .skill-item {
+    position: relative !important;
+    overflow: hidden !important;
+    z-index: 1 !important;
+  }
+
+  .skills-grid .skill-item::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: -100% !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.85), rgba(168, 85, 247, 0.75)) !important; /* saturated purple */
+    transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    z-index: -1 !important;
+    display: block !important;
+  }
+
+  /* Purple animated hover feedback on mobile (original effect) */
+  .skills-grid .skill-item:hover,
+  .skills-grid .skill-item:active,
+  .skills-grid .skill-item:focus-visible {
+    border-color: rgba(139, 92, 246, 0.7) !important;
+    box-shadow: 0 8px 24px rgba(139, 92, 246, 0.35),
+                0 0 0 1px rgba(139, 92, 246, 0.4) !important;
+    color: #ffffff !important;
+    outline: none !important;
+  }
+
+  .skills-grid .skill-item:hover::before,
+  .skills-grid .skill-item:active::before,
+  .skills-grid .skill-item:focus-visible::before {
+    left: 0 !important; /* sweep animation: slide from left to cover */
+  }
+}
+
+/* Extra-small phones: adjust font and padding while keeping single line */
+@media (max-width: 380px) {
+  .skills-grid { 
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important; 
+    gap: 0.25rem !important; 
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    width: 100% !important; /* inherit parent safe width */
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    justify-content: center !important;
+    justify-items: stretch !important;
+    overflow: hidden !important;
+  }
+  .skills-grid .skill-item { 
+    font-size: clamp(0.78rem, 3vw, 0.95rem) !important; 
+    padding: 0.6rem 0.75rem !important;
+    min-height: 54px !important;
+    letter-spacing: -0.01em !important;
+  }
+}
+
+/* Final Mobile Center Enforcement: ensure containers never overflow and are centered */
+@media (max-width: 900px) {
+  #contact, section[id*="contact"], .contact-section, #contact .container, .contact-container,
+  .about-card {
+    max-width: calc(100vw - 32px) !important; /* 16px safe gutters */
+    width: calc(100vw - 32px) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    left: 0 !important;
+    right: 0 !important;
+    transform: none !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+}
+
+/* Mobile alignment for Core Competencies and Professional Background */
+@media (max-width: 900px) {
+  /* Center section headings */
+  .about-title {
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  /* Ensure cards are centered and wider on mobile */
+  .about-card {
+    position: relative !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    max-width: calc(100vw - 32px) !important; /* 16px margin on each side */
+    width: calc(100vw - 32px) !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    box-sizing: border-box !important;
+    transform: none !important;
+  }
+
+  /* Professional Background text: justified with centered last line, wider layout */
+  .about-card p,
+  .about-card li {
+    text-align: justify !important;
+    text-align-last: center !important;
+    text-justify: inter-word !important;
+    line-height: 1.85 !important; /* slightly more breathing room */
+    word-break: normal !important;
+    overflow-wrap: anywhere !important;
+    hyphens: auto !important;
+    -webkit-hyphens: auto !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    font-size: clamp(0.95rem, 3.8vw, 1.05rem) !important; /* responsive font for better readability */
+    letter-spacing: 0.01em !important;
+    word-spacing: 0.05em !important;
+  }
+
+  /* Adjust list items for better alignment */
+  .about-card ul,
+  .about-card ol {
+    padding-left: 1.2rem !important;
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+}
+
+/* 🔥 ULTIMATE FIX: Force perfect centering for all three sections on mobile - HIGHEST PRIORITY */
+@media (max-width: 900px) {
+  /* Contact Section - Perfect Center */
+  body section[id*="contact"],
+  body #contact,
+  body .contact-section {
+    position: relative !important;
+    display: block !important;
+    max-width: calc(100vw - 32px) !important;
+    width: calc(100vw - 32px) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    left: 0 !important;
+    right: 0 !important;
+    transform: translateX(0) !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Core Competencies Section - Shifted slightly left */
+  body .skills-grid,
+  body section .skills-grid,
+  body div .skills-grid {
+    position: relative !important;
+    display: grid !important;
+    max-width: calc(100vw - 32px) !important;
+    width: calc(100vw - 32px) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    left: 0 !important;
+    right: 0 !important;
+    transform: translateX(-16px) !important; /* shift 16px to the left */
+    box-sizing: border-box !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* Professional Background Section - Perfect Center */
+  body .about-card,
+  body section .about-card,
+  body div .about-card {
+    position: relative !important;
+    display: block !important;
+    max-width: calc(100vw - 32px) !important;
+    width: calc(100vw - 32px) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    left: 0 !important;
+    right: 0 !important;
+    transform: translateX(0) !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Ensure parent containers don't cause overflow */
+  body section,
+  body .section {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+  }
+}
+
+/* 📝 Reduce line spacing for all text content (not headings) across the entire site */
+@media (max-width: 900px) {
+  /* Target all paragraph text */
+  body p,
+  body li,
+  body span:not(.hero-title):not(.logo-text):not(.element-title):not(.element-value),
+  body div:not(.hero-title):not(.logo):not(.floating-element) > text,
+  body .text,
+  body .description,
+  body .content {
+    line-height: 1.1 !important; /* very tight spacing */
+  }
+
+  /* Professional Background text - tighter spacing */
+  .about-card p,
+  .about-card li {
+    line-height: 1.1 !important; /* very tight spacing */
+  }
+
+  /* Contact section text */
+  section[id*="contact"] p:not(.contact-item p):not(.contact-item .value),
+  section[id*="contact"] span:not(.contact-item span),
+  #contact p:not(.contact-item p):not(.contact-item .value),
+  #contact span:not(.contact-item span),
+  .contact-section p:not(.contact-item p):not(.contact-item .value),
+  .contact-section span:not(.contact-item span) {
+    line-height: 1.1 !important; /* very tight spacing */
+  }
+
+  /* Hero subtitle text */
+  .hero-subtitle {
+    line-height: 1.1 !important; /* very tight spacing */
+  }
+
+  /* Hero section main description text */
+  .hero-content p,
+  .hero-text p,
+  .hero-description,
+  .hero p:not(.hero-title):not(.hero-subtitle),
+  section.hero p,
+  .hero-section p {
+    line-height: 1.1 !important; /* very tight spacing */
+    text-align: justify !important; /* justify text to remove uneven gaps */
+    text-justify: inter-word !important; /* distribute space evenly between words */
+    word-spacing: normal !important; /* reset word spacing */
+    letter-spacing: 0 !important; /* reset letter spacing */
+    hyphens: auto !important; /* allow hyphenation for better text flow */
+    -webkit-hyphens: auto !important;
+  }
 }

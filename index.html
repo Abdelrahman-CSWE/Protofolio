@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="description" content="Abdelrahman Okasha — Elite Mechanical Design Engineer. Advanced Chassis Architecture, FEA Simulation, Premium Engineering Solutions.">
   <title>Abdelrahman Okasha — Mechanical Design Engineer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,6 +36,40 @@
   <script defer src="ui-ux-enhancements.js"></script>
   <!-- 🔢 Metrics Count-Up Animation - Professional & Lightweight -->
   <script defer src="metrics-countup.js"></script>
+  <!-- 📱 Mobile Off-canvas Navigation - Professional & Elegant -->
+  <link rel="stylesheet" href="mobile-nav.css">
+  <script defer src="mobile-nav.js"></script>
+  <!-- 📱 Mobile Size Reduction - Balanced & Proportional -->
+  <link rel="stylesheet" href="mobile-size-reduction.css">
+  <!-- 📱 Mobile Perfect Centering - Final Fix for All Alignment Issues -->
+  <link rel="stylesheet" href="mobile-perfect-center.css">
+  <!-- 📱 Force Mobile Nav to Bottom (Highest Priority) -->
+  <link rel="stylesheet" href="mobile-nav-force.css">
+  <style id="mobile-only-hide-chassis">
+    /* إخفاء قسم Chassis Gallery المستقل على الموبايل فقط - PC و iPad يبقيان كما هما */
+    @media (max-width: 900px) { 
+      #chassis { 
+        display: none !important; 
+      } 
+    }
+  </style>
+  <script>
+    (function(){
+      function setNavHeightVar(){
+        var nav = document.querySelector('.nav');
+        if(!nav) return;
+        var h = Math.ceil(nav.getBoundingClientRect().height);
+        document.documentElement.style.setProperty('--nav-dyn-h', h + 'px');
+      }
+      if(document.readyState === 'loading'){
+        document.addEventListener('DOMContentLoaded', setNavHeightVar);
+      } else {
+        setNavHeightVar();
+      }
+      window.addEventListener('resize', setNavHeightVar, { passive: true });
+      window.addEventListener('orientationchange', setNavHeightVar);
+    })();
+  </script>
   <!-- Preload critical resources for better performance -->
   <link rel="preload" as="image" href="Certificat.png">
   <link rel="preload" as="image" href="shell eco marathon chassis 2023.webp">
@@ -447,7 +481,7 @@
       justify-content: flex-start;
       position: relative;
       overflow: visible;
-      padding: var(--hero-top-gap) 2rem 2rem 2rem;
+      padding: calc(var(--nav-dyn-h, 72px) + 6rem) 2rem 2rem 2rem;
       perspective: 1000px;
     }
 
@@ -1729,6 +1763,187 @@
       backdrop-filter: blur(0.5px);
     }
 
+    /* Mobile hero centering and safe padding - no visual change on desktop */
+    @media (max-width: 900px) {
+      /* إخفاء شريط التمرير على الهاتف - Touch-only Navigation */
+      html, body {
+        scrollbar-width: none !important; /* Firefox */
+        -ms-overflow-style: none !important; /* IE/Edge */
+      }
+      html::-webkit-scrollbar,
+      body::-webkit-scrollbar {
+        display: none !important;
+        width: 0 !important;
+        height: 0 !important;
+        background: transparent !important;
+      }
+      * {
+        scrollbar-width: none !important;
+        -ms-overflow-style: none !important;
+      }
+      *::-webkit-scrollbar {
+        display: none !important;
+        width: 0 !important;
+        height: 0 !important;
+      }
+
+      /* إخفاء شريط البار بالكامل على الموبايل لمنع أي تعارض */
+      .nav {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+      }
+
+      /* Force-hide any desktop nav links on mobile to avoid side strip */
+      .nav-links, .nav-links * {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+      }
+
+      /* Ensure mobile drawer and overlay are fully hidden unless menu open */
+      .mobile-drawer, .mobile-drawer-overlay {
+        display: none !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+      }
+      html.mobile-menu-open .mobile-drawer,
+      html.mobile-menu-open .mobile-drawer-overlay {
+        display: block !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+      }
+
+      /* Force mobile nav to the bottom on phone */
+      .hamburger-btn {
+        position: fixed !important;
+        top: auto !important;
+        bottom: 20px !important;
+        right: 12px !important;
+        left: auto !important;
+      }
+      .mobile-drawer {
+        position: fixed !important;
+        top: auto !important;
+        bottom: 0 !important;
+        right: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        max-height: 100vh !important;
+        z-index: 1100 !important;
+      }
+
+      /* Remove any internal scrollbars near hero text */
+      .hero, .hero * {
+        scrollbar-width: none !important; /* Firefox */
+      }
+      .hero::-webkit-scrollbar,
+      .hero *::-webkit-scrollbar {
+        width: 0 !important;
+        height: 0 !important;
+        display: none !important;
+        background: transparent !important;
+      }
+      .hero {
+        min-height: 100svh !important;
+        display: flex !important;
+        align-items: flex-start !important;
+        justify-content: flex-start !important;
+        padding: calc(env(safe-area-inset-top, 0px) + 1.5rem) 0.5rem 1.5rem 0.5rem !important;
+      }
+      .hero-container {
+        margin: 0 auto !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 1rem !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+      }
+      .hero-content {
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        text-align: center !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        padding: 0 !important;
+      }
+      .hero-title {
+        margin: 0 0 0.75rem 0 !important;
+        line-height: 1.15 !important;
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 0.35rem !important;
+      }
+      .hero-title .line1,
+      .hero-title .line2 {
+        white-space: normal !important;
+        overflow: visible !important;
+        word-wrap: break-word !important;
+        word-break: normal !important;
+        text-align: center !important;
+        width: 100% !important;
+        display: block !important;
+        hyphens: none !important;
+        -webkit-hyphens: none !important;
+      }
+      .hero-title .line1 {
+        font-size: clamp(1.2rem, 5.5vw, 1.7rem) !important;
+        letter-spacing: 0.8px !important;
+        line-height: 1.2 !important;
+        margin-bottom: 0.25rem !important;
+      }
+      .hero-title .line2 {
+        font-size: clamp(1.55rem, 7.5vw, 2rem) !important;
+        line-height: 1.15 !important;
+      }
+      .hero-subtitle {
+        text-align: left !important;
+        text-align-last: auto !important;
+        text-justify: auto !important;
+        max-width: 100% !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        line-height: 1.1 !important;
+        padding: 0 !important;
+        word-spacing: normal !important;
+        letter-spacing: normal !important;
+        hyphens: auto !important;
+        -webkit-hyphens: auto !important;
+        overflow-wrap: break-word !important;
+        word-break: normal !important;
+        white-space: normal !important;
+        font-size: clamp(1.05rem, 4.5vw, 1.15rem) !important;
+      }
+      .hero-cta {
+        justify-content: center !important;
+        flex-wrap: wrap !important;
+        gap: 1rem !important;
+        width: 100% !important;
+        padding: 0 !important;
+      }
+      .hero-cta .btn {
+        min-width: 155px !important;
+        text-align: center !important;
+        padding: 1rem 1.8rem !important;
+        font-size: 0.98rem !important;
+      }
+      .metrics-row {
+        position: static !important;
+        transform: none !important;
+        justify-content: center !important;
+        margin-top: 0.5rem !important;
+      }
+    }
+
     .hero-title .line2 {
       display: block;
       font-size: clamp(2.25rem, 4.5vw, 3.8rem);
@@ -1979,18 +2194,18 @@
       max-width: clamp(320px, 40vw, 720px);
       margin-left: 0;
       margin-right: auto;
-      line-height: 1.9;
-      text-align: justify;
-      text-align-last: left;
-      text-justify: inter-word;
-      -webkit-hyphens: none;
-      -ms-hyphens: none;
-      hyphens: none;
+      line-height: 1.1;
+      text-align: left;
+      text-align-last: auto;
+      text-justify: auto;
+      -webkit-hyphens: auto;
+      -ms-hyphens: auto;
+      hyphens: auto;
       overflow-wrap: break-word;
-      word-break: keep-all;
-      letter-spacing: 0.01em;
-      word-spacing: clamp(0.05em, 0.15em, 0.25em);
-      text-wrap: pretty;
+      word-break: normal;
+      letter-spacing: normal;
+      word-spacing: normal;
+      text-wrap: balance;
       animation: fade-in-up 1s var(--ease) 0.8s both;
     }
 
@@ -2085,7 +2300,7 @@
     /* Metrics row positioned at top right */
     .metrics-row {
       position: absolute;
-      top: 0;
+      top: 14rem;
       right: 0;
       display: flex;
       flex-direction: row;
@@ -2096,7 +2311,7 @@
       height: auto;
       overflow: visible;
       width: auto;
-      transform: translateY(-3rem);
+      transform: none;
     }
 
     .floating-element {
@@ -5447,6 +5662,17 @@
       
       <!-- Portfolio Grid -->
       <div class="engineering-portfolio-grid">
+        <!-- Chassis Gallery (Unified) -->
+        <div class="portfolio-project animate-on-scroll" data-project="chassis-gallery">
+          <div class="project-image-container">
+            <img src="Formula Student chassis.webp" alt="Chassis Gallery" class="project-main-image">
+            <div class="project-overlay">
+              <div class="project-icon">🛠️</div>
+              <h3 class="project-title">Chassis Gallery</h3>
+              <p class="project-subtitle">View all chassis designs</p>
+            </div>
+          </div>
+        </div>
         
         <!-- Engineering Achievements - Moved to First Position -->
         <div class="portfolio-project animate-slide-left" data-project="achievements">
@@ -5950,7 +6176,7 @@
             <div class="contact-icon">💼</div>
             <div>
               <h4>LinkedIn</h4>
-              <p>https://www.linkedin.com/in/abdelrahmanokasha</p>
+              <p><a href="https://www.linkedin.com/in/abdelrahmanokasha" target="_blank" rel="noopener noreferrer" class="contact-link">abdelrahmanokasha</a></p>
             </div>
           </div>
           <div class="contact-item">
@@ -6002,7 +6228,7 @@
             <div class="contact-icon">🔗</div>
             <div>
               <div class="contact-title">LinkedIn</div>
-              <a href="https://www.linkedin.com/in/abdelrahmanokasha" target="_blank" rel="noopener noreferrer" class="contact-link">https://www.linkedin.com/in/abdelrahmanokasha</a>
+              <a href="https://www.linkedin.com/in/abdelrahmanokasha" target="_blank" rel="noopener noreferrer" class="contact-link">abdelrahmanokasha</a>
             </div>
           </div>
           <div class="contact-item">
@@ -6296,6 +6522,16 @@
 
     // Portfolio data with all projects
     const portfolioData = {
+      'chassis-gallery': {
+        title: 'Chassis Gallery',
+        images: [
+          'Formula Student chassis.webp',
+          'shell eco marathon chassis 2023.webp',
+          'shell eco marathon chassis 2025.webp',
+          'Global chassis.webp',
+          'Ever Chassis.webp'
+        ]
+      },
       'formula-chassis': {
         title: 'Formula Student Chassis',
         images: [
@@ -6647,6 +6883,16 @@
 
     // Portfolio Gallery System
     const portfolioData = {
+      'chassis-gallery': {
+        title: 'Chassis Gallery',
+        images: [
+          'Formula Student chassis.webp',
+          'shell eco marathon chassis 2023.webp',
+          'shell eco marathon chassis 2025.webp',
+          'Global chassis.webp',
+          'Ever Chassis.webp'
+        ]
+      },
       'formula-chassis': {
         title: 'Formula Student Chassis',
         images: [

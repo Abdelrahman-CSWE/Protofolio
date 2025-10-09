@@ -1,0 +1,326 @@
+/* 
+ * Mobile Perfect Centering & Balance Fix
+ * Fixes all alignment issues on mobile while preserving desktop design
+ */
+
+/* ========================================
+   NAVBAR FIXES - Mobile Only
+   ======================================== */
+@media (max-width: 900px) {
+  /* Navbar container with proper spacing for hamburger */
+  .nav-container {
+    padding: 0.75rem 60px 0.75rem 1rem !important;
+    justify-content: center !important;
+    position: relative !important;
+  }
+  
+  /* Logo centering with safe boundaries */
+  .logo {
+    margin: 0 auto !important;
+    position: static !important;
+    max-width: calc(100vw - 80px) !important;
+    text-align: center !important;
+  }
+  
+  /* Logo text with ellipsis for very long names */
+  .logo-text {
+    display: inline-block !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+  
+  /* Ensure hamburger button doesn't overlap */
+  .hamburger-btn {
+    position: fixed !important;
+    top: 12px !important;
+    right: 12px !important;
+    z-index: 1101 !important;
+  }
+}
+
+/* ========================================
+   HERO SECTION - Perfect Centering
+   ======================================== */
+@media (max-width: 900px) {
+  /* Hero container - move content up close to navbar */
+  .hero {
+    min-height: 100svh !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    padding-top: calc(var(--nav-height) + 0.5rem) !important;
+    padding-bottom: 2rem !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    overflow-x: hidden !important;
+  }
+  
+  /* Hero grid to single column - start from top */
+  .hero-container {
+    margin: 0 auto !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+    justify-items: center !important;
+    align-items: flex-start !important;
+  }
+  
+  /* Hero content - centered text */
+  .hero-content {
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    text-align: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+  
+  /* Hero title - perfect centering */
+  .hero-title {
+    width: 100% !important;
+    text-align: center !important;
+    margin-bottom: 1.2rem !important;
+    line-height: 1.3 !important;
+  }
+  
+  /* Line 1 - Mechanical Design Engineer */
+  .hero-title .line1 {
+    display: block !important;
+    width: 100% !important;
+    text-align: center !important;
+    font-size: clamp(1.1rem, 5.5vw, 1.6rem) !important;
+    letter-spacing: 0.5px !important;
+    margin-bottom: 0.5rem !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    hyphens: auto !important;
+    padding: 0 0.5rem !important;
+  }
+  
+  /* Line 2 - Name (Abdelrahman Okasha) */
+  .hero-title .line2 {
+    display: block !important;
+    width: 100% !important;
+    text-align: center !important;
+    font-size: clamp(1.5rem, 7vw, 2.2rem) !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    hyphens: auto !important;
+    line-height: 1.2 !important;
+    padding: 0 0.5rem !important;
+  }
+  
+  /* Hero name special handling */
+  #hero-name,
+  .hero-name {
+    display: inline !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+  }
+  
+  /* Subtitle - balanced and centered */
+  .hero-subtitle {
+    width: 100% !important;
+    max-width: min(90%, 500px) !important;
+    text-align: center !important;
+    margin: 0 auto 1.5rem auto !important;
+    line-height: 1.7 !important;
+    padding: 0 1rem !important;
+    font-size: clamp(0.85rem, 3.5vw, 1rem) !important;
+  }
+  
+  /* Hero lead text */
+  .hero-lead {
+    display: block !important;
+    text-align: center !important;
+    margin-bottom: 0.5rem !important;
+  }
+  
+  /* CTA buttons - centered */
+  .hero-cta {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 1rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+  
+  .hero-cta .btn {
+    flex: 0 1 auto !important;
+    min-width: fit-content !important;
+  }
+  
+  /* Metrics row - centered below content */
+  .metrics-row {
+    position: static !important;
+    transform: none !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+    width: 100% !important;
+    margin-top: 1rem !important;
+  }
+  
+  /* Hide certification cover on mobile to avoid clutter */
+  .certification-cover {
+    display: none !important;
+  }
+  
+  /* Hide hero visual on mobile */
+  .hero-visual {
+    display: none !important;
+  }
+  
+  /* Hide 3D mechanical elements on mobile */
+  .mechanical-3d-showcase,
+  .mechanical-gear-system,
+  .mechanical-framework,
+  .mechanical-bolts,
+  .pcb-pattern {
+    display: none !important;
+  }
+}
+
+/* ========================================
+   EXTRA SMALL SCREENS (≤640px)
+   ======================================== */
+@media (max-width: 640px) {
+  /* Tighter navbar spacing */
+  .nav-container {
+    padding: 0.6rem 55px 0.6rem 0.75rem !important;
+  }
+  
+  /* Smaller logo on very small screens */
+  .logo {
+    font-size: 0.95rem !important;
+    max-width: calc(100vw - 70px) !important;
+  }
+  
+  .logo::before {
+    font-size: 1.1rem !important;
+  }
+  
+  /* Tighter hero padding - move content up close to navbar */
+  .hero {
+    padding-top: calc(var(--nav-height) + 0.4rem) !important;
+    padding-bottom: 1.5rem !important;
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+  
+  /* Smaller text on very small screens */
+  .hero-title .line1 {
+    font-size: clamp(1rem, 5vw, 1.4rem) !important;
+    padding: 0 0.25rem !important;
+  }
+  
+  .hero-title .line2 {
+    font-size: clamp(1.3rem, 6.5vw, 1.9rem) !important;
+    padding: 0 0.25rem !important;
+  }
+  
+  .hero-subtitle {
+    font-size: clamp(0.8rem, 3.2vw, 0.95rem) !important;
+    padding: 0 0.5rem !important;
+  }
+  
+  /* Smaller buttons */
+  .hero-cta .btn {
+    padding: 0.7rem 1.3rem !important;
+    font-size: 0.85rem !important;
+  }
+  
+  /* Smaller metrics boxes */
+  .metrics-row .floating-element {
+    min-width: 140px !important;
+    padding: 0.7rem 0.8rem !important;
+  }
+}
+
+/* ========================================
+   ULTRA SMALL SCREENS (≤400px)
+   ======================================== */
+@media (max-width: 400px) {
+  /* Ultra compact navbar */
+  .nav-container {
+    padding: 0.5rem 50px 0.5rem 0.5rem !important;
+  }
+  
+  .logo {
+    font-size: 0.85rem !important;
+    max-width: calc(100vw - 60px) !important;
+  }
+  
+  .logo::before {
+    font-size: 1rem !important;
+  }
+  
+  /* Ultra compact hero - move content up close to navbar */
+  .hero {
+    padding-top: calc(var(--nav-height) + 0.3rem) !important;
+    padding-bottom: 1rem !important;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+  
+  .hero-title .line1 {
+    font-size: 0.95rem !important;
+  }
+  
+  .hero-title .line2 {
+    font-size: 1.2rem !important;
+  }
+  
+  .hero-subtitle {
+    font-size: 0.75rem !important;
+    line-height: 1.6 !important;
+  }
+}
+
+/* ========================================
+   PREVENT HORIZONTAL OVERFLOW
+   ======================================== */
+@media (max-width: 900px) {
+  html,
+  body {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+  }
+  
+  * {
+    max-width: 100% !important;
+  }
+  
+  /* Ensure no element causes horizontal scroll */
+  .hero,
+  .hero-container,
+  .hero-content,
+  .hero-title,
+  .hero-subtitle,
+  section {
+    overflow-x: hidden !important;
+  }
+}
+
+/* ========================================
+   TEXT RENDERING OPTIMIZATION
+   ======================================== */
+@media (max-width: 900px) {
+  .hero-title,
+  .hero-subtitle,
+  .logo-text {
+    text-rendering: optimizeLegibility !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+  }
+}

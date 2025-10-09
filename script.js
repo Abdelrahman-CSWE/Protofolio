@@ -1,5 +1,15 @@
 // Portfolio data with all projects
 const portfolioData = {
+  'chassis-gallery': {
+    title: 'Chassis Gallery',
+    images: [
+      'shell eco marathon chassis 2023.webp',
+      'shell eco marathon chassis 2025.webp',
+      'Global chassis.webp',
+      'Ever Chassis.webp',
+      'Formula Student chassis.webp'
+    ]
+  },
   'formula-chassis': {
     title: 'Formula Student Chassis',
     images: [
@@ -116,8 +126,14 @@ let currentGallery = [];
 let currentImageIndex = 0;
 
 function openGallery(projectKey) {
+  console.log('Opening gallery for:', projectKey);
   const project = portfolioData[projectKey];
-  if (!project) return;
+  console.log('Project data:', project);
+  
+  if (!project) {
+    console.error('Project not found:', projectKey);
+    return;
+  }
 
   currentGallery = project.images;
   currentImageIndex = 0;
@@ -127,6 +143,11 @@ function openGallery(projectKey) {
   const mainImage = document.getElementById('galleryMainImage');
   const counter = document.getElementById('galleryCounter');
   const thumbnails = document.getElementById('galleryThumbnails');
+
+  if (!modal) {
+    console.error('Gallery modal not found!');
+    return;
+  }
 
   title.textContent = project.title;
   modal.classList.add('active');
@@ -179,17 +200,27 @@ function closeGallery() {
 
 // Initialize portfolio click handlers
 function initPortfolioHandlers() {
-  document.querySelectorAll('.portfolio-project').forEach(project => {
+  const projects = document.querySelectorAll('.portfolio-project');
+  console.log('Found portfolio projects:', projects.length);
+  
+  projects.forEach(project => {
+    const projectKey = project.getAttribute('data-project');
+    console.log('Registering click handler for:', projectKey);
+    
     project.addEventListener('click', () => {
-      const projectKey = project.getAttribute('data-project');
+      console.log('Clicked on project:', projectKey);
       openGallery(projectKey);
     });
   });
 
   // Gallery controls
-  document.getElementById('galleryClose').addEventListener('click', closeGallery);
-  document.getElementById('galleryNext').addEventListener('click', nextImage);
-  document.getElementById('galleryPrev').addEventListener('click', prevImage);
+  const closeBtn = document.getElementById('galleryClose');
+  const nextBtn = document.getElementById('galleryNext');
+  const prevBtn = document.getElementById('galleryPrev');
+  
+  if (closeBtn) closeBtn.addEventListener('click', closeGallery);
+  if (nextBtn) nextBtn.addEventListener('click', nextImage);
+  if (prevBtn) prevBtn.addEventListener('click', prevImage);
 
   // Close on backdrop click
   document.getElementById('galleryModal').addEventListener('click', (e) => {
