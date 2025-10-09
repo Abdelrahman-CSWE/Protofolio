@@ -57,6 +57,7 @@
     /* Global text normalization: tighten lines and remove ugly justify gaps across the site */
     :root { --text-lh: 1.1; }
 
+    @media (max-width: 900px) {
     /* Common text elements (exclude headings) */
     body p,
     body li,
@@ -101,21 +102,7 @@
     /* Keep buttons centered visually */
     .btn, .btn * { text-align: center !important; }
 
-    /* Mobile reinforcement */
-    @media (max-width: 900px) {
-      body p,
-      body li,
-      body span,
-      body a,
-      body blockquote,
-      body figcaption,
-      body label,
-      body dd,
-      body dt,
-      body small {
-        line-height: var(--text-lh) !important;
-      }
-    }
+    } /* end mobile-only normalize */
   </style>
   <script>
     (function(){
@@ -2256,20 +2243,20 @@
       color: var(--text-secondary);
       margin-bottom: 2.5rem;
       max-width: clamp(320px, 40vw, 720px);
-      margin-left: auto;
+      margin-left: 0;
       margin-right: auto;
-      line-height: 1.1;
-      text-align: center;
-      text-align-last: center;
-      text-justify: auto;
-      -webkit-hyphens: auto;
-      -ms-hyphens: auto;
-      hyphens: auto;
+      line-height: 1.9;
+      text-align: justify;
+      text-align-last: left;
+      text-justify: inter-word;
+      -webkit-hyphens: none;
+      -ms-hyphens: none;
+      hyphens: none;
       overflow-wrap: break-word;
-      word-break: normal;
-      letter-spacing: normal;
-      word-spacing: normal;
-      text-wrap: balance;
+      word-break: keep-all;
+      letter-spacing: 0.01em;
+      word-spacing: clamp(0.05em, 0.15em, 0.25em);
+      text-wrap: pretty;
       animation: fade-in-up 1s var(--ease) 0.8s both;
     }
 
