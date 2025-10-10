@@ -474,8 +474,8 @@ body.light-mode {
 
 body.light-mode .blueprint-bg {
   background:
-    linear-gradient(90deg, rgba(14,165,233,.06) 1px, transparent 1px),
-    linear-gradient(rgba(14,165,233,.06) 1px, transparent 1px);
+    linear-gradient(90deg, rgba(14,165,233,.11) 1px, transparent 1px),
+    linear-gradient(rgba(14,165,233,.11) 1px, transparent 1px);
   background-size: 40px 40px;
 }
 
@@ -948,6 +948,23 @@ body.light-mode .certification-cover {
   filter: brightness(1.0) contrast(1.05) saturate(1.08) !important;
   transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
               filter 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* Hide blueprint grid behind certificate image - solid background instead */
+.certification-cover::before {
+  content: '';
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  right: -10%;
+  bottom: -10%;
+  background: var(--bg-primary);
+  z-index: -1;
+  border-radius: 16px;
+}
+
+body.light-mode .certification-cover::before {
+  background: #f8fafc;
 }
 
 body.light-mode .skill-item,

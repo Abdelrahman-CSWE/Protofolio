@@ -56,7 +56,7 @@ html, body { overflow-x: hidden; overscroll-behavior-x: none; }
 
 /* 6) Lighten heavy decorative animations on mobile only (keep desktop visuals) */
 @media (max-width: 900px) {
-  .blueprint-bg { animation: none !important; opacity: 0.04 !important; }
+  .blueprint-bg { animation: none !important; opacity: 1 !important; display: block !important; visibility: visible !important; }
   .mechanical-gear-system,
   .mechanical-framework,
   .mechanical-bolts,

@@ -306,8 +306,8 @@ html, body { overscroll-behavior-x: none; }
   .nav::before,
   .nav::after { display: none !important; }
 
-  /* Lighten animated background on mobile only */
-  .blueprint-bg { animation: none !important; opacity: 0.04 !important; }
+  /* Keep blueprint grid visible on mobile (same as PC) */
+  .blueprint-bg { animation: none !important; opacity: 1 !important; display: block !important; visibility: visible !important; }
 }
 
 -----
