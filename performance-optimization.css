@@ -1,0 +1,236 @@
+/* ===== PERFORMANCE OPTIMIZATION - تحسين الأداء الشامل ===== */
+
+/* تعطيل الأنيميشنات الثقيلة على المربعات بعد التحميل */
+.hero-visual > .floating-element[data-fixed] {
+  /* إزالة will-change بعد انتهاء الأنيميشن */
+  animation-fill-mode: forwards !important;
+}
+
+/* تحسين الأداء للعناصر المتحركة */
+.floating-element,
+.metrics-row .floating-element {
+  /* استخدام GPU acceleration بشكل صحيح */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  
+  /* تحسين الرسم */
+  contain: layout style paint;
+  content-visibility: auto;
+}
+
+/* تقليل إعادة الرسم عند التمرير */
+.hero-visual {
+  contain: layout style;
+  will-change: auto;
+}
+
+/* تحسين أداء النصوص */
+.element-title,
+.element-value {
+  /* تحسين رسم النصوص */
+  text-rendering: optimizeSpeed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+  /* منع إعادة حساب التخطيط */
+  contain: layout style;
+}
+
+/* إزالة الأنيميشنات المستمرة بعد 3 ثواني من التحميل */
+@keyframes disable-continuous-animations {
+  to {
+    animation: none !important;
+  }
+}
+
+/* تطبيق على جميع العناصر بعد التحميل */
+.hero-visual.loaded > .floating-element[data-fixed] {
+  animation: none !important;
+  will-change: auto !important;
+}
+
+/* تحسين الظلال - استخدام ظل واحد فقط */
+.metrics-row .floating-element {
+  /* ظل بسيط وخفيف */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+.metrics-row .floating-element:hover {
+  /* ظل hover خفيف */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* تحسين الانتقالات - استخدام transform فقط */
+.metrics-row .floating-element {
+  transition: transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+}
+
+/* إزالة backdrop-filter تمامًا لتحسين الأداء */
+.floating-element,
+.metrics-row .floating-element,
+.hero-visual > .floating-element {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* تحسين أداء الصور */
+.solidworks-image {
+  /* تحسين رسم الصور */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  
+  /* منع إعادة الرسم */
+  contain: layout style paint;
+}
+
+/* تعطيل الأنيميشنات على الأجهزة الضعيفة */
+@media (prefers-reduced-motion: reduce) {
+  .floating-element,
+  .metrics-row .floating-element,
+  .element-title,
+  .element-value {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* تحسين الأداء على الموبايل */
+@media (max-width: 900px) {
+  .floating-element,
+  .metrics-row .floating-element {
+    /* تقليل التعقيد على الموبايل */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+  }
+  
+  .floating-element:hover,
+  .metrics-row .floating-element:hover {
+    /* تعطيل hover على الموبايل */
+    transform: none !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+  }
+  
+  /* تعطيل الأنيميشنات الثقيلة على الموبايل */
+  .element-title,
+  .element-value {
+    text-shadow: none !important;
+    filter: none !important;
+  }
+}
+
+/* تحسين الأداء عند التمرير */
+.hero-visual.scrolled > .floating-element {
+  /* تقليل التعقيد عند التمرير */
+  will-change: auto !important;
+  animation: none !important;
+}
+
+/* منع Layout Shift */
+.metrics-row {
+  /* حجز المساحة مسبقًا */
+  min-height: 85px;
+}
+
+.floating-element {
+  /* منع تغيير الحجم */
+  min-width: 150px;
+  min-height: 85px;
+}
+
+/* تحسين الأداء للعناصر غير المرئية */
+.floating-element:not(:hover) {
+  /* تقليل التعقيد للعناصر غير المفعلة */
+  will-change: auto;
+}
+
+/* تحسين رسم الحدود */
+.floating-element {
+  /* استخدام outline بدلاً من border للأداء الأفضل في بعض الحالات */
+  border-style: solid;
+  border-width: 1.5px;
+}
+
+/* تقليل إعادة الرسم عند تغيير الألوان */
+.element-title,
+.element-value {
+  /* استخدام currentColor حيثما أمكن */
+  color: inherit;
+}
+
+/* تحسين الأداء للتدرجات */
+.floating-element {
+  /* تقليل تعقيد التدرجات */
+  background-attachment: scroll;
+}
+
+/* إزالة الفلاتر الثقيلة */
+.floating-element::before,
+.floating-element::after,
+.metrics-row .floating-element::before,
+.metrics-row .floating-element::after {
+  filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* تحسين الأداء للنصوص المتحركة */
+@keyframes optimized-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* استبدال الأنيميشنات الثقيلة بأخرى خفيفة */
+.element-title,
+.element-value {
+  /* أنيميشن خفيف للظهور فقط */
+  animation-duration: 0.5s !important;
+  animation-timing-function: ease-out !important;
+  animation-fill-mode: forwards !important;
+}
+
+/* تحسين الأداء العام */
+* {
+  /* تقليل إعادة الحساب */
+  box-sizing: border-box;
+}
+
+/* تحسين الأداء للعناصر المخفية */
+.floating-element[style*="display: none"],
+.floating-element[hidden] {
+  /* إزالة من تدفق الرسم */
+  content-visibility: hidden;
+}
+
+/* تحسين الأداء للعناصر خارج الشاشة */
+@supports (content-visibility: auto) {
+  .floating-element {
+    content-visibility: auto;
+    contain-intrinsic-size: 170px 85px;
+  }
+}
+
+/* تعطيل الأنيميشنات على البطاريات المنخفضة - بدون تعطيل أنيميشن الظهور أثناء التمرير */
+@media (prefers-reduced-motion: reduce), (prefers-reduced-data: reduce) {
+  /* تعطيل الأنيميشنات الثقيلة والمستمرة فقط */
+  .floating-element,
+  .metrics-row .floating-element,
+  .certification-cover,
+  .mechanical-gear-system,
+  .mechanical-framework,
+  .blueprint-bg,
+  .nav::after,
+  .nav::before {
+    animation: none !important;
+    transition: none !important;
+  }
+  /* إبقاء أنيميشن الظهور أثناء التمرير فعالًا */
+  html.reveal-ready .reveal,
+  html.reveal-ready .reveal.in-view {
+    animation-duration: var(--reveal-duration) !important;
+    animation-timing-function: var(--reveal-ease) !important;
+  }
+}

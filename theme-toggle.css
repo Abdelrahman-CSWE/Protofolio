@@ -801,8 +801,8 @@ body.light-mode .skills-grid .skill-item:active::before {
   ) !important;
 }
 
-/* Smooth Transition for All Elements */
-body.light-mode * {
+/* Smooth Transition for All Elements - EXCEPT reveal animations */
+body.light-mode *:not(.reveal):not(.reveal *) {
   transition: background 0.4s ease, 
               color 0.4s ease, 
               border-color 0.4s ease,

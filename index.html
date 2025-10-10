@@ -14,6 +14,8 @@
   <link rel="stylesheet" href="nav-hexagon-refined-animations.css">
   <!-- 📦 Metrics Boxes New Animations -->
   <link rel="stylesheet" href="metrics-boxes-new.css">
+  <!-- ⚡ Performance Optimization - Ultra Fast & Smooth -->
+  <link rel="stylesheet" href="performance-optimization.css">
   <!-- 🎨 Certificate Smooth Animation - Fast & Professional -->
   <link rel="stylesheet" href="cert-smooth-animation.css">
   <!-- ✨ Elite Shiny Wave Animation -->
@@ -33,6 +35,8 @@
   <script defer src="protect.js"></script>
   <!-- ⚡ Ultra-safe performance boost (no visual changes) -->
   <script defer src="performance-boost.js"></script>
+  <!-- ⚡ Disable continuous animations after load for better performance -->
+  <script defer src="disable-animations-after-load.js"></script>
   <script defer src="ui-ux-enhancements.js"></script>
   <!-- 🔢 Metrics Count-Up Animation - Professional & Lightweight -->
   <script defer src="metrics-countup.js"></script>
@@ -84,41 +88,153 @@
       html.reveal-ready .reveal { opacity: 1 !important; transform: none !important; filter: none !important; animation: none !important; }
     }
   </style>
+
+  <!-- Lightweight AOS-style animations for dynamic elements (cards, images, etc.) -->
+  <style id="aos-animations">
+    :root {
+      --aos-duration: 0.85s;
+      --aos-ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    /* Initial states */
+    .animate-on-scroll,
+    .animate-slide-left,
+    .animate-slide-right {
+      opacity: 0;
+      will-change: transform, opacity, filter;
+    }
+    .animate-on-scroll { transform: translateY(22px); filter: blur(6px); }
+    .animate-slide-left { transform: translateX(24px); filter: blur(6px); }
+    .animate-slide-right { transform: translateX(-24px); filter: blur(6px); }
+
+    /* Visible states with animations (animation-delay can be set inline for stagger) */
+    .animate-on-scroll.visible { animation: aos-fade-up var(--aos-duration) var(--aos-ease) both; }
+    .animate-slide-left.visible { animation: aos-slide-left var(--aos-duration) var(--aos-ease) both; }
+    .animate-slide-right.visible { animation: aos-slide-right var(--aos-duration) var(--aos-ease) both; }
+
+    @keyframes aos-fade-up {
+      from { opacity: 0; transform: translateY(22px); filter: blur(6px); }
+      to   { opacity: 1; transform: translateY(0);    filter: blur(0); }
+    }
+    @keyframes aos-slide-left {
+      from { opacity: 0; transform: translateX(24px); filter: blur(6px); }
+      to   { opacity: 1; transform: translateX(0);    filter: blur(0); }
+    }
+    @keyframes aos-slide-right {
+      from { opacity: 0; transform: translateX(-24px); filter: blur(6px); }
+      to   { opacity: 1; transform: translateX(0);     filter: blur(0); }
+    }
+
+    /* Slightly faster on mobile for snappier feel */
+    @media (max-width: 900px) { :root { --aos-duration: 0.75s; } }
+
+    /* Respect reduced-motion without killing reveal entirely (handled above) */
+    @media (prefers-reduced-motion: reduce) {
+      .animate-on-scroll,
+      .animate-slide-left,
+      .animate-slide-right {
+        transition: opacity 0.3s ease; /* minimal transition */
+        transform: none; filter: none; opacity: 1;
+      }
+    }
+  </style>
   <script id="reveal-animations-js">
     (function(){
       'use strict';
+      console.log('🎬 Reveal Animations Script Loading...');
+      
       var SELECTORS = [
         '.section-header', '.section-title', '.section p', '.section li',
         '.portfolio-project .project-title', '.portfolio-project .project-desc', '.portfolio-project p',
         '.video-info .video-title', '.video-info .video-description',
         'h1','h2','h3','h4','h5','h6','p','li','.card .content','.badge','.element-title','.element-value'
       ];
+      
       function toArray(n){ return Array.prototype.slice.call(n || []); }
       function unique(arr){ var s=new Set(), out=[]; arr.forEach(function(el){ if(el && !s.has(el)){ s.add(el); out.push(el);} }); return out; }
+      
       function collect(){
-        var nodes=[]; SELECTORS.forEach(function(sel){ try{ nodes=nodes.concat(toArray(document.querySelectorAll(sel))); }catch(e){} });
+        var nodes=[]; 
+        SELECTORS.forEach(function(sel){ 
+          try{ 
+            nodes=nodes.concat(toArray(document.querySelectorAll(sel))); 
+          }catch(e){
+            console.warn('Selector failed:', sel, e);
+          } 
+        });
         nodes = unique(nodes).filter(function(el){
           if(!el || el.closest('.hero')) return false; // avoid duplicating hero animations
-          var r = el.getBoundingClientRect(); return !(r.width===0 && r.height===0);
+          var r = el.getBoundingClientRect(); 
+          return !(r.width===0 && r.height===0);
         });
+        console.log('✅ Found', nodes.length, 'elements for reveal animation');
         return nodes;
       }
+      
       function setup(){
+        console.log('🚀 Setting up reveal animations...');
         document.documentElement.classList.add('reveal-ready');
+        
         var nodes = collect();
-        nodes.forEach(function(el){ el.classList.add('reveal'); if(!el.hasAttribute('data-reveal')) el.setAttribute('data-reveal','up'); });
+        
+        // Add reveal class to all nodes
+        nodes.forEach(function(el){ 
+          el.classList.add('reveal'); 
+          if(!el.hasAttribute('data-reveal')) el.setAttribute('data-reveal','up'); 
+        });
+        
+        console.log('📝 Added .reveal class to', nodes.length, 'elements');
+        
         // Stagger per closest section/container
         var groups = new Map();
-        nodes.forEach(function(el){ var g = el.closest('section, .section, .container, .grid, .engineering-portfolio-grid, body') || document.body; if(!groups.has(g)) groups.set(g, []); groups.get(g).push(el); });
-        groups.forEach(function(list){ list.forEach(function(el, i){ var d = Math.min(100*i, 800); el.style.setProperty('--reveal-delay', d + 'ms'); }); });
+        nodes.forEach(function(el){ 
+          var g = el.closest('section, .section, .container, .grid, .engineering-portfolio-grid, body') || document.body; 
+          if(!groups.has(g)) groups.set(g, []); 
+          groups.get(g).push(el); 
+        });
+        
+        groups.forEach(function(list){ 
+          list.forEach(function(el, i){ 
+            var d = Math.min(100*i, 800); 
+            el.style.setProperty('--reveal-delay', d + 'ms'); 
+          }); 
+        });
+        
+        console.log('⏱️ Applied stagger delays to', groups.size, 'groups');
+        
         // Observe
         var io = new IntersectionObserver(function(entries){
-          entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target); } });
+          entries.forEach(function(e){ 
+            if(e.isIntersecting){ 
+              console.log('👁️ Element in view:', e.target.tagName, e.target.className);
+              e.target.classList.add('in-view'); 
+              io.unobserve(e.target); 
+            } 
+          });
         }, { root: null, rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
+        
         nodes.forEach(function(el){ io.observe(el); });
-        window.addEventListener('pageshow', function(ev){ if(ev.persisted){ nodes.forEach(function(el){ el.classList.remove('in-view'); }); requestAnimationFrame(function(){ nodes.forEach(function(el){ io.observe(el); }); }); } }, {passive:true});
+        
+        console.log('👀 IntersectionObserver watching', nodes.length, 'elements');
+        
+        window.addEventListener('pageshow', function(ev){ 
+          if(ev.persisted){ 
+            nodes.forEach(function(el){ el.classList.remove('in-view'); }); 
+            requestAnimationFrame(function(){ 
+              nodes.forEach(function(el){ io.observe(el); }); 
+            }); 
+          } 
+        }, {passive:true});
+        
+        console.log('✨ Reveal animations setup complete!');
       }
-      if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', setup, {once:true}); else setup();
+      
+      if(document.readyState==='loading') {
+        console.log('⏳ Waiting for DOMContentLoaded...');
+        document.addEventListener('DOMContentLoaded', setup, {once:true}); 
+      } else {
+        console.log('⚡ DOM already loaded, running setup immediately');
+        setup();
+      }
     })();
   </script>
   <!-- 📱 Mobile Size Reduction - Balanced & Proportional -->

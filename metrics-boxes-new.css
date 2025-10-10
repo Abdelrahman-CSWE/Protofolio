@@ -64,13 +64,9 @@
     rgba(30, 41, 59, 0.92) 50%,
     rgba(15, 23, 42, 0.95) 100%
   ) !important;
-  backdrop-filter: blur(12px) saturate(180%);
+  backdrop-filter: none;
   border: 1.5px solid rgba(56, 189, 248, 0.3) !important;
-  box-shadow:
-    0 8px 32px rgba(56, 189, 248, 0.15),
-    0 4px 16px rgba(139, 92, 246, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1),
-    inset 0 -1px 0 rgba(56, 189, 248, 0.2) !important;
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.16) !important;
   border-radius: var(--radius);
   padding: 0.85rem 0.95rem;
   display: flex;
@@ -78,57 +74,33 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  transition: all 0.4s var(--ease-spring);
+  transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 220ms ease;
   cursor: pointer;
 }
 
 /* ===== أنيميشن الدخول القوي للمربعات ===== */
 .hero-visual > .floating-element[data-fixed]:nth-of-type(1) {
   opacity: 0;
-  will-change: transform, opacity;
-  backface-visibility: hidden;
-  transform-style: preserve-3d;
-  animation:
-    elevate-in-3d 1.2s var(--ease-spring) 0.3s both,
-    settle-glow 1.2s var(--ease) 0.3s both,
-    float-1 12s ease-in-out 1.5s infinite,
-    element-glow-1 4s ease-in-out 1.5s infinite !important;
+  will-change: auto;
+  animation: elevate-in-3d 0.7s var(--ease) 0.3s both !important;
 }
 
 .hero-visual > .floating-element[data-fixed]:nth-of-type(2) {
   opacity: 0;
-  will-change: transform, opacity;
-  backface-visibility: hidden;
-  transform-style: preserve-3d;
-  animation:
-    elevate-in-3d 1.2s var(--ease-spring) 0.5s both,
-    settle-glow 1.2s var(--ease) 0.5s both,
-    float-2 12s ease-in-out 1.7s infinite,
-    element-glow-2 4.5s ease-in-out 1.7s infinite !important;
+  will-change: auto;
+  animation: elevate-in-3d 0.7s var(--ease) 0.5s both !important;
 }
 
 .hero-visual > .floating-element[data-fixed]:nth-of-type(3) {
   opacity: 0;
-  will-change: transform, opacity;
-  backface-visibility: hidden;
-  transform-style: preserve-3d;
-  animation:
-    elevate-in-3d 1.2s var(--ease-spring) 0.7s both,
-    settle-glow 1.2s var(--ease) 0.7s both,
-    float-3 12s ease-in-out 1.9s infinite,
-    element-glow-3 5s ease-in-out 1.9s infinite !important;
+  will-change: auto;
+  animation: elevate-in-3d 0.7s var(--ease) 0.7s both !important;
 }
 
 .hero-visual > .floating-element[data-fixed]:nth-of-type(4) {
   opacity: 0;
-  will-change: transform, opacity;
-  backface-visibility: hidden;
-  transform-style: preserve-3d;
-  animation:
-    elevate-in-3d 1.2s var(--ease-spring) 0.9s both,
-    settle-glow 1.2s var(--ease) 0.9s both,
-    float-4 14s ease-in-out 2.1s infinite,
-    element-glow-4 3.5s ease-in-out 2.1s infinite !important;
+  will-change: auto;
+  animation: elevate-in-3d 0.7s var(--ease) 0.9s both !important;
   padding: 0.85rem 0.95rem;
   min-height: 85px;
 }
@@ -183,7 +155,7 @@
   z-index: -1;
   opacity: 0;
   transition: opacity 0.4s ease;
-  filter: blur(3px);
+  filter: none;
 }
 
 .metrics-row .floating-element:hover::before {
@@ -205,18 +177,14 @@
     transparent 60%
   );
   transform: rotate(45deg);
-  animation: clean-shine 4s ease-in-out infinite;
+  animation: none;
 }
 
 /* ===== حالة Hover ===== */
 .metrics-row .floating-element:hover {
-  transform: translateY(-6px) scale(1.03) !important;
-  box-shadow:
-    0 16px 48px rgba(56, 189, 248, 0.25),
-    0 8px 24px rgba(139, 92, 246, 0.18),
-    inset 0 2px 0 rgba(255, 255, 255, 0.15),
-    inset 0 -2px 0 rgba(56, 189, 248, 0.3) !important;
-  border-color: rgba(56, 189, 248, 0.5) !important;
+  transform: translateY(-3px) scale(1.01) !important;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.2) !important;
+  border-color: rgba(56, 189, 248, 0.4) !important;
 }
 
 /* ===== تصميم العناوين (element-title) ===== */
@@ -229,9 +197,7 @@
   z-index: 1;
   letter-spacing: 0.8px;
   text-transform: uppercase;
-  text-shadow:
-    0 0 8px rgba(56, 189, 248, 0.4),
-    0 2px 4px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
   line-height: 1.2;
   background: linear-gradient(
     135deg,
@@ -243,9 +209,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation:
-    title-clean-glow 3s ease-in-out infinite,
-    gradient-clean-shift 5s ease-in-out infinite;
+  animation: none;
   transition: all 0.3s var(--ease-spring);
 }
 
@@ -254,10 +218,7 @@
   font-size: 1.5rem;
   font-weight: 900;
   font-family: 'Orbitron', sans-serif;
-  text-shadow:
-    0 0 10px rgba(56, 189, 248, 0.6),
-    0 0 20px rgba(56, 189, 248, 0.4),
-    0 4px 8px rgba(0, 0, 0, 0.4);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
   position: relative;
   z-index: 1;
   background: linear-gradient(
@@ -272,24 +233,16 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation:
-    value-clean-glow 3s ease-in-out infinite,
-    gradient-value-flow 5s ease-in-out infinite;
-  filter:
-    drop-shadow(0 0 8px rgba(56, 189, 248, 0.5))
-    drop-shadow(0 0 16px rgba(139, 92, 246, 0.3));
+  animation: none;
+  filter: none;
   line-height: 1.1;
   transition: all 0.3s var(--ease-spring);
 }
 
 .metrics-row .floating-element:hover .element-value {
-  animation:
-    value-clean-glow 1.5s ease-in-out infinite,
-    gradient-value-flow 3s ease-in-out infinite;
-  filter:
-    drop-shadow(0 0 12px rgba(56, 189, 248, 0.8))
-    drop-shadow(0 0 24px rgba(139, 92, 246, 0.5));
-  transform: scale(1.05);
+  animation: none;
+  filter: none;
+  transform: scale(1.02);
 }
 
 /* ===== تصميم المربع الرابع SOLIDWORKS Expert ===== */
@@ -311,7 +264,7 @@
     rgba(247, 147, 30, 0.1) 50%,
     rgba(255, 107, 53, 0.1) 100%
   );
-  animation: solidworks-glow 3s ease-in-out infinite;
+  animation: none;
   z-index: 1;
 }
 
@@ -320,8 +273,8 @@
   height: 45px;
   object-fit: contain;
   margin-bottom: 0.4rem;
-  animation: solidworks-shine 4s ease-in-out infinite;
-  filter: drop-shadow(0 4px 8px rgba(255, 107, 53, 0.3));
+  animation: none;
+  filter: none;
   z-index: 2;
   position: relative;
 }
