@@ -58,9 +58,9 @@
     /* Initial state only when JS marks readiness (avoids flashing if JS disabled) */
     html.reveal-ready .reveal {
       opacity: 0;
-      transform: translateY(var(--reveal-distance));
-      filter: blur(6px);
+      transform: translateY(var(--reveal-distance)) translateZ(0);
       will-change: transform, opacity;
+      backface-visibility: hidden;
     }
     /* Play animation on intersection */
     html.reveal-ready .reveal.in-view {
@@ -71,16 +71,16 @@
     html.reveal-ready .reveal[data-reveal="right"].in-view { animation-name: reveal-right; }
 
     @keyframes reveal-up {
-      from { opacity: 0; transform: translateY(var(--reveal-distance)); filter: blur(6px); }
-      to   { opacity: 1; transform: translateY(0); filter: blur(0); }
+      from { opacity: 0; transform: translateY(var(--reveal-distance)); }
+      to   { opacity: 1; transform: translateY(0); }
     }
     @keyframes reveal-left {
-      from { opacity: 0; transform: translateX(calc(-1 * var(--reveal-distance))); filter: blur(6px); }
-      to   { opacity: 1; transform: translateX(0); filter: blur(0); }
+      from { opacity: 0; transform: translateX(calc(-1 * var(--reveal-distance))); }
+      to   { opacity: 1; transform: translateX(0); }
     }
     @keyframes reveal-right {
-      from { opacity: 0; transform: translateX(var(--reveal-distance)); filter: blur(6px); }
-      to   { opacity: 1; transform: translateX(0); filter: blur(0); }
+      from { opacity: 0; transform: translateX(var(--reveal-distance)); }
+      to   { opacity: 1; transform: translateX(0); }
     }
 
     /* Accessibility: honor reduced motion */
@@ -102,9 +102,9 @@
       opacity: 0;
       will-change: transform, opacity, filter;
     }
-    .animate-on-scroll { transform: translateY(22px); filter: blur(6px); }
-    .animate-slide-left { transform: translateX(24px); filter: blur(6px); }
-    .animate-slide-right { transform: translateX(-24px); filter: blur(6px); }
+    .animate-on-scroll { transform: translateY(22px) translateZ(0); }
+    .animate-slide-left { transform: translateX(24px) translateZ(0); }
+    .animate-slide-right { transform: translateX(-24px) translateZ(0); }
 
     /* Visible states with animations (animation-delay can be set inline for stagger) */
     .animate-on-scroll.visible { animation: aos-fade-up var(--aos-duration) var(--aos-ease) both; }
@@ -112,16 +112,16 @@
     .animate-slide-right.visible { animation: aos-slide-right var(--aos-duration) var(--aos-ease) both; }
 
     @keyframes aos-fade-up {
-      from { opacity: 0; transform: translateY(22px); filter: blur(6px); }
-      to   { opacity: 1; transform: translateY(0);    filter: blur(0); }
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
     @keyframes aos-slide-left {
-      from { opacity: 0; transform: translateX(24px); filter: blur(6px); }
-      to   { opacity: 1; transform: translateX(0);    filter: blur(0); }
+      from { opacity: 0; transform: translateX(24px); }
+      to   { opacity: 1; transform: translateX(0); }
     }
     @keyframes aos-slide-right {
-      from { opacity: 0; transform: translateX(-24px); filter: blur(6px); }
-      to   { opacity: 1; transform: translateX(0);     filter: blur(0); }
+      from { opacity: 0; transform: translateX(-24px); }
+      to   { opacity: 1; transform: translateX(0); }
     }
 
     /* Slightly faster on mobile for snappier feel */
