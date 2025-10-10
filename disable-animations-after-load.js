@@ -15,7 +15,7 @@
       el.style.willChange = 'auto';
     });
     
-    console.log('✅ تم تعطيل الأنيميشنات المستمرة لتحسين الأداء');
+    /* disabled console log to reduce noise and CPU */
   }
   
   // تشغيل بعد 3 ثواني من تحميل الصفحة

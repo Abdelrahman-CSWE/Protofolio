@@ -194,10 +194,31 @@ function openGallery(projectKey) {
 }
 
 function updateGalleryImage() {
-  DOM.galleryMainImage.setAttribute('fetchpriority', 'high');
-  DOM.galleryMainImage.decoding = 'async';
-  DOM.galleryMainImage.src = currentGallery[currentImageIndex];
-  DOM.galleryCounter.textContent = `${currentImageIndex + 1} / ${currentGallery.length}`;
+  const imgEl = DOM.galleryMainImage;
+  if (!imgEl) return;
+
+  const nextSrc = currentGallery[currentImageIndex];
+  imgEl.setAttribute('fetchpriority', 'high');
+  imgEl.decoding = 'async';
+
+  // If already showing the same source, just update counter and thumbnails
+  if (imgEl.src === nextSrc) {
+    DOM.galleryCounter.textContent = `${currentImageIndex + 1} / ${currentGallery.length}`;
+  } else {
+    // Pre-decode next image to avoid flicker and ensure instant swap
+    const preImg = new Image();
+    preImg.decoding = 'async';
+    preImg.src = nextSrc;
+    const done = () => {
+      imgEl.src = nextSrc;
+      DOM.galleryCounter.textContent = `${currentImageIndex + 1} / ${currentGallery.length}`;
+    };
+    if (preImg.decode) {
+      preImg.decode().then(done).catch(() => done());
+    } else {
+      done();
+    }
+  }
   
   // Update active thumbnail - optimized
   const thumbnails = DOM.galleryThumbnails.querySelectorAll('.gallery-thumbnail');
@@ -452,7 +473,7 @@ function initVideoControls() {
     video.muted = true;
     video.autoplay = true;
     video.loop = true;
-    video.preload = 'metadata'; // Changed from 'auto' for better performance
+    if (video.preload !== 'auto') { video.preload = 'metadata'; } // keep 'auto' if already set for instant start
     
     // Auto-play first video
     if (index === 0) {
@@ -490,6 +511,21 @@ function initVideoControls() {
       observer.observe(card);
     }
   });
+
+  // Pause/resume videos when tab visibility changes to keep UX smooth and save CPU
+  document.addEventListener('visibilitychange', () => {
+    const vids = document.querySelectorAll('.video-card .video-player');
+    if (document.hidden) {
+      vids.forEach(v => { try { v.pause(); } catch(e){} });
+    } else {
+      vids.forEach(v => {
+        const c = v.closest('.video-card');
+        if (c && c.classList.contains('auto-playing')) {
+          v.play().catch(() => {});
+        }
+      });
+    }
+  }, { passive: true });
 }
 
 // ============================================
@@ -547,6 +583,18 @@ function arrangeHeroMetricsRow() {
 function setLazyLoadingForImages() {
   const images = document.querySelectorAll('img:not([loading])');
   images.forEach(img => {
+    // Skip critical images to ensure instant display (hero, certification, chassis, metric boxes)
+    if (
+      img.closest('.hero') ||
+      img.closest('.certification-badge') ||
+      img.closest('.certification-cover') ||
+      img.classList.contains('chassis-image') ||
+      img.closest('.floating-element')
+    ) {
+      try { img.setAttribute('fetchpriority', 'high'); } catch(e){}
+      try { img.setAttribute('decoding', 'sync'); } catch(e){}
+      return; // do not set lazy
+    }
     img.setAttribute('loading', 'lazy');
     img.setAttribute('decoding', 'async');
   });
