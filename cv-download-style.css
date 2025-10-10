@@ -1,0 +1,181 @@
+/* ====================================================================
+   CV DOWNLOAD BUTTON - PROFESSIONAL STYLING
+   Enhanced download button with animations and hover effects
+   ==================================================================== */
+
+/* CV Download Link Styling */
+.cv-download-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  background: linear-gradient(135deg, 
+    rgba(14, 165, 233, 0.15) 0%,
+    rgba(59, 130, 246, 0.12) 100%
+  );
+  border: 2px solid rgba(14, 165, 233, 0.4);
+  border-radius: 10px;
+  color: var(--accent-primary) !important;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none !important;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  overflow: hidden;
+  box-shadow: 
+    0 4px 15px rgba(14, 165, 233, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Download Icon Before Text */
+.cv-download-link::before {
+  content: '⬇';
+  font-size: 1.1rem;
+  display: inline-block;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Hover State */
+.cv-download-link:hover {
+  background: linear-gradient(135deg, 
+    rgba(14, 165, 233, 0.25) 0%,
+    rgba(59, 130, 246, 0.2) 100%
+  );
+  border-color: rgba(14, 165, 233, 0.8);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 
+    0 8px 25px rgba(14, 165, 233, 0.3),
+    0 4px 15px rgba(59, 130, 246, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  color: #ffffff !important;
+}
+
+/* Animate Download Icon on Hover */
+.cv-download-link:hover::before {
+  transform: translateY(3px);
+  animation: download-bounce 0.6s ease-in-out infinite;
+}
+
+/* Active/Click State */
+.cv-download-link:active {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 
+    0 4px 15px rgba(14, 165, 233, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Shine Effect on Hover */
+.cv-download-link::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 70%
+  );
+  transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  transition: transform 0.6s ease;
+}
+
+.cv-download-link:hover::after {
+  transform: translateX(100%) translateY(100%) rotate(45deg);
+}
+
+/* Download Bounce Animation */
+@keyframes download-bounce {
+  0%, 100% {
+    transform: translateY(3px);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+/* Contact Item Specific Styling for CV Download */
+.contact-item:has(.cv-download-link) {
+  position: relative;
+}
+
+.contact-item:has(.cv-download-link) .contact-icon {
+  font-size: 2.5rem;
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Pulse Glow Animation for Download Icon */
+@keyframes pulse-glow {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 5px rgba(14, 165, 233, 0.3));
+  }
+  50% {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 10px rgba(14, 165, 233, 0.6));
+  }
+}
+
+/* Mobile Optimizations */
+@media (max-width: 900px) {
+  .cv-download-link {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .cv-download-link::before {
+    font-size: 1rem;
+  }
+  
+  /* Simpler hover on mobile (touch devices) */
+  .cv-download-link:hover {
+    transform: translateY(-2px) scale(1.02);
+  }
+}
+
+/* Light Mode Adjustments */
+body.light-mode .cv-download-link {
+  background: linear-gradient(135deg, 
+    rgba(14, 165, 233, 0.1) 0%,
+    rgba(59, 130, 246, 0.08) 100%
+  );
+  border-color: rgba(14, 165, 233, 0.3);
+  color: #0284c7 !important;
+}
+
+body.light-mode .cv-download-link:hover {
+  background: linear-gradient(135deg, 
+    rgba(14, 165, 233, 0.2) 0%,
+    rgba(59, 130, 246, 0.15) 100%
+  );
+  border-color: rgba(14, 165, 233, 0.6);
+  color: #0369a1 !important;
+}
+
+/* Accessibility: Focus State */
+.cv-download-link:focus {
+  outline: 2px solid rgba(14, 165, 233, 0.6);
+  outline-offset: 3px;
+}
+
+/* Loading State (Optional - for future enhancement) */
+.cv-download-link.downloading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.cv-download-link.downloading::before {
+  content: '⏳';
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

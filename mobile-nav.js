@@ -8,9 +8,16 @@
     var nav = document.querySelector('.nav');
     var list = nav ? nav.querySelector('.nav-links') : null;
     if (!list) return [];
-    var anchors = list.querySelectorAll('a[href^="#"]');
-    return Array.prototype.map.call(anchors, function(a){ return { href: a.getAttribute('href')||'#', text: (a.textContent||'').trim() }; })
-      .filter(function(link){ return link.href !== '#chassis'; }); // Exclude Chassis from mobile menu
+    var anchors = list.querySelectorAll('a');
+    var links = Array.prototype.map.call(anchors, function(a){ 
+      return { 
+        href: a.getAttribute('href')||'#', 
+        text: (a.textContent||'').trim(),
+        download: a.hasAttribute('download'),
+        isExternal: !a.getAttribute('href').startsWith('#')
+      }; 
+    }).filter(function(link){ return link.href !== '#chassis'; }); // Exclude Chassis from mobile menu
+    return links;
   }
 
   function buildDrawer(links){
@@ -66,9 +73,19 @@
     ul.className = 'drawer-links';
     links.forEach(function(l){
       var li = document.createElement('li');
-      var a = document.createElement('a'); a.href = l.href; a.textContent = l.text;
-      a.addEventListener('click', closeMenu, { passive: true });
-      li.appendChild(a); ul.appendChild(li);
+      var a = document.createElement('a'); 
+      a.href = l.href; 
+      a.textContent = l.text;
+      if (l.download) {
+        a.setAttribute('download', '');
+        a.className = 'cv-download-link';
+      }
+      // Only close menu for internal links (hash links)
+      if (!l.isExternal) {
+        a.addEventListener('click', closeMenu, { passive: true });
+      }
+      li.appendChild(a); 
+      ul.appendChild(li);
     });
     drawer.appendChild(ul);
 
