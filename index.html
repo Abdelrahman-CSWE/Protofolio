@@ -119,6 +119,85 @@
       }
     }
   </style>
+  <style id="mobile-metrics-in-hero">
+    /* Hidden by default (desktop/tablet) */
+    #metrics-row-mobile { display: none; }
+    @media (max-width: 900px) {
+      /* Show mobile metrics row between subtitle and buttons; hide floating duplicates */
+      #metrics-row-mobile {
+        display: grid !important;
+        grid-template-columns: repeat(2, auto) !important;
+        grid-auto-rows: auto !important;
+        gap: 0.45rem !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0.75rem 0 1rem 0 !important;
+        padding: 0 1rem !important;
+        box-sizing: border-box !important;
+        justify-content: center !important;
+        justify-items: center !important;
+      }
+      #metrics-row-mobile .floating-element {
+        position: relative !important;
+        width: 112px !important;
+        min-width: 112px !important;
+        max-width: 112px !important;
+        min-height: auto !important;
+        height: auto !important;
+        padding: 0.4rem 0.3rem !important;
+        background: linear-gradient(135deg, rgba(15,23,42,0.95) 0%, rgba(30,41,59,0.92) 50%, rgba(15,23,42,0.95) 100%) !important;
+        border: 1.5px solid rgba(56, 189, 248, 0.3) !important;
+        box-shadow: 0 6px 24px rgba(56, 189, 248, 0.12), 0 3px 12px rgba(139, 92, 246, 0.08), inset 0 1px 0 rgba(255,255,255,0.08) !important;
+        box-sizing: border-box !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        overflow: hidden !important;
+        border-radius: 8px !important;
+        margin: 0 !important;
+        justify-self: center !important;
+      }
+      #metrics-row-mobile .element-title {
+        font-size: clamp(0.5rem, 1.4vw, 0.6rem) !important;
+        text-align: center !important;
+        line-height: 1.1 !important;
+        margin-bottom: 0.12rem !important;
+        white-space: normal !important;
+        overflow-wrap: anywhere !important;
+        word-break: normal !important;
+        width: 100% !important;
+        padding: 0 0.15rem !important;
+        max-width: 100% !important;
+      }
+      #metrics-row-mobile .element-value {
+        font-size: clamp(0.85rem, 3.2vw, 1.05rem) !important;
+        text-align: center !important;
+        font-weight: 900 !important;
+        line-height: 1 !important;
+        white-space: nowrap !important;
+      }
+      /* Reduce gap below CTA and before Engineering Excellence on mobile */
+      .hero { padding-bottom: 0.5rem !important; }
+      #portfolio.section, #portfolio { padding-top: 0.5rem !important; }
+
+      /* Mobile metrics shine clipping inside boxes */
+      #metrics-row-mobile .floating-element::before {
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        border-radius: inherit !important;
+      }
+      #metrics-row-mobile .floating-element::after {
+        border-radius: inherit !important;
+      }
+      /* Prevent side clipping on mobile by allowing visible overflow on hero containers */
+      .hero, .hero-container, .hero-content { overflow: visible !important; }
+      /* Hide the decorative floating metrics inside hero-visual on mobile to avoid duplication */
+      .hero-visual .floating-element { display: none !important; }
+    }
+  </style>
   <style id="video-info-center">
     /* Center video titles and descriptions under each video card */
     #videos .video-info,
@@ -5718,6 +5797,24 @@
         </h1>
         <p class="hero-subtitle"><span class="hero-lead">I craft <span class="keyword">engineering solutions</span> that merge <span class="keyword">mechanical precision</span> with <span class="keyword">mechatronics innovation</span>.</span> From advanced chassis architectures to ergonomic systems and high-performance prototypes, my work reflects creativity, technical mastery, and a pursuit of excellence.</p>
         <p class="hero-subtitle">With expertise in CAD, FEA, and automation systems, I transform concepts into optimized designs that are reliable, impactful, and engineered for real-world performance.</p>
+        <div id="metrics-row-mobile" class="metrics-row">
+          <div class="floating-element" data-fixed>
+            <div class="element-title">Projects Completed</div>
+            <div class="element-value">30+</div>
+          </div>
+          <div class="floating-element solidworks-expert" data-fixed>
+            <div class="element-title">CERTIFIED EXPERT</div>
+            <div class="element-value">CSWE</div>
+          </div>
+          <div class="floating-element" data-fixed>
+            <div class="element-title">CSWE Certified</div>
+            <div class="element-value">1/129</div>
+          </div>
+          <div class="floating-element" data-fixed>
+            <div class="element-title">Years Experience</div>
+            <div class="element-value">1+</div>
+          </div>
+        </div>
         <div class="hero-cta">
           <a href="#portfolio" class="btn btn-primary">Explore Portfolio</a>
           <a href="#contact" class="btn btn-secondary">Get in Touch</a>
