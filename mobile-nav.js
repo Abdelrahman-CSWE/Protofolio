@@ -9,7 +9,8 @@
     var list = nav ? nav.querySelector('.nav-links') : null;
     if (!list) return [];
     var anchors = list.querySelectorAll('a[href^="#"]');
-    return Array.prototype.map.call(anchors, function(a){ return { href: a.getAttribute('href')||'#', text: (a.textContent||'').trim() }; });
+    return Array.prototype.map.call(anchors, function(a){ return { href: a.getAttribute('href')||'#', text: (a.textContent||'').trim() }; })
+      .filter(function(link){ return link.href !== '#chassis'; }); // Exclude Chassis from mobile menu
   }
 
   function buildDrawer(links){
