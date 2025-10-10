@@ -51,7 +51,7 @@
   <!-- ✨ Global Text Reveal Animations: fade + motion, lightweight, professional -->
   <style id="reveal-animations">
     :root {
-      --reveal-duration: 720ms;
+      --reveal-duration: 900ms;
       --reveal-ease: cubic-bezier(0.16, 1, 0.3, 1);
       --reveal-distance: 26px;
     }
@@ -92,7 +92,7 @@
   <!-- Lightweight AOS-style animations for dynamic elements (cards, images, etc.) -->
   <style id="aos-animations">
     :root {
-      --aos-duration: 0.85s;
+      --aos-duration: 1.05s;
       --aos-ease: cubic-bezier(0.16, 1, 0.3, 1);
     }
     /* Initial states */
@@ -125,7 +125,7 @@
     }
 
     /* Slightly faster on mobile for snappier feel */
-    @media (max-width: 900px) { :root { --aos-duration: 0.75s; } }
+    @media (max-width: 900px) { :root { --aos-duration: 0.9s; } }
 
     /* Respect reduced-motion without killing reveal entirely (handled above) */
     @media (prefers-reduced-motion: reduce) {
@@ -194,7 +194,7 @@
         
         groups.forEach(function(list){ 
           list.forEach(function(el, i){ 
-            var d = Math.min(100*i, 800); 
+            var d = Math.min(140*i, 1200); 
             el.style.setProperty('--reveal-delay', d + 'ms'); 
           }); 
         });
@@ -317,6 +317,61 @@
       /* Push Chassis Gallery card to the end */
       #portfolio .engineering-portfolio-grid .portfolio-project[data-project="chassis-gallery"] {
         order: 9999 !important;
+      }
+    }
+  </style>
+  <style id="pc-only-hide-chassis-gallery">
+    /* إخفاء Chassis Gallery من Engineering Portfolio على الـPC فقط */
+    @media (min-width: 901px) {
+      #portfolio .engineering-portfolio-grid .portfolio-project[data-project="chassis-gallery"] {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+      }
+    }
+  </style>
+  <style id="pc-chassis-gallery-pc-row">
+    /* PC-only: force Chassis Gallery images into a single horizontal row */
+    @media (min-width: 901px) {
+      #chassis .chassis-grid {
+        display: grid !important;
+        grid-template-columns: repeat(5, 1fr) !important; /* Fixed for 5 images */
+        grid-auto-rows: 1fr !important;
+        align-items: stretch !important;
+        gap: 0.8rem !important; /* reduce gaps to utilize space */
+      }
+      /* Ensure all direct children fill their grid cell perfectly */
+      #chassis .chassis-grid > * {
+        width: 100% !important;
+        height: 100% !important;
+        aspect-ratio: 1 / 1 !important; /* keep consistent square tiles */
+        overflow: hidden !important;
+        border-radius: 12px !important;
+      }
+      /* Make images cover their tile cleanly without white borders */
+      #chassis .chassis-grid img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        display: block !important;
+      }
+      
+      /* Center and style chassis image titles on PC only */
+      #chassis .chassis-item .chassis-title,
+      #chassis .chassis-grid .chassis-title,
+      #chassis .chassis-title {
+        text-align: center !important;
+        display: block !important;
+        width: 100% !important;
+        margin: 0.5rem auto 0 auto !important;
+        padding: 0 0.25rem !important;
+        font-size: 0.85rem !important;
+        line-height: 1.3 !important;
+        color: var(--text-primary) !important;
+        font-weight: 600 !important;
+        text-transform: none !important;
+        letter-spacing: 0.3px !important;
       }
     }
   </style>
@@ -887,11 +942,12 @@
     .hero {
       min-height: 100vh;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: flex-start;
       position: relative;
       overflow: visible;
-      padding: calc(var(--nav-dyn-h, 72px) + 6rem) 2rem 2rem 2rem;
+      margin-top: -0.75rem;
+      padding: calc(var(--nav-dyn-h, 72px) - 1rem) 2rem 2rem 2rem;
       perspective: 1000px;
     }
 
@@ -2381,6 +2437,46 @@
       position: relative;
       white-space: nowrap;
       overflow: hidden;
+    }
+
+    /* Desktop-only smaller job title size */
+    @media (min-width: 901px) {
+      #hero-title {
+        font-size: clamp(1.5rem, 2.4vw, 2.4rem) !important;
+        line-height: 1.1 !important;
+      }
+    }
+
+    /* Desktop-only: clean metrics layout (no fixed/absolute look) */
+    @media (min-width: 901px) {
+      .certification-cover { right: -2% !important; }
+      /* Hide any direct floating metrics duplicated outside the row */
+      .hero-visual > .floating-element[data-fixed] { display: none !important; }
+      /* Make metrics row part of normal flow, not absolute */
+      .metrics-row { 
+        position: static !important; 
+        transform: none !important; 
+        justify-content: center !important; 
+        flex-wrap: wrap !important; 
+        gap: 0.85rem !important; 
+        margin-top: -48px !important;
+      }
+      .metrics-row .floating-element { position: static !important; }
+      /* Increase font sizes for CERTIFIED EXPERT CSWE metric only (desktop) */
+      .metrics-row .floating-element.solidworks-expert {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+      }
+      .metrics-row .floating-element.solidworks-expert .element-title { 
+        font-size: 0.84rem !important; 
+        letter-spacing: 0.9px !important;
+      }
+      .metrics-row .floating-element.solidworks-expert .element-value { 
+        font-size: 1.82rem !important; 
+        line-height: 1.05 !important;
+      }
     }
 
     .hero-title .line2::after {

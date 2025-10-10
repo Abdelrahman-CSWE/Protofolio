@@ -1,10 +1,15 @@
 /* 🌓 PREMIUM THEME TOGGLE - Day/Night Mode Switcher */
 
-/* Theme Toggle Button - Fixed Position */
+/* ========================================
+   PC VERSION - INTERACTIVE SLIDE ANIMATION
+   ======================================== */
+
+/* Theme Toggle Button - PC Default Position (Half Visible on Left) */
 .theme-toggle-btn {
   position: fixed;
-  top: 20px;
-  right: 20px;
+  top: 50%;
+  left: -28px; /* Half hidden - only half circle visible */
+  transform: translateY(-50%);
   z-index: 9999;
   width: 56px;
   height: 56px;
@@ -18,44 +23,88 @@
   box-shadow: 
     0 8px 32px rgba(0, 0, 0, 0.3),
     0 4px 16px rgba(14, 165, 233, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    2px 0 20px rgba(14, 165, 233, 0.4);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  overflow: hidden;
-  animation: theme-btn-entrance 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s both;
+  transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+  overflow: visible;
+  animation: pc-subtle-pulse 3s ease-in-out infinite;
 }
 
-@keyframes theme-btn-entrance {
-  0% {
-    opacity: 0;
-    transform: scale(0) rotate(-180deg);
-    filter: blur(10px);
+/* PC - Subtle pulse animation when idle (indicates interactivity) */
+@keyframes pc-subtle-pulse {
+  0%, 100% {
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      0 4px 16px rgba(14, 165, 233, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      2px 0 20px rgba(14, 165, 233, 0.4);
   }
-  60% {
-    transform: scale(1.15) rotate(10deg);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) rotate(0deg);
-    filter: blur(0);
+  50% {
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      0 4px 16px rgba(14, 165, 233, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15),
+      2px 0 30px rgba(14, 165, 233, 0.6);
   }
 }
 
+/* PC - Active state: slide in fully when clicked */
+.theme-toggle-btn.pc-active {
+  left: 20px;
+  transform: translateY(-50%) scale(1.05);
+  box-shadow: 
+    0 12px 48px rgba(0, 0, 0, 0.5),
+    0 6px 24px rgba(14, 165, 233, 0.6),
+    0 0 60px rgba(139, 92, 246, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  border-color: rgba(14, 165, 233, 0.7);
+  animation: none;
+}
+
+/* PC - Trail effect when sliding (fading light behind) */
+.theme-toggle-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  width: 0;
+  height: 3px;
+  background: linear-gradient(90deg, 
+    rgba(14, 165, 233, 0.8) 0%,
+    rgba(139, 92, 246, 0.6) 50%,
+    transparent 100%
+  );
+  transform: translateY(-50%);
+  opacity: 0;
+  transition: all 0.6s ease-out;
+  pointer-events: none;
+  border-radius: 2px;
+  box-shadow: 0 0 10px rgba(14, 165, 233, 0.6);
+}
+
+.theme-toggle-btn.pc-active::before {
+  width: 60px;
+  opacity: 1;
+}
+
+/* PC - Hover effect (subtle scale) */
 .theme-toggle-btn:hover {
-  transform: scale(1.1) rotate(10deg);
+  transform: translateY(-50%) scale(1.08);
   box-shadow: 
     0 12px 48px rgba(0, 0, 0, 0.4),
-    0 6px 24px rgba(14, 165, 233, 0.4),
+    0 6px 24px rgba(14, 165, 233, 0.5),
     0 0 60px rgba(139, 92, 246, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    2px 0 25px rgba(14, 165, 233, 0.5);
   border-color: rgba(14, 165, 233, 0.6);
 }
 
 .theme-toggle-btn:active {
-  transform: scale(0.95) rotate(-5deg);
+  transform: translateY(-50%) scale(0.98);
 }
 
 /* Icon Container */
@@ -109,6 +158,7 @@ body.light-mode .moon-icon {
   opacity: 0;
 }
 
+/* Light Mode - Button Styling */
 body.light-mode .theme-toggle-btn {
   background: linear-gradient(135deg, 
     rgba(251, 191, 36, 0.2) 0%,
@@ -118,7 +168,45 @@ body.light-mode .theme-toggle-btn {
   box-shadow: 
     0 8px 32px rgba(251, 191, 36, 0.2),
     0 4px 16px rgba(245, 158, 11, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    2px 0 20px rgba(251, 191, 36, 0.4);
+  animation: pc-subtle-pulse-light 3s ease-in-out infinite;
+}
+
+@keyframes pc-subtle-pulse-light {
+  0%, 100% {
+    box-shadow: 
+      0 8px 32px rgba(251, 191, 36, 0.2),
+      0 4px 16px rgba(245, 158, 11, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3),
+      2px 0 20px rgba(251, 191, 36, 0.4);
+  }
+  50% {
+    box-shadow: 
+      0 8px 32px rgba(251, 191, 36, 0.3),
+      0 4px 16px rgba(245, 158, 11, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4),
+      2px 0 30px rgba(251, 191, 36, 0.6);
+  }
+}
+
+body.light-mode .theme-toggle-btn.pc-active {
+  box-shadow: 
+    0 12px 48px rgba(251, 191, 36, 0.4),
+    0 6px 24px rgba(245, 158, 11, 0.3),
+    0 0 60px rgba(251, 191, 36, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  border-color: rgba(251, 191, 36, 0.6);
+  animation: none;
+}
+
+body.light-mode .theme-toggle-btn::before {
+  background: linear-gradient(90deg, 
+    rgba(251, 191, 36, 0.8) 0%,
+    rgba(245, 158, 11, 0.6) 50%,
+    transparent 100%
+  );
+  box-shadow: 0 0 10px rgba(251, 191, 36, 0.6);
 }
 
 body.light-mode .theme-toggle-btn:hover {
@@ -126,11 +214,58 @@ body.light-mode .theme-toggle-btn:hover {
     0 12px 48px rgba(251, 191, 36, 0.3),
     0 6px 24px rgba(245, 158, 11, 0.25),
     0 0 60px rgba(251, 191, 36, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    2px 0 25px rgba(251, 191, 36, 0.5);
   border-color: rgba(251, 191, 36, 0.5);
 }
 
-/* Mobile Adjustments - Interactive Slide Animation */
+/* PC Tooltip - Only show on desktop */
+@media (min-width: 901px) {
+  .theme-toggle-btn-tooltip {
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translate(10px, -50%);
+    background: rgba(15, 23, 42, 0.95);
+    color: white;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    margin-left: 8px;
+  }
+
+  .theme-toggle-btn:hover .theme-toggle-btn-tooltip {
+    opacity: 1;
+    transform: translate(0, -50%);
+  }
+
+  body.light-mode .theme-toggle-btn-tooltip {
+    background: rgba(255, 255, 255, 0.98);
+    color: #0f172a;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
+  }
+}
+
+/* Hide Tooltip completely on Mobile */
+@media (max-width: 900px) {
+  .theme-toggle-btn-tooltip {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
+/* ========================================
+   MOBILE VERSION - DIFFERENT BEHAVIOR
+   ======================================== */
+
 @media (max-width: 900px) {
   .theme-toggle-btn {
     width: 48px;
@@ -140,13 +275,20 @@ body.light-mode .theme-toggle-btn:hover {
     right: auto;
     transform: translateY(-50%);
     border-radius: 50%;
-    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-    animation: mobile-pulse 3s ease-in-out infinite;
+    transition: all 0.75s ease-in-out;
+    animation: mobile-pulse 3.5s ease-in-out infinite;
     box-shadow: 
       0 8px 32px rgba(0, 0, 0, 0.3),
       0 4px 16px rgba(14, 165, 233, 0.3),
       inset 0 1px 0 rgba(255, 255, 255, 0.15),
       2px 0 20px rgba(14, 165, 233, 0.4);
+  }
+  
+  /* Disable PC animations on mobile */
+  .theme-toggle-btn.pc-active {
+    left: -24px !important;
+    transform: translateY(-50%) !important;
+    animation: mobile-pulse 3.5s ease-in-out infinite !important;
   }
 
   /* Pulse animation for attention */
@@ -167,7 +309,7 @@ body.light-mode .theme-toggle-btn:hover {
     }
   }
 
-  /* Active state - slide in fully */
+  /* Mobile active state - slide in fully */
   .theme-toggle-btn.active {
     left: 16px;
     transform: translateY(-50%) scale(1.1);
@@ -179,7 +321,7 @@ body.light-mode .theme-toggle-btn:hover {
     animation: none;
   }
 
-  /* Trail effect when sliding */
+  /* Mobile trail effect when sliding */
   .theme-toggle-btn::after {
     content: '';
     position: absolute;
@@ -202,6 +344,11 @@ body.light-mode .theme-toggle-btn:hover {
     width: 40px;
     opacity: 1;
   }
+  
+  /* Override PC ::before trail on mobile */
+  .theme-toggle-btn::before {
+    display: none !important;
+  }
 
   /* Light mode mobile adjustments */
   body.light-mode .theme-toggle-btn {
@@ -210,6 +357,7 @@ body.light-mode .theme-toggle-btn:hover {
       0 4px 16px rgba(245, 158, 11, 0.2),
       inset 0 1px 0 rgba(255, 255, 255, 0.4),
       2px 0 20px rgba(251, 191, 36, 0.3);
+    animation: mobile-pulse-light 3s ease-in-out infinite;
   }
 
   body.light-mode .theme-toggle-btn.active {
@@ -218,6 +366,7 @@ body.light-mode .theme-toggle-btn:hover {
       0 6px 24px rgba(245, 158, 11, 0.3),
       0 0 60px rgba(251, 191, 36, 0.25),
       inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    animation: none;
   }
 
   body.light-mode .theme-toggle-btn::after {
@@ -226,6 +375,13 @@ body.light-mode .theme-toggle-btn:hover {
       rgba(251, 191, 36, 0.6) 50%,
       rgba(251, 191, 36, 0) 100%
     );
+  }
+  
+  /* Disable PC active state on mobile light mode */
+  body.light-mode .theme-toggle-btn.pc-active {
+    left: -24px !important;
+    transform: translateY(-50%) !important;
+    animation: mobile-pulse-light 3s ease-in-out infinite !important;
   }
 
   @keyframes mobile-pulse-light {
@@ -245,18 +401,11 @@ body.light-mode .theme-toggle-btn:hover {
     }
   }
 
-  body.light-mode .theme-toggle-btn {
-    animation: mobile-pulse-light 3s ease-in-out infinite;
-  }
-
-  body.light-mode .theme-toggle-btn.active {
-    animation: none;
-  }
-
   .theme-icon {
     width: 28px;
     height: 28px;
   }
+  
   .sun-icon svg,
   .moon-icon svg {
     width: 28px;
@@ -287,14 +436,6 @@ body.light-mode .theme-toggle-btn:hover {
   .theme-toggle-btn:active {
     transform: translateY(-50%) !important;
   }
-
-  /* Hide tooltip on mobile */
-  .theme-toggle-btn::after {
-    display: none !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-  }
 }
 
 /* Disable hover on touch devices completely */
@@ -304,15 +445,12 @@ body.light-mode .theme-toggle-btn:hover {
     box-shadow: inherit !important;
     border-color: inherit !important;
   }
-
-  /* Hide tooltip on touch devices */
-  .theme-toggle-btn::after {
-    display: none !important;
-    content: none !important;
-  }
 }
 
-/* Light Mode Theme Variables & Styles */
+/* ========================================
+   LIGHT MODE THEME STYLES
+   ======================================== */
+
 body.light-mode {
   --bg-primary: #f8fafc;
   --bg-secondary: #ffffff;
@@ -334,7 +472,6 @@ body.light-mode {
               color 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Light Mode - Blueprint Background */
 body.light-mode .blueprint-bg {
   background:
     linear-gradient(90deg, rgba(14,165,233,.06) 1px, transparent 1px),
@@ -342,7 +479,6 @@ body.light-mode .blueprint-bg {
   background-size: 40px 40px;
 }
 
-/* Light Mode - Navigation */
 body.light-mode .nav {
   background: linear-gradient(180deg, 
     rgba(255, 255, 255, 0.98) 0%,
@@ -401,7 +537,6 @@ body.light-mode .nav-links a:hover {
   border-color: rgba(14, 165, 233, 0.5) !important;
 }
 
-/* Light Mode - Mobile Navigation Drawer */
 body.light-mode .mobile-drawer {
   background: linear-gradient(180deg,
     rgba(255, 255, 255, 0.98) 0%,
@@ -559,7 +694,6 @@ body.light-mode .close-drawer-btn:hover {
     inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
 }
 
-/* Light Mode - Hamburger Button (Mobile Menu Trigger) */
 @media (max-width: 900px) {
   body.light-mode .hamburger-btn {
     background: linear-gradient(135deg,
@@ -638,7 +772,6 @@ body.light-mode .close-drawer-btn:hover {
   }
 }
 
-/* Light Mode - Cards & Elements */
 body.light-mode .floating-element,
 body.light-mode .portfolio-project,
 body.light-mode .video-card,
@@ -651,7 +784,73 @@ body.light-mode .certification-badge {
     inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
 }
 
-/* Light Mode - Mobile Metrics Boxes (4 boxes in hero) */
+@media (min-width: 901px) {
+  body.light-mode .metrics-row .floating-element {
+    background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.98) 0%,
+      rgba(248, 250, 252, 0.96) 50%,
+      rgba(255, 255, 255, 0.98) 100%
+    ) !important;
+    border: 1.5px solid rgba(14, 165, 233, 0.3) !important;
+    box-shadow: 
+      0 8px 32px rgba(15, 23, 42, 0.12),
+      0 4px 16px rgba(14, 165, 233, 0.08),
+      inset 0 1px 0 rgba(14, 165, 233, 0.1) !important;
+  }
+  
+  body.light-mode .metrics-row .element-title {
+    opacity: 1 !important;
+    color: rgba(71, 85, 105, 0.95) !important;
+    background: none !important;
+    -webkit-text-fill-color: rgba(71, 85, 105, 0.95) !important;
+    text-shadow: 0 1px 2px rgba(15, 23, 42, 0.08) !important;
+    filter: none !important;
+  }
+  
+  body.light-mode .metrics-row .element-value {
+    opacity: 1 !important;
+    background: linear-gradient(135deg,
+      rgba(14, 165, 233, 1) 0%,
+      rgba(59, 130, 246, 0.95) 50%,
+      rgba(14, 165, 233, 1) 100%
+    ) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    text-shadow: none !important;
+    filter: drop-shadow(0 2px 4px rgba(14, 165, 233, 0.25)) !important;
+  }
+  
+  body.light-mode .metrics-row .floating-element.solidworks-expert {
+    background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.98) 0%,
+      rgba(254, 242, 242, 0.96) 50%,
+      rgba(255, 255, 255, 0.98) 100%
+    ) !important;
+    border-color: rgba(220, 38, 38, 0.3) !important;
+    box-shadow: 
+      0 8px 32px rgba(220, 38, 38, 0.12),
+      0 4px 16px rgba(239, 68, 68, 0.08),
+      inset 0 1px 0 rgba(220, 38, 38, 0.1) !important;
+  }
+  
+  body.light-mode .metrics-row .floating-element.solidworks-expert .element-title {
+    color: rgba(127, 29, 29, 0.95) !important;
+    -webkit-text-fill-color: rgba(127, 29, 29, 0.95) !important;
+  }
+  
+  body.light-mode .metrics-row .floating-element.solidworks-expert .element-value {
+    background: linear-gradient(135deg,
+      rgba(220, 38, 38, 1) 0%,
+      rgba(239, 68, 68, 0.95) 50%,
+      rgba(220, 38, 38, 1) 100%
+    ) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    filter: drop-shadow(0 2px 4px rgba(220, 38, 38, 0.25)) !important;
+  }
+}
+
 body.light-mode #metrics-row-mobile .floating-element {
   background: linear-gradient(135deg, 
     rgba(255, 255, 255, 0.98) 0%, 
@@ -705,7 +904,6 @@ body.light-mode span:not(.logo-text):not(.cert-value):not(.cert-title):not(.hero
   color: var(--text-secondary) !important;
 }
 
-/* Hero Subtitle - Enhanced for Light Mode */
 body.light-mode .hero-subtitle,
 body.light-mode .hero .hero-subtitle,
 body.light-mode .hero-content .hero-subtitle {
@@ -730,7 +928,6 @@ body.light-mode .hero-content .hero-subtitle {
   50% { background-position: 100% 50%; }
 }
 
-/* Light Mode - Buttons */
 body.light-mode .btn-primary {
   background: linear-gradient(135deg, #0ea5e9, #3b82f6) !important;
   box-shadow: 0 8px 25px rgba(14, 165, 233, 0.3) !important;
@@ -746,13 +943,13 @@ body.light-mode .btn-secondary {
   border-color: rgba(14, 165, 233, 0.3) !important;
 }
 
-/* Light Mode - Certification Cover */
 body.light-mode .certification-cover {
-  opacity: 0.65 !important;
-  filter: brightness(1.05) contrast(1.1) saturate(1.1) !important;
+  opacity: 0.95 !important;
+  filter: brightness(1.0) contrast(1.05) saturate(1.08) !important;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
+              filter 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
-/* Light Mode - Core Competencies Skills */
 body.light-mode .skill-item,
 body.light-mode .skills-grid .skill-item {
   background: linear-gradient(135deg,
@@ -801,77 +998,9 @@ body.light-mode .skills-grid .skill-item:active::before {
   ) !important;
 }
 
-/* Smooth Transition for All Elements - EXCEPT reveal animations */
 body.light-mode *:not(.reveal):not(.reveal *) {
   transition: background 0.4s ease, 
               color 0.4s ease, 
               border-color 0.4s ease,
               box-shadow 0.4s ease !important;
-}
-
-/* Ripple Effect on Toggle */
-.theme-toggle-btn::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(14, 165, 233, 0.4), transparent 70%);
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.theme-toggle-btn.ripple::before {
-  width: 200%;
-  height: 200%;
-  opacity: 1;
-  animation: ripple-out 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes ripple-out {
-  0% {
-    width: 0;
-    height: 0;
-    opacity: 1;
-  }
-  100% {
-    width: 300%;
-    height: 300%;
-    opacity: 0;
-  }
-}
-
-/* Tooltip */
-.theme-toggle-btn::after {
-  content: attr(data-tooltip);
-  position: absolute;
-  bottom: -40px;
-  left: 50%;
-  transform: translateX(-50%) translateY(10px);
-  background: rgba(15, 23, 42, 0.95);
-  color: white;
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-.theme-toggle-btn:hover::after {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
-
-body.light-mode .theme-toggle-btn::after {
-  background: rgba(255, 255, 255, 0.98);
-  color: #0f172a;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
 }

@@ -4,6 +4,8 @@
   var STORAGE_KEY = 'portfolio-theme-mode';
   var body = document.body;
   var btn;
+  var isMobileAnimating = false;
+  var isPCAnimating = false;
   
   // Create theme toggle button
   function createButton(){
@@ -28,49 +30,96 @@
     iconContainer.appendChild(sunIcon);
     
     btn.appendChild(iconContainer);
+    
+    // Add tooltip for PC only
+    var tooltip = document.createElement('span');
+    tooltip.className = 'theme-toggle-btn-tooltip';
+    tooltip.textContent = 'Switch to Light Mode';
+    btn.appendChild(tooltip);
+    
     document.body.appendChild(btn);
     
     // Add click handler
     btn.addEventListener('click', toggleTheme);
   }
   
-  // Toggle theme with FAST mobile slide animation
+  // Toggle theme with animations
   function toggleTheme(){
     var isLight = body.classList.contains('light-mode');
     var isMobile = window.innerWidth <= 900;
     
-    // Mobile slide animation - FASTER
+    // Mobile slide animation
     if(isMobile){
-      // Add active class to slide in
+      // Prevent spamming during animation
+      if (isMobileAnimating) return;
+      isMobileAnimating = true;
+
+      // Slide in fully
       btn.classList.add('active');
-      
-      // Toggle theme INSTANTLY for immediate response
-      if(isLight){
-        body.classList.remove('light-mode');
-        btn.setAttribute('data-tooltip', 'Switch to Light Mode');
-        localStorage.setItem(STORAGE_KEY, 'dark');
-      } else {
-        body.classList.add('light-mode');
-        btn.setAttribute('data-tooltip', 'Switch to Dark Mode');
-        localStorage.setItem(STORAGE_KEY, 'light');
-      }
-      
-      // Slide back out after 300ms (much faster)
+
+      // Toggle theme after 200ms from start of slide
+      setTimeout(function(){
+        var nowLight = body.classList.contains('light-mode');
+        if(nowLight){
+          body.classList.remove('light-mode');
+          updateTooltip('Switch to Light Mode');
+          localStorage.setItem(STORAGE_KEY, 'dark');
+        } else {
+          body.classList.add('light-mode');
+          updateTooltip('Switch to Dark Mode');
+          localStorage.setItem(STORAGE_KEY, 'light');
+        }
+      }, 200);
+
+      // Auto return to half-visible after ~1s
       setTimeout(function(){
         btn.classList.remove('active');
-      }, 300);
+      }, 1000);
+
+      // Unlock
+      setTimeout(function(){
+        isMobileAnimating = false;
+      }, 1100);
     } else {
-      // Desktop - instant toggle
-      if(isLight){
-        body.classList.remove('light-mode');
-        btn.setAttribute('data-tooltip', 'Switch to Light Mode');
-        localStorage.setItem(STORAGE_KEY, 'dark');
-      } else {
-        body.classList.add('light-mode');
-        btn.setAttribute('data-tooltip', 'Switch to Dark Mode');
-        localStorage.setItem(STORAGE_KEY, 'light');
-      }
+      // PC - Smooth slide animation
+      if (isPCAnimating) return;
+      isPCAnimating = true;
+
+      // Slide in fully with pc-active class
+      btn.classList.add('pc-active');
+
+      // Toggle theme after 200ms (during slide)
+      setTimeout(function(){
+        if(isLight){
+          body.classList.remove('light-mode');
+          updateTooltip('Switch to Light Mode');
+          localStorage.setItem(STORAGE_KEY, 'dark');
+        } else {
+          body.classList.add('light-mode');
+          updateTooltip('Switch to Dark Mode');
+          localStorage.setItem(STORAGE_KEY, 'light');
+        }
+      }, 200);
+
+      // Auto return to half-visible after ~1s
+      setTimeout(function(){
+        btn.classList.remove('pc-active');
+      }, 1000);
+
+      // Unlock
+      setTimeout(function(){
+        isPCAnimating = false;
+      }, 1100);
     }
+  }
+  
+  // Update tooltip text
+  function updateTooltip(text){
+    var tooltip = btn.querySelector('.theme-toggle-btn-tooltip');
+    if(tooltip){
+      tooltip.textContent = text;
+    }
+    btn.setAttribute('data-tooltip', text);
   }
   
   // Load saved theme
@@ -79,10 +128,10 @@
       var saved = localStorage.getItem(STORAGE_KEY);
       if(saved === 'light'){
         body.classList.add('light-mode');
-        if(btn) btn.setAttribute('data-tooltip', 'Switch to Dark Mode');
+        if(btn) updateTooltip('Switch to Dark Mode');
       } else {
         body.classList.remove('light-mode');
-        if(btn) btn.setAttribute('data-tooltip', 'Switch to Light Mode');
+        if(btn) updateTooltip('Switch to Light Mode');
       }
     } catch(e){
       // localStorage not available
