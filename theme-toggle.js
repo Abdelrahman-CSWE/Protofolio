@@ -34,37 +34,31 @@
     btn.addEventListener('click', toggleTheme);
   }
   
-  // Toggle theme with mobile slide animation
+  // Toggle theme with FAST mobile slide animation
   function toggleTheme(){
     var isLight = body.classList.contains('light-mode');
     var isMobile = window.innerWidth <= 900;
     
-    // Add ripple effect
-    btn.classList.add('ripple');
-    setTimeout(function(){ btn.classList.remove('ripple'); }, 600);
-    
-    // Mobile slide animation
+    // Mobile slide animation - FASTER
     if(isMobile){
       // Add active class to slide in
       btn.classList.add('active');
       
-      // Toggle theme after 200ms
-      setTimeout(function(){
-        if(isLight){
-          body.classList.remove('light-mode');
-          btn.setAttribute('data-tooltip', 'Switch to Light Mode');
-          localStorage.setItem(STORAGE_KEY, 'dark');
-        } else {
-          body.classList.add('light-mode');
-          btn.setAttribute('data-tooltip', 'Switch to Dark Mode');
-          localStorage.setItem(STORAGE_KEY, 'light');
-        }
-      }, 200);
+      // Toggle theme INSTANTLY for immediate response
+      if(isLight){
+        body.classList.remove('light-mode');
+        btn.setAttribute('data-tooltip', 'Switch to Light Mode');
+        localStorage.setItem(STORAGE_KEY, 'dark');
+      } else {
+        body.classList.add('light-mode');
+        btn.setAttribute('data-tooltip', 'Switch to Dark Mode');
+        localStorage.setItem(STORAGE_KEY, 'light');
+      }
       
-      // Slide back out after 1 second
+      // Slide back out after 300ms (much faster)
       setTimeout(function(){
         btn.classList.remove('active');
-      }, 1000);
+      }, 300);
     } else {
       // Desktop - instant toggle
       if(isLight){

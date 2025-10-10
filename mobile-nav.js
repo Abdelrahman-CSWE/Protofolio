@@ -34,7 +34,7 @@
       btn.style.setProperty('height', H_SIZE + 'px','important');
       btn.style.setProperty('borderRadius','50%','important');
       btn.style.setProperty('transform','translateY(-50%)','important');
-      btn.style.setProperty('transition','all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1)','important');
+      btn.style.setProperty('transition','all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)','important');
       btn.style.setProperty('zIndex','1102','important');
     }
     function setHamburgerHalf(){
@@ -104,10 +104,10 @@
         // close immediately and slide back
         closeMenu();
       } else {
-        // slide in first, then open after 200ms
+        // slide in and open INSTANTLY for immediate response
         btn.classList.add('active');
         setHamburgerFull();
-        setTimeout(function(){ openMenu(); }, 200);
+        openMenu(); // No delay - instant response
       }
     }, { passive: true });
 
