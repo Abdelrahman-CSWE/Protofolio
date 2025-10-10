@@ -21,6 +21,32 @@
     btn.className = 'hamburger-btn';
     btn.setAttribute('aria-label', 'Open menu');
     btn.innerHTML = '<span class="bar"></span>';
+    
+    // Force inline left-side half-visible behavior (override conflicting CSS)
+    // Position BELOW the theme toggle (theme is at 50% + 100px, this at 50% + 170px)
+    var H_SIZE = 48; var H_HALF = H_SIZE / 2;
+    function applyHamburgerBase(){
+      btn.style.setProperty('position','fixed','important');
+      btn.style.setProperty('top','calc(50% + 170px)','important');
+      btn.style.setProperty('left','-' + H_HALF + 'px','important');
+      btn.style.setProperty('right','auto','important');
+      btn.style.setProperty('width', H_SIZE + 'px','important');
+      btn.style.setProperty('height', H_SIZE + 'px','important');
+      btn.style.setProperty('borderRadius','50%','important');
+      btn.style.setProperty('transform','translateY(-50%)','important');
+      btn.style.setProperty('transition','all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1)','important');
+      btn.style.setProperty('zIndex','1102','important');
+    }
+    function setHamburgerHalf(){
+      btn.style.setProperty('left','-' + H_HALF + 'px','important');
+      btn.style.setProperty('right','auto','important');
+    }
+    function setHamburgerFull(){
+      btn.style.setProperty('left','12px','important');
+      btn.style.setProperty('right','auto','important');
+    }
+    applyHamburgerBase();
+    setHamburgerHalf();
 
     // Overlay
     var overlay = document.createElement('div');
@@ -55,13 +81,34 @@
     document.body.appendChild(overlay);
     document.body.appendChild(drawer);
 
-    // events
-    function openMenu(){ document.documentElement.classList.add('mobile-menu-open'); drawer.setAttribute('aria-hidden','false'); }
-    function closeMenu(){ document.documentElement.classList.remove('mobile-menu-open'); drawer.setAttribute('aria-hidden','true'); }
+    // events with slide animation (keep full while open, half-hidden when closed)
+    function openMenu(){ 
+      document.documentElement.classList.add('mobile-menu-open'); 
+      drawer.setAttribute('aria-hidden','false'); 
+      btn.classList.add('active'); // keep fully visible while menu open
+      setHamburgerFull();
+    }
+    function closeMenu(){ 
+      document.documentElement.classList.remove('mobile-menu-open'); 
+      drawer.setAttribute('aria-hidden','true'); 
+      // slide back to half-hidden shortly after close
+      setTimeout(function(){ 
+        btn.classList.remove('active'); 
+        setHamburgerHalf();
+      }, 50);
+    }
 
     btn.addEventListener('click', function(){
-      if (document.documentElement.classList.contains('mobile-menu-open')) closeMenu();
-      else openMenu();
+      var isOpen = document.documentElement.classList.contains('mobile-menu-open');
+      if (isOpen) {
+        // close immediately and slide back
+        closeMenu();
+      } else {
+        // slide in first, then open after 200ms
+        btn.classList.add('active');
+        setHamburgerFull();
+        setTimeout(function(){ openMenu(); }, 200);
+      }
     }, { passive: true });
 
     overlay.addEventListener('click', closeMenu, { passive: true });

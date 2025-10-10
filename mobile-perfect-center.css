@@ -31,12 +31,17 @@
     white-space: nowrap !important;
   }
   
-  /* Ensure hamburger button doesn't overlap */
+  /* Hamburger button - slide animation from LEFT side (same as theme toggle) */
   .hamburger-btn {
     position: fixed !important;
-    top: 12px !important;
-    right: 12px !important;
+    top: 50% !important;
+    left: -21px !important;
+    right: auto !important;
+    transform: translateY(-50%) !important;
     z-index: 1101 !important;
+    width: 42px !important;
+    height: 42px !important;
+    border-radius: 50% !important;
   }
 }
 

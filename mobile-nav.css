@@ -32,30 +32,97 @@
     position: static !important;
   }
 
-  /* Hamburger button - Premium Design */
+  /* Hamburger button - Premium Design with Slide Animation from LEFT */
   .hamburger-btn {
-    position: fixed;
-    top: 10px; right: 12px;
-    width: 42px; height: 42px;
-    border-radius: 12px;
-    border: 2px solid rgba(56, 189, 248, 0.45);
-    background: linear-gradient(135deg, rgba(14,165,233,0.18), rgba(139,92,246,0.15));
+    position: fixed !important;
+    top: 50% !important;
+    left: -21px !important; /* Half hidden by default on LEFT side */
+    right: auto !important;
+    width: 42px !important;
+    height: 42px !important;
+    border-radius: 50% !important;
+    border: 2px solid rgba(56, 189, 248, 0.45) !important;
+    background: linear-gradient(135deg, rgba(14,165,233,0.18), rgba(139,92,246,0.15)) !important;
     box-shadow: 
       0 6px 20px rgba(14,165,233,0.25), 
       0 0 35px rgba(14,165,233,0.12),
-      inset 0 1px 0 rgba(255,255,255,0.15);
-    display: inline-flex; align-items: center; justify-content: center;
-    z-index: 1101;
-    cursor: pointer;
-    transition: all .35s cubic-bezier(0.34, 1.56, 0.64, 1);
-    backdrop-filter: blur(12px) saturate(160%);
+      inset 0 1px 0 rgba(255,255,255,0.15),
+      2px 0 20px rgba(14,165,233,0.4) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 1100 !important;
+    cursor: pointer !important;
+    transform: translateY(-50%) !important;
+    transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    backdrop-filter: blur(12px) saturate(160%) !important;
+    animation: hamburger-pulse 3s ease-in-out infinite !important;
   }
-  .hamburger-btn:hover { 
-    transform: translateY(-3px) scale(1.06); 
+
+  /* Pulse animation for hamburger */
+  @keyframes hamburger-pulse {
+    0%, 100% {
+      box-shadow: 
+        0 6px 20px rgba(14,165,233,0.25), 
+        0 0 35px rgba(14,165,233,0.12),
+        inset 0 1px 0 rgba(255,255,255,0.15),
+        -2px 0 20px rgba(14,165,233,0.4);
+    }
+    50% {
+      box-shadow: 
+        0 6px 20px rgba(14,165,233,0.35), 
+        0 0 45px rgba(14,165,233,0.18),
+        inset 0 1px 0 rgba(255,255,255,0.2),
+        -2px 0 30px rgba(14,165,233,0.6);
+    }
+  }
+
+  /* Active state - slide in fully from LEFT */
+  .hamburger-btn.active {
+    left: 12px !important;
+    right: auto !important;
+    transform: translateY(-50%) scale(1.1) !important;
     box-shadow: 
-      0 12px 32px rgba(14,165,233,0.35),
-      0 0 50px rgba(14,165,233,0.18);
-    border-color: rgba(56, 189, 248, 0.65);
+      0 12px 32px rgba(14,165,233,0.4),
+      0 0 60px rgba(14,165,233,0.25),
+      inset 0 1px 0 rgba(255,255,255,0.2) !important;
+    border-color: rgba(56, 189, 248, 0.7) !important;
+    animation: none !important;
+  }
+
+  /* Trail effect when sliding from LEFT */
+  .hamburger-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, 
+      transparent 0%,
+      rgba(14, 165, 233, 0.6) 50%,
+      rgba(14, 165, 233, 0) 100%
+    );
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: all 0.6s ease-out;
+    pointer-events: none;
+  }
+
+  .hamburger-btn.active::before {
+    width: 40px;
+    opacity: 1;
+  }
+
+  /* Disable hover on mobile */
+  .hamburger-btn:hover { 
+    transform: translateY(-50%);
+    box-shadow: 
+      0 6px 20px rgba(14,165,233,0.25), 
+      0 0 35px rgba(14,165,233,0.12),
+      inset 0 1px 0 rgba(255,255,255,0.15),
+      -2px 0 20px rgba(14,165,233,0.4);
+    border-color: rgba(56, 189, 248, 0.45);
   }
 
   .hamburger-btn .bar,

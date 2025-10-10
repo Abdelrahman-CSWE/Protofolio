@@ -36,13 +36,98 @@
   <script defer src="ui-ux-enhancements.js"></script>
   <!-- 🔢 Metrics Count-Up Animation - Professional & Lightweight -->
   <script defer src="metrics-countup.js"></script>
+  <!-- 📱 Force-run hero text entrance animations on mobile via inline transitions -->
+  <script defer src="mobile-hero-anim.js"></script>
   <!-- 📱 Mobile Off-canvas Navigation - Professional & Elegant -->
   <link rel="stylesheet" href="mobile-nav.css">
   <script defer src="mobile-nav.js"></script>
+  <!-- 🎬 Mobile Hero Text Animations - GUARANTEED TO WORK -->
+  <link rel="stylesheet" href="mobile-hero-animations.css">
+
+  <!-- ✨ Global Text Reveal Animations: fade + motion, lightweight, professional -->
+  <style id="reveal-animations">
+    :root {
+      --reveal-duration: 720ms;
+      --reveal-ease: cubic-bezier(0.16, 1, 0.3, 1);
+      --reveal-distance: 26px;
+    }
+    /* Initial state only when JS marks readiness (avoids flashing if JS disabled) */
+    html.reveal-ready .reveal {
+      opacity: 0;
+      transform: translateY(var(--reveal-distance));
+      filter: blur(6px);
+      will-change: transform, opacity;
+    }
+    /* Play animation on intersection */
+    html.reveal-ready .reveal.in-view {
+      animation: reveal-up var(--reveal-duration) var(--reveal-ease) var(--reveal-delay, 0ms) both;
+    }
+    html.reveal-ready .reveal[data-reveal="up"].in-view { animation-name: reveal-up; }
+    html.reveal-ready .reveal[data-reveal="left"].in-view { animation-name: reveal-left; }
+    html.reveal-ready .reveal[data-reveal="right"].in-view { animation-name: reveal-right; }
+
+    @keyframes reveal-up {
+      from { opacity: 0; transform: translateY(var(--reveal-distance)); filter: blur(6px); }
+      to   { opacity: 1; transform: translateY(0); filter: blur(0); }
+    }
+    @keyframes reveal-left {
+      from { opacity: 0; transform: translateX(calc(-1 * var(--reveal-distance))); filter: blur(6px); }
+      to   { opacity: 1; transform: translateX(0); filter: blur(0); }
+    }
+    @keyframes reveal-right {
+      from { opacity: 0; transform: translateX(var(--reveal-distance)); filter: blur(6px); }
+      to   { opacity: 1; transform: translateX(0); filter: blur(0); }
+    }
+
+    /* Accessibility: honor reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      html.reveal-ready .reveal { opacity: 1 !important; transform: none !important; filter: none !important; animation: none !important; }
+    }
+  </style>
+  <script id="reveal-animations-js">
+    (function(){
+      'use strict';
+      var SELECTORS = [
+        '.section-header', '.section-title', '.section p', '.section li',
+        '.portfolio-project .project-title', '.portfolio-project .project-desc', '.portfolio-project p',
+        '.video-info .video-title', '.video-info .video-description',
+        'h1','h2','h3','h4','h5','h6','p','li','.card .content','.badge','.element-title','.element-value'
+      ];
+      function toArray(n){ return Array.prototype.slice.call(n || []); }
+      function unique(arr){ var s=new Set(), out=[]; arr.forEach(function(el){ if(el && !s.has(el)){ s.add(el); out.push(el);} }); return out; }
+      function collect(){
+        var nodes=[]; SELECTORS.forEach(function(sel){ try{ nodes=nodes.concat(toArray(document.querySelectorAll(sel))); }catch(e){} });
+        nodes = unique(nodes).filter(function(el){
+          if(!el || el.closest('.hero')) return false; // avoid duplicating hero animations
+          var r = el.getBoundingClientRect(); return !(r.width===0 && r.height===0);
+        });
+        return nodes;
+      }
+      function setup(){
+        document.documentElement.classList.add('reveal-ready');
+        var nodes = collect();
+        nodes.forEach(function(el){ el.classList.add('reveal'); if(!el.hasAttribute('data-reveal')) el.setAttribute('data-reveal','up'); });
+        // Stagger per closest section/container
+        var groups = new Map();
+        nodes.forEach(function(el){ var g = el.closest('section, .section, .container, .grid, .engineering-portfolio-grid, body') || document.body; if(!groups.has(g)) groups.set(g, []); groups.get(g).push(el); });
+        groups.forEach(function(list){ list.forEach(function(el, i){ var d = Math.min(100*i, 800); el.style.setProperty('--reveal-delay', d + 'ms'); }); });
+        // Observe
+        var io = new IntersectionObserver(function(entries){
+          entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target); } });
+        }, { root: null, rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
+        nodes.forEach(function(el){ io.observe(el); });
+        window.addEventListener('pageshow', function(ev){ if(ev.persisted){ nodes.forEach(function(el){ el.classList.remove('in-view'); }); requestAnimationFrame(function(){ nodes.forEach(function(el){ io.observe(el); }); }); } }, {passive:true});
+      }
+      if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', setup, {once:true}); else setup();
+    })();
+  </script>
   <!-- 📱 Mobile Size Reduction - Balanced & Proportional -->
   <link rel="stylesheet" href="mobile-size-reduction.css">
   <!-- 📱 Mobile Perfect Centering - Final Fix for All Alignment Issues -->
   <link rel="stylesheet" href="mobile-perfect-center.css">
+  <!-- 🌓 Theme Toggle - Light/Dark Mode Switcher -->
+  <link rel="stylesheet" href="theme-toggle.css">
+  <script defer src="theme-toggle.js"></script>
   <!-- 📱 Force Mobile Nav to Bottom (Highest Priority) -->
   <link rel="stylesheet" href="mobile-nav-force.css">
   <style id="mobile-only-hide-chassis">
@@ -2212,43 +2297,135 @@
       }
     }
 
-    /* Enhanced Mechanical Text Animation - SPECIFIC TARGETING */
-    .hero-title .hero-job-title {
-      position: relative;
-      overflow: hidden;
-      animation: mechanical-reveal 2s var(--ease-spring) 0.2s both;
-      /* Ensure this element can be targeted for scaling */
-      transition: all 0.3s var(--ease-spring);
-    }
-
+    /* 🎬 Enhanced Professional Text Animations - GPU Optimized */
+    
+    /* Line 1: Slide + Glow Effect */
     .hero-title .line1 {
       position: relative;
-      overflow: hidden;
-      animation: mechanical-reveal 2s var(--ease-spring) 0.2s both;
-      /* Ensure this element can be targeted for scaling */
-      transition: all 0.3s var(--ease-spring);
+      overflow: visible;
+      animation: 
+        text-slide-glow 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both,
+        text-float-subtle 4s ease-in-out 1.5s infinite;
+      transform-style: preserve-3d;
+      will-change: transform, opacity;
     }
 
-    
-    
-    
-    
-    
-    
-    @keyframes mechanical-reveal {
+    @keyframes text-slide-glow {
       0% {
-        transform: translateY(100px) rotateX(90deg);
+        transform: translateX(-80px) translateZ(-50px);
         opacity: 0;
+        filter: blur(8px) brightness(0.5);
       }
-      50% {
-        transform: translateY(20px) rotateX(45deg);
-        opacity: 0.7;
+      60% {
+        transform: translateX(5px) translateZ(5px);
+        opacity: 0.9;
+        filter: blur(0px) brightness(1.1);
       }
       100% {
-        transform: translateY(0) rotateX(0deg);
+        transform: translateX(0) translateZ(0);
+        opacity: 1;
+        filter: blur(0px) brightness(1);
+      }
+    }
+
+    /* Line 2: Scale + Shine Effect */
+    .hero-title .line2 {
+      position: relative;
+      overflow: visible;
+      animation: 
+        text-scale-shine 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both,
+        text-pulse-glow 3s ease-in-out 2s infinite;
+      transform-style: preserve-3d;
+      will-change: transform, opacity;
+    }
+
+    @keyframes text-scale-shine {
+      0% {
+        transform: scale(0.7) translateY(30px);
+        opacity: 0;
+        filter: blur(10px) brightness(0.3);
+      }
+      50% {
+        transform: scale(1.05) translateY(-5px);
+        opacity: 0.8;
+        filter: blur(2px) brightness(1.2);
+      }
+      100% {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+        filter: blur(0px) brightness(1);
+      }
+    }
+
+    /* Subtitle: Fade + Rise Effect */
+    .hero-subtitle {
+      animation: 
+        text-fade-rise 1.3s cubic-bezier(0.16, 1, 0.3, 1) 0.8s both;
+      will-change: transform, opacity;
+    }
+
+    @keyframes text-fade-rise {
+      0% {
+        transform: translateY(40px);
+        opacity: 0;
+        filter: blur(6px);
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+        filter: blur(0px);
+      }
+    }
+
+    /* Continuous Subtle Animations */
+    @keyframes text-float-subtle {
+      0%, 100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-3px);
+      }
+    }
+
+    @keyframes text-pulse-glow {
+      0%, 100% {
+        filter: brightness(1);
+      }
+      50% {
+        filter: brightness(1.08);
+      }
+    }
+
+    /* Character-by-character reveal for line1 (optional enhancement) */
+    .hero-title .line1 .char {
+      display: inline-block;
+      animation: char-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+      will-change: transform, opacity;
+    }
+
+    @keyframes char-pop {
+      0% {
+        transform: translateY(20px) scale(0.8);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0) scale(1);
         opacity: 1;
       }
     }
+
+    /* Stagger delay for characters */
+    .hero-title .line1 .char:nth-child(1) { animation-delay: 0.35s; }
+    .hero-title .line1 .char:nth-child(2) { animation-delay: 0.4s; }
+    .hero-title .line1 .char:nth-child(3) { animation-delay: 0.45s; }
+    .hero-title .line1 .char:nth-child(4) { animation-delay: 0.5s; }
+    .hero-title .line1 .char:nth-child(5) { animation-delay: 0.55s; }
+    .hero-title .line1 .char:nth-child(6) { animation-delay: 0.6s; }
+    .hero-title .line1 .char:nth-child(7) { animation-delay: 0.65s; }
+    .hero-title .line1 .char:nth-child(8) { animation-delay: 0.7s; }
+    .hero-title .line1 .char:nth-child(9) { animation-delay: 0.75s; }
+    .hero-title .line1 .char:nth-child(10) { animation-delay: 0.8s; }
+    .hero-title .line1 .char:nth-child(n+11) { animation-delay: 0.85s; }
 
     /* 3D Depth Text Effect */
     .hero-title .line1::before {
@@ -2308,11 +2485,11 @@
       font-weight: 800;
       color: var(--accent-primary);
       margin-bottom: 0.5rem;
-      animation: slide-in-left 1s var(--ease-spring) 0.2s both;
       text-transform: uppercase;
       letter-spacing: 2px;
       text-shadow: 0 2px 4px rgba(14, 165, 233, 0.3);
       text-align: left;
+      /* Remove old animation - new one applied above */
     }
 
     .hero-title .line2 {
@@ -2322,28 +2499,13 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      animation: slide-in-right 1s var(--ease-spring) 0.4s both;
       text-align: left;
+      /* Remove old animation - new one applied above */
     }
 
     .hero-title .char {
       display: inline-block;
-      animation: char-bounce 0.6s var(--ease-spring) both;
-    }
-
-    @keyframes slide-in-left {
-      from { transform: translateX(-100px) rotateY(-30deg); opacity: 0; }
-      to { transform: translateX(0) rotateY(0deg); opacity: 1; }
-    }
-
-    @keyframes slide-in-right {
-      from { transform: translateX(100px) rotateY(30deg); opacity: 0; }
-      to { transform: translateX(0) rotateY(0deg); opacity: 1; }
-    }
-
-    @keyframes char-bounce {
-      from { transform: translateY(50px) rotateX(90deg); opacity: 0; }
-      to { transform: translateY(0) rotateX(0deg); opacity: 1; }
+      /* Character animation applied above */
     }
 
     /* Advanced Typewriter Effect */
@@ -5537,6 +5699,51 @@
     let t=null; new MutationObserver(()=>{ clearTimeout(t); t=setTimeout(applyAll,120); }).observe(document.documentElement,{childList:true,subtree:true});
   })();
   </script>
+<style id="mobile-hero-text-anim">
+    /* Mobile-only hero text animations: fast, elegant, no performance hit */
+    @media (max-width: 900px) {
+      /* Reset any previous animations on mobile to avoid conflicts */
+      .hero-title .line1,
+      .hero-title .line2,
+      .hero-subtitle { animation: none !important; }
+
+      /* Entry animations (one-time) */
+      body.mobile-anim-start .hero-title .line1 {
+        animation: m-slide-in 800ms cubic-bezier(0.16, 1, 0.3, 1) 120ms both !important;
+        will-change: transform, opacity;
+      }
+      body.mobile-anim-start .hero-title .line2 {
+        animation: m-scale-in 900ms cubic-bezier(0.16, 1, 0.3, 1) 240ms both !important;
+        will-change: transform, opacity;
+      }
+      body.mobile-anim-start .hero-subtitle {
+        animation: m-fade-rise 800ms ease-out 420ms both !important;
+        will-change: transform, opacity;
+      }
+
+      /* Keyframes optimized for GPU (transform/opacity only) */
+      @keyframes m-slide-in {
+        0% { transform: translateX(-40px); opacity: 0; filter: blur(6px); }
+        100% { transform: translateX(0); opacity: 1; filter: blur(0); }
+      }
+      @keyframes m-scale-in {
+        0% { transform: scale(0.85); opacity: 0; filter: blur(8px); }
+        60% { transform: scale(1.03); opacity: .9; filter: blur(1px); }
+        100% { transform: scale(1); opacity: 1; filter: blur(0); }
+      }
+      @keyframes m-fade-rise {
+        0% { transform: translateY(24px); opacity: 0; filter: blur(4px); }
+        100% { transform: translateY(0); opacity: 1; filter: blur(0); }
+      }
+
+      /* Respect reduced motion */
+      @media (prefers-reduced-motion: reduce) {
+        .hero-title .line1,
+        .hero-title .line2,
+        .hero-subtitle { animation: none !important; }
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="blueprint-bg"></div>
