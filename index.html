@@ -6449,6 +6449,18 @@
         </div>
 
         <!-- Technical Drawing -->
+        <!-- Sheet Metal - Seating Chairs -->
+        <div class="portfolio-project animate-on-scroll" data-project="seating-chairs">
+          <div class="project-image-container">
+            <img src="Photos/Sheet Metal -Seating chairs/1.png" alt="Sheet Metal - Seating Chairs" class="project-main-image">
+            <div class="project-overlay">
+              <div class="project-icon">🪑</div>
+              <h3 class="project-title">Sheet Metal - Seating Chairs</h3>
+              <p class="project-subtitle">Advanced seating design & fabrication</p>
+            </div>
+          </div>
+        </div>
+
         <div class="portfolio-project animate-slide-right" data-project="drawing">
           <div class="project-image-container">
             <img src="Photos/Drawing/1.webp" alt="Technical Drawing" class="project-main-image">
@@ -7293,6 +7305,27 @@
           'Photos/Solidwork Champion/3.jpg'
         ]
       },
+      'seating-chairs': {
+        title: 'Sheet Metal - Seating Chairs',
+        images: [
+          'Photos/Sheet Metal -Seating chairs/1.png',
+          'Photos/Sheet Metal -Seating chairs/2.jpg',
+          'Photos/Sheet Metal -Seating chairs/3.jpg',
+          'Photos/Sheet Metal -Seating chairs/5.png',
+          'Photos/Sheet Metal -Seating chairs/6.png',
+          'Photos/Sheet Metal -Seating chairs/A.jpg',
+          'Photos/Sheet Metal -Seating chairs/B.png',
+          'Photos/Sheet Metal -Seating chairs/C.png',
+          'Photos/Sheet Metal -Seating chairs/D.png',
+          'Photos/Sheet Metal -Seating chairs/E.png',
+          'Photos/Sheet Metal -Seating chairs/G.jpg',
+          'Photos/Sheet Metal -Seating chairs/H.png',
+          'Photos/Sheet Metal -Seating chairs/W-1.png',
+          'Photos/Sheet Metal -Seating chairs/W-2.jpg',
+          'Photos/Sheet Metal -Seating chairs/W-4.jpg',
+          'Photos/Sheet Metal -Seating chairs/W.jpg'
+        ]
+      },
       'drawing': {
         title: 'Technical Drawing',
         images: [
@@ -7803,6 +7836,32 @@
         }
         
         try {
+          // Inject seating-chairs portfolio data before initializing gallery
+          try {
+            if (typeof portfolioData === 'object' && portfolioData) {
+              portfolioData['seating-chairs'] = {
+                title: 'Sheet Metal - Seating Chairs',
+                images: [
+                  'Photos/Sheet Metal -Seating chairs/1.png',
+                  'Photos/Sheet Metal -Seating chairs/2.jpg',
+                  'Photos/Sheet Metal -Seating chairs/3.jpg',
+                  'Photos/Sheet Metal -Seating chairs/5.png',
+                  'Photos/Sheet Metal -Seating chairs/6.png',
+                  'Photos/Sheet Metal -Seating chairs/A.jpg',
+                  'Photos/Sheet Metal -Seating chairs/B.png',
+                  'Photos/Sheet Metal -Seating chairs/C.png',
+                  'Photos/Sheet Metal -Seating chairs/D.png',
+                  'Photos/Sheet Metal -Seating chairs/E.png',
+                  'Photos/Sheet Metal -Seating chairs/G.jpg',
+                  'Photos/Sheet Metal -Seating chairs/H.png',
+                  'Photos/Sheet Metal -Seating chairs/W-1.png',
+                  'Photos/Sheet Metal -Seating chairs/W-2.jpg',
+                  'Photos/Sheet Metal -Seating chairs/W-4.jpg',
+                  'Photos/Sheet Metal -Seating chairs/W.jpg'
+                ]
+              };
+            }
+          } catch (e) { /* no-op */ }
           initPortfolioGallery();
         } catch (error) {
           console.error('Error in initPortfolioGallery:', error);

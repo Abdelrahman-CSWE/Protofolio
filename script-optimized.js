@@ -90,6 +90,27 @@ const portfolioData = {
       'Photos/Sheet Metal Analysis/Punch.jpeg'
     ]
   },
+  'seating-chairs': {
+    title: 'Sheet Metal - Seating Chairs',
+    images: [
+      'Photos/Sheet Metal -Seating chairs/1.png',
+      'Photos/Sheet Metal -Seating chairs/2.jpg',
+      'Photos/Sheet Metal -Seating chairs/3.jpg',
+      'Photos/Sheet Metal -Seating chairs/5.png',
+      'Photos/Sheet Metal -Seating chairs/6.png',
+      'Photos/Sheet Metal -Seating chairs/A.jpg',
+      'Photos/Sheet Metal -Seating chairs/B.png',
+      'Photos/Sheet Metal -Seating chairs/C.png',
+      'Photos/Sheet Metal -Seating chairs/D.png',
+      'Photos/Sheet Metal -Seating chairs/E.png',
+      'Photos/Sheet Metal -Seating chairs/G.jpg',
+      'Photos/Sheet Metal -Seating chairs/H.png',
+      'Photos/Sheet Metal -Seating chairs/W-1.png',
+      'Photos/Sheet Metal -Seating chairs/W-2.jpg',
+      'Photos/Sheet Metal -Seating chairs/W-4.jpg',
+      'Photos/Sheet Metal -Seating chairs/W.jpg'
+    ]
+  },
   'solidworks-champion': {
     title: 'SolidWorks Champion',
     images: [
@@ -158,6 +179,10 @@ const throttle = (func, limit) => {
   };
 };
 
+// Idle/RAF helpers for non-critical work scheduling (no visual change)
+const idle = (cb, timeout = 2000) => (window.requestIdleCallback ? requestIdleCallback(cb, { timeout }) : setTimeout(cb, 0));
+const raf = (cb) => (window.requestAnimationFrame ? requestAnimationFrame(cb) : setTimeout(cb, 16));
+
 // Cache DOM elements on init
 function cacheDOMElements() {
   DOM.galleryModal = document.getElementById('galleryModal');
@@ -202,7 +227,8 @@ function updateGalleryImage() {
   imgEl.decoding = 'async';
 
   // If already showing the same source, just update counter and thumbnails
-  if (imgEl.src === nextSrc) {
+  const currentAttrSrc = imgEl.getAttribute('src') || '';
+  if (currentAttrSrc === nextSrc) {
     DOM.galleryCounter.textContent = `${currentImageIndex + 1} / ${currentGallery.length}`;
   } else {
     // Pre-decode next image to avoid flicker and ensure instant swap
@@ -210,7 +236,7 @@ function updateGalleryImage() {
     preImg.decoding = 'async';
     preImg.src = nextSrc;
     const done = () => {
-      imgEl.src = nextSrc;
+      imgEl.setAttribute('src', nextSrc);
       DOM.galleryCounter.textContent = `${currentImageIndex + 1} / ${currentGallery.length}`;
     };
     if (preImg.decode) {
@@ -301,6 +327,30 @@ function initPortfolioHandlers() {
       case 'ArrowRight': nextImage(); break;
     }
   });
+
+  // Prefetch first few images on hover/touch to accelerate lightbox opening
+  const prefetchHandler = (ev) => {
+    const el = ev.target && ev.target.closest ? ev.target.closest('.portfolio-project') : null;
+    if (!el) return;
+    const key = el.getAttribute('data-project');
+    idle(() => {
+      const project = portfolioData[key];
+      if (!project || !project.images) return;
+      const count = Math.min(project.images.length, 4);
+      for (let i = 0; i < count; i++) {
+        const src = project.images[i];
+        const img = new Image();
+        img.decoding = 'async';
+        img.loading = 'eager';
+        img.src = src;
+      }
+    }, 800);
+  };
+  document.addEventListener('mouseenter', prefetchHandler, { capture: true, passive: true });
+  document.addEventListener('touchstart', prefetchHandler, { capture: true, passive: true });
+
+  // Ensure gallery state is reset on pagehide to release scroll lock
+  window.addEventListener('pagehide', () => { try { closeGallery(); } catch(e){} }, { once: true });
 }
 
 // ============================================
@@ -592,7 +642,7 @@ function setLazyLoadingForImages() {
       img.closest('.floating-element')
     ) {
       try { img.setAttribute('fetchpriority', 'high'); } catch(e){}
-      try { img.setAttribute('decoding', 'sync'); } catch(e){}
+      try { img.setAttribute('decoding', 'async'); } catch(e){}
       return; // do not set lazy
     }
     img.setAttribute('loading', 'lazy');
@@ -616,8 +666,9 @@ function init() {
   populateChassisGallery();
   initScrollAnimations();
   initNavbarEffects();
-  initSmoothScrolling();
-  initVideoControls();
+  // Defer non-critical initializations to idle time (no UX change)
+  idle(initSmoothScrolling, 800);
+  idle(initVideoControls, 800);
   initPortfolioHandlers();
 
   // Arrange metrics row
