@@ -3,9 +3,7 @@
 /* 🚀 الحاوية الرئيسية مع أنيميشن احترافي */
 .certification-cover {
   will-change: transform, opacity;
-  animation: 
-    cert-professional-entrance 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s both,
-    cert-subtle-float 10s ease-in-out 1.8s infinite !important;
+  animation: cert-professional-entrance 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s both !important; /* إزالة الطفو المستمر */
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
 }
 
@@ -60,7 +58,7 @@
     transparent 100%
   ) !important;
   transform: translateX(-100%) translateY(-100%) rotate(45deg) !important;
-  animation: wave-shine-powerful 4s ease-in-out 1s infinite !important;
+  animation: wave-shine-powerful 4s ease-in-out 1s 1 both !important; /* تشغيل مرة واحدة فقط ثم تتوقف */
   pointer-events: none !important;
   z-index: 3 !important;
   border-radius: 16px !important;

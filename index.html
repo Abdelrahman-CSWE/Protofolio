@@ -62,7 +62,7 @@
   <!-- ✨ Global Text Reveal Animations: fade + motion, lightweight, professional -->
   <style id="reveal-animations">
     :root {
-      --reveal-duration: 900ms;
+      --reveal-duration: 600ms; /* تسريع من 900ms إلى 600ms (33% أسرع) */
       --reveal-ease: cubic-bezier(0.16, 1, 0.3, 1);
       --reveal-distance: 26px;
     }
@@ -103,7 +103,7 @@
   <!-- Lightweight AOS-style animations for dynamic elements (cards, images, etc.) -->
   <style id="aos-animations">
     :root {
-      --aos-duration: 1.05s;
+      --aos-duration: 0.7s; /* تسريع من 1.05s إلى 0.7s (33% أسرع) */
       --aos-ease: cubic-bezier(0.16, 1, 0.3, 1);
     }
     /* Initial states */
@@ -136,7 +136,7 @@
     }
 
     /* Slightly faster on mobile for snappier feel */
-    @media (max-width: 900px) { :root { --aos-duration: 0.9s; } }
+    @media (max-width: 900px) { :root { --aos-duration: 0.6s; } } /* تسريع من 0.9s إلى 0.6s */
 
     /* Respect reduced-motion without killing reveal entirely (handled above) */
     @media (prefers-reduced-motion: reduce) {
@@ -1408,8 +1408,8 @@
       opacity: 0.48;
       transition: all 0.6s var(--ease);
       animation: 
-        cert-epic-entrance 2.5s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both,
-        cert-professional-float 12s ease-in-out 3s infinite;
+        cert-epic-entrance 2.5s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+      /* إزالة cert-professional-float لجعل الصورة ثابتة بعد الدخول */
       transform: translateY(-50%) rotate(-3deg) perspective(1200px) rotateY(-5deg) scale(1.08);
       transform-style: preserve-3d;
       filter: brightness(1.12) contrast(1.15) saturate(1.18);

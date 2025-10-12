@@ -234,3 +234,15 @@
     animation-timing-function: var(--reveal-ease) !important;
   }
 }
+
+/* ⚡ تسريع أنيميشنات الظهور بنسبة 33% - تطبيق عالمي */
+:root {
+  --reveal-duration: 600ms !important; /* تسريع من 900ms */
+  --aos-duration: 0.7s !important; /* تسريع من 1.05s */
+}
+
+@media (max-width: 900px) {
+  :root {
+    --aos-duration: 0.6s !important; /* تسريع من 0.9s */
+  }
+}
