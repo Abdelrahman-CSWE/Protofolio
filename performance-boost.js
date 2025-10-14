@@ -32,13 +32,16 @@
       }
     });
 
-    // Fade-in when lazy images finish
+    // Fade-in when lazy images finish (use decode when available)
     const lazyImgs = document.querySelectorAll('img[loading="lazy"]');
     lazyImgs.forEach(im => {
-      if (!im.complete) {
-        im.addEventListener('load', ()=> im.classList.add('loaded'), { once: true, passive: true });
+      const apply = () => im.classList.add('loaded');
+      if (typeof im.decode === 'function') {
+        im.decode().then(apply).catch(apply);
+      } else if (!im.complete) {
+        im.addEventListener('load', apply, { once: true, passive: true });
       } else {
-        im.classList.add('loaded');
+        apply();
       }
     });
   }
@@ -75,6 +78,29 @@
     vids.forEach(v => io.observe(v));
   }
 
+  function prefetchOnHover(){
+    const seen = new WeakSet();
+    const cards = document.querySelectorAll('.portfolio-project');
+    if(!cards.length) return;
+    cards.forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        if(seen.has(card)) return;
+        seen.add(card);
+        const imgs = card.querySelectorAll('img');
+        for(let i=0; i<Math.min(3, imgs.length); i++){
+          const src = imgs[i].currentSrc || imgs[i].src;
+          if(!src) continue;
+          try {
+            const link = document.createElement('link');
+            link.rel = 'prefetch';
+            link.href = src;
+            document.head.appendChild(link);
+          } catch(e){}
+        }
+      }, { once: true, passive: true });
+    });
+  }
+
   function injectHiddenTabCSS() {
     // Pause animations when the tab is hidden only (no visual impact)
     const style = document.createElement('style');
@@ -92,6 +118,26 @@
     toggle();
   }
 
+  function optimizeEventListenersLight(){
+    try{
+      const origAdd = EventTarget.prototype.addEventListener;
+      EventTarget.prototype.addEventListener = function(type, listener, options){
+        try{
+          if(type === 'scroll' || type === 'wheel'){
+            if(options === undefined){
+              options = { passive: true };
+            } else if(typeof options === 'boolean'){
+              options = { capture: !!options, passive: true };
+            } else if(typeof options === 'object' && options.passive === undefined){
+              options = Object.assign({}, options, { passive: true });
+            }
+          }
+        }catch(e){}
+        return origAdd.call(this, type, listener, options);
+      };
+    }catch(e){}
+  }
+
   function registerSW() {
     try {
       if ('serviceWorker' in navigator) {
@@ -104,12 +150,14 @@
 
   function init() {
     // Run critical hints quickly
+    optimizeEventListenersLight();
     optimizeImages();
     optimizeIframes();
 
     // Defer heavier steps
     idle(()=> optimizeVideos());
     idle(()=> { injectHiddenTabCSS(); handleVisibility(); });
+    idle(()=> prefetchOnHover());
     idle(()=> registerSW());
 
     // Re-run on resize (debounced)
