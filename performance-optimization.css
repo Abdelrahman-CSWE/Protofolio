@@ -248,12 +248,7 @@
 }
 
 /* === Safe, visual-preserving performance upgrades === */
-/* Smooth fade-in for lazy images (paired with JS adding .loaded) */
-img[loading="lazy"] {
-  opacity: 0;
-  transition: opacity 280ms var(--ease, cubic-bezier(0.4, 0, 0.2, 1));
-}
-img.loaded { opacity: 1; }
+/* Images visible by default - no opacity manipulation */
 
 /* Virtualize heavy containers to reduce paint work offscreen */
 .engineering-portfolio-grid,

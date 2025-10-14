@@ -20,8 +20,58 @@
         if(rect.top < (window.innerHeight*1.2) && rect.bottom > 0){
           if(!img.hasAttribute('fetchpriority')) img.setAttribute('fetchpriority','high');
           if(img.hasAttribute('loading')) img.removeAttribute('loading');
+          // Pre-decode in-viewport images to avoid jank without visual change
+          if (typeof img.decode === 'function') { img.decode().catch(function(){}); }
         }
       } catch(e) {}
+    });
+  }
+
+  // Lightweight media optimization (safe)
+  function optimizeIframes(){
+    var ifr = document.querySelectorAll('iframe');
+    ifr.forEach(function(f){
+      try {
+        if(!f.hasAttribute('loading')) f.setAttribute('loading','lazy');
+        if(!f.hasAttribute('referrerpolicy')) f.setAttribute('referrerpolicy','no-referrer-when-downgrade');
+      } catch(e){}
+    });
+  }
+
+  function optimizeVideos(){
+    var vids = document.querySelectorAll('video');
+    if(!vids.length) return;
+
+    // Fallback: basic hints without IO
+    if(!('IntersectionObserver' in window)){
+      vids.forEach(function(v){
+        try {
+          if(!v.hasAttribute('preload')) v.setAttribute('preload','metadata');
+          v.setAttribute('playsinline','');
+          v.setAttribute('webkit-playsinline','');
+        } catch(e){}
+      });
+      return;
+    }
+
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        var v = entry.target;
+        if(!entry.isIntersecting){
+          try { v.pause(); } catch(e){}
+        }
+      });
+    }, { threshold: 0, rootMargin: '0px 0px -10% 0px' });
+
+    vids.forEach(function(v){
+      if(v.dataset.optimized) return;
+      v.dataset.optimized = '1';
+      try {
+        if(!v.hasAttribute('preload')) v.setAttribute('preload','metadata');
+        v.setAttribute('playsinline','');
+        v.setAttribute('webkit-playsinline','');
+      } catch(e){}
+      io.observe(v);
     });
   }
 
@@ -107,12 +157,25 @@
 
   onReady(function(){
     upgradeImages();
+    optimizeIframes();
+    optimizeVideos();
     initReveal();
     initMicroInteractions();
     ensureA11y();
     initScrollToTop();
+
+    // Idle, non-blocking second pass
+    var ric = window.requestIdleCallback || function(cb){ return setTimeout(cb, 300); };
+    ric(function(){ try { upgradeImages(); optimizeIframes(); optimizeVideos(); } catch(e){} });
+
+    // Pause videos when tab hidden (no visual change)
+    document.addEventListener('visibilitychange', function(){
+      if(document.hidden){
+        try{ document.querySelectorAll('video').forEach(function(v){ v.pause(); }); }catch(e){}
+      }
+    }, {passive:true});
   });
 
   // Re-run upgrade when viewport changes (debounced)
-  var t; window.addEventListener('resize', function(){ clearTimeout(t); t=setTimeout(upgradeImages, 200); });
+  var t; window.addEventListener('resize', function(){ clearTimeout(t); t=setTimeout(function(){ upgradeImages(); optimizeIframes(); optimizeVideos(); }, 200); });
 })();
