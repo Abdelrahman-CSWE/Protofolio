@@ -9,6 +9,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="//unpkg.com">
+  <link rel="preconnect" href="https://unpkg.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <!-- ⬡ Refined Hexagon Animations for Navbar - Elegant & Balanced -->
   <link rel="stylesheet" href="nav-hexagon-refined-animations.css">
@@ -252,13 +254,19 @@
     /* Mobile fix: Move CH.glb to the left to center it on mobile */
     @media (max-width: 900px) {
       #models-3d model-viewer[src="CH.glb"] {
-        transform: translateX(-60px) scale(0.85) !important;
+        transform: translateX(-60px) scale(1.00) !important;
         transform-origin: center center !important;
       }
 
       /* Mobile fix: Move Sheet Metal.glb to the left to center it on mobile */
       #models-3d model-viewer[src="Sheet Metal.glb"] {
-        transform: translateX(-60px) scale(1.35) !important;
+        transform: translateX(-60px) scale(1.12) !important;
+        transform-origin: center center !important;
+      }
+
+      /* Mobile fix: Normalize Panel.glb to center alignment */
+      #models-3d model-viewer[src="Panel.glb"] {
+        transform: translateX(-40px) scale(1.00) !important;
         transform-origin: center center !important;
       }
     }
@@ -310,7 +318,8 @@
     @media (max-width: 900px) {
       #models-3d .models-grid {
         grid-template-columns: 1fr !important;
-        gap: 3rem !important;
+        row-gap: 0.25rem !important;
+        column-gap: 0.5rem !important;
         padding-inline: 1rem !important;
         min-height: auto !important;
         max-width: 85% !important;
@@ -342,7 +351,7 @@
         max-width: 100% !important;
         margin: 0 auto !important;
         padding: 0 !important;
-        transform: scale(0.85) !important;
+        transform: scale(0.92) !important;
         transform-origin: center center !important;
         will-change: transform !important;
       }
@@ -557,8 +566,7 @@
   <!-- 📥 CV Download Button Styling -->
   <link rel="stylesheet" href="cv-download-style.css">
   <!-- 📱 Force Mobile Nav to Bottom (Highest Priority) -->
-  <link rel="stylesheet" href="mobile-nav-force.css">
-  <style id="mobile-only-hide-chassis">
+    <style id="mobile-only-hide-chassis">
     /* إخفاء قسم Chassis Gallery المستقل على الموبايل فقط - PC و iPad يبقيان كما هما */
     @media (max-width: 900px) { 
       #chassis { 
@@ -830,7 +838,211 @@
       margin-right: auto !important;
     }
   </style>
-  <style id="post-3d-gap-fix">
+    <!-- 📱 3D-Only Mobile Scrollbar -->
+  <style id="mobile-3d-only-scrollbar">
+    @media (max-width: 900px) {
+      /* Hide scrollbar everywhere on mobile by default (target both html and body) */
+      html::-webkit-scrollbar, body::-webkit-scrollbar { width: 0; height: 0; }
+      html, body { scrollbar-width: none; }
+
+      /* Show a lightweight custom scrollbar only near the 3D section */
+      html.near-3d-models::-webkit-scrollbar, body.near-3d-models::-webkit-scrollbar { width: 8px; }
+      html.near-3d-models::-webkit-scrollbar-track, body.near-3d-models::-webkit-scrollbar-track { background: transparent; }
+      html.near-3d-models::-webkit-scrollbar-thumb, body.near-3d-models::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg,
+          rgba(14,165,233,0.1) 0%,
+          rgba(14,165,233,0.9) 45%,
+          rgba(139,92,246,0.9) 55%,
+          rgba(14,165,233,0.1) 100%
+        );
+        border-radius: 10px;
+        box-shadow: 0 0 8px rgba(14,165,233,0.35), 0 0 14px rgba(139,92,246,0.25);
+        animation: mobileScrollPulse 2.2s ease-in-out infinite;
+      }
+      html.near-3d-models, body.near-3d-models { scrollbar-width: thin; scrollbar-color: rgba(14,165,233,0.7) transparent; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html.near-3d-models::-webkit-scrollbar-thumb, body.near-3d-models::-webkit-scrollbar-thumb { animation: none !important; }
+    }
+
+    @keyframes mobileScrollPulse {
+      0%, 100% { box-shadow: 0 0 6px rgba(14,165,233,0.35), 0 0 12px rgba(139,92,246,0.2); }
+      50% { box-shadow: 0 0 12px rgba(14,165,233,0.7), 0 0 20px rgba(139,92,246,0.35); }
+    }
+  </style>
+  <style id="mobile-3d-overlay-scrollbar">
+    @media (max-width: 900px) {
+      .mobile-scrollbar {
+        position: fixed;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 6px;
+        height: 34vh;
+        border-radius: 8px;
+        background: linear-gradient(180deg, rgba(148,163,184,0.12), rgba(148,163,184,0.06));
+        box-shadow: inset 0 0 0 1px rgba(148,163,184,0.12);
+        z-index: 1500;
+        opacity: 0;
+        transition: opacity 0.25s ease;
+        pointer-events: none;
+      }
+      html.near-3d-models .mobile-scrollbar,
+      body.near-3d-models .mobile-scrollbar { opacity: 1; pointer-events: auto; }
+      .mobile-scrollbar .thumb {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 9vh;
+        min-height: 38px;
+        max-height: 18vh;
+        border-radius: 8px;
+        background: linear-gradient(180deg, rgba(14,165,233,.85), rgba(139,92,246,.85));
+        box-shadow: 0 4px 16px rgba(14,165,233,.35), 0 2px 10px rgba(139,92,246,.25);
+        transform: translateY(0);
+        cursor: grab;
+        touch-action: none;
+        user-select: none;
+        will-change: transform;
+      }
+      .mobile-scrollbar.dragging .thumb { cursor: grabbing; }
+    }
+  </style>
+  <script id="mobile-3d-only-scrollbar-js">
+    (function () {
+      'use strict';
+      function setup() {
+        try {
+          var mq = window.matchMedia('(max-width: 900px)');
+          if (!mq.matches) return;
+
+          var root = document.documentElement;
+          var body = document.body;
+          var target = document.getElementById('models-3d');
+          if (!target) return;
+
+          // Create overlay scrollbar once
+          var bar = document.createElement('div');
+          bar.className = 'mobile-scrollbar';
+          var thumb = document.createElement('div');
+          thumb.className = 'thumb';
+          bar.appendChild(thumb);
+          document.body.appendChild(bar);
+
+          // Drag interactions for overlay scrollbar
+          var dragging = false;
+          function isNear(){ return root.classList.contains('near-3d-models') || body.classList.contains('near-3d-models'); }
+          function clamp(v,min,max){ return v<min?min:(v>max?max:v); }
+          function scrollToProgress(p){
+            var viewportH = window.innerHeight || document.documentElement.clientHeight;
+            var sectionTop = target.getBoundingClientRect().top + window.scrollY;
+            var sectionH = target.offsetHeight;
+            var scY = p * (sectionH + viewportH) - viewportH + sectionTop;
+            window.scrollTo({ top: Math.round(scY) });
+          }
+          function updateFromEvent(ev, center){
+            var clientY = ev.touches ? ev.touches[0].clientY : ev.clientY;
+            var barRect = bar.getBoundingClientRect();
+            var trackH = bar.offsetHeight;
+            var thumbH = thumb.offsetHeight;
+            var maxTravel = Math.max(0, trackH - thumbH);
+            var y = clientY - barRect.top - (center ? thumbH/2 : thumbH/2);
+            y = clamp(Math.round(y), 0, maxTravel);
+            var p = maxTravel ? (y / maxTravel) : 0;
+            thumb.style.transform = 'translateY(' + y + 'px)';
+            scrollToProgress(p);
+          }
+          function startDrag(ev, center){
+            if(!isNear()) return;
+            dragging = true;
+            bar.classList.add('dragging');
+            if(ev.cancelable) ev.preventDefault();
+            updateFromEvent(ev, center===true);
+            document.addEventListener('touchmove', onMove, {passive:false});
+            document.addEventListener('touchend', endDrag, {passive:true});
+            document.addEventListener('mousemove', onMove);
+            document.addEventListener('mouseup', endDrag);
+          }
+          function onMove(ev){ if(!dragging) return; if(ev.cancelable) ev.preventDefault(); updateFromEvent(ev, true); }
+          function endDrag(){
+            dragging = false;
+            bar.classList.remove('dragging');
+            document.removeEventListener('touchmove', onMove, {passive:false});
+            document.removeEventListener('touchend', endDrag, {passive:true});
+            document.removeEventListener('mousemove', onMove);
+            document.removeEventListener('mouseup', endDrag);
+          }
+          thumb.addEventListener('touchstart', function(e){ startDrag(e,true); }, {passive:false});
+          thumb.addEventListener('mousedown', function(e){ startDrag(e,true); });
+          bar.addEventListener('touchstart', function(e){ if(e.target===bar) startDrag(e,true); }, {passive:false});
+          bar.addEventListener('mousedown', function(e){ if(e.target===bar) startDrag(e,true); });
+
+          function apply(on) {
+            if (on) { root.classList.add('near-3d-models'); body.classList.add('near-3d-models'); }
+            else { root.classList.remove('near-3d-models'); body.classList.remove('near-3d-models'); }
+          }
+
+          // Intersection-based toggle with generous margins
+          if ('IntersectionObserver' in window) {
+            var io = new IntersectionObserver(function (entries) {
+              var e = entries && entries[0];
+              apply(!!(e && e.isIntersecting));
+            }, { root: null, rootMargin: '300px 0px 300px 0px', threshold: 0 });
+            io.observe(target);
+          }
+
+          // Update thumb position based on section progress
+          function updateThumb() {
+            var viewportH = window.innerHeight || document.documentElement.clientHeight;
+            var sectionTop = target.getBoundingClientRect().top + window.scrollY;
+            var sectionH = target.offsetHeight;
+            var scY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+            var progress = (scY + viewportH - sectionTop) / (sectionH + viewportH);
+            if (progress < 0) progress = 0; else if (progress > 1) progress = 1;
+            var trackH = bar.offsetHeight;
+            var thumbH = thumb.offsetHeight;
+            var maxTravel = Math.max(0, trackH - thumbH);
+            var y = Math.round(progress * maxTravel);
+            thumb.style.transform = 'translateY(' + y + 'px)';
+          }
+
+          // Fallback + continuous check for visibility + position
+          var lastVis = null;
+          function check() {
+            var r = target.getBoundingClientRect();
+            var vis = r.top < (window.innerHeight + 300) && r.bottom > -300;
+            if (vis !== lastVis) { apply(vis); lastVis = vis; }
+            if (vis) updateThumb();
+          }
+
+          var ticking = false;
+          function onScrollOrResize(){
+            if (!ticking){
+              window.requestAnimationFrame(function(){
+                check();
+                ticking = false;
+              });
+              ticking = true;
+            }
+          }
+
+          window.addEventListener('scroll', onScrollOrResize, { passive: true });
+          window.addEventListener('resize', onScrollOrResize, { passive: true });
+          window.addEventListener('orientationchange', onScrollOrResize, { passive: true });
+
+          // Initial state after DOM ready
+          setTimeout(check, 0);
+        } catch (e) { /* silent */ }
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setup, { once: true });
+      } else {
+        setup();
+      }
+    })();
+  </script>
+    <style id="post-3d-gap-fix">
     :root { --post-3d-gap: 0px; }
     /* Pull up the block immediately after 3D Models with MASSIVE visible movement */
     #models-3d {
@@ -874,24 +1086,37 @@
     @media (max-width: 900px){
       :root { --post-3d-gap: 0px; }
       #models-3d { margin-bottom: 0 !important; }
-      #models-3d + * { margin-top: 1350px !important; }
+      #models-3d + * { margin-top: 24px !important; }
     }
   </style>
   <script>
     (function(){
+      var lastH = -1;
       function setNavHeightVar(){
         var nav = document.querySelector('.nav');
         if(!nav) return;
         var h = Math.ceil(nav.getBoundingClientRect().height);
-        document.documentElement.style.setProperty('--nav-dyn-h', h + 'px');
+        if (h !== lastH) {
+          document.documentElement.style.setProperty('--nav-dyn-h', h + 'px');
+          lastH = h;
+        }
+      }
+      function schedule(){
+        if (schedule._ticking) return;
+        schedule._ticking = true;
+        (window.requestAnimationFrame || function(cb){ return setTimeout(cb,16); })(function(){
+          schedule._ticking = false;
+          setNavHeightVar();
+        });
       }
       if(document.readyState === 'loading'){
-        document.addEventListener('DOMContentLoaded', setNavHeightVar);
+        document.addEventListener('DOMContentLoaded', setNavHeightVar, { once: true });
       } else {
         setNavHeightVar();
       }
-      window.addEventListener('resize', setNavHeightVar, { passive: true });
-      window.addEventListener('orientationchange', setNavHeightVar);
+      window.addEventListener('resize', schedule, { passive: true });
+      window.addEventListener('orientationchange', schedule, { passive: true });
+      window.addEventListener('pageshow', function(e){ if(e.persisted) schedule(); }, { passive: true });
     })();
   </script>
   <!-- Preload critical resources for better performance -->
