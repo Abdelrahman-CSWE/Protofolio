@@ -931,7 +931,7 @@
           document.body.appendChild(bar);
 
           // Drag interactions for overlay scrollbar
-          var dragging = false, thumbY = 0, anchorOffset = 0, moveTicking = false;
+          var dragging = false, thumbY = 0, anchorOffset = 0;
           function isNear(){ return root.classList.contains('near-3d-models') || body.classList.contains('near-3d-models'); }
           function clamp(v,min,max){ return v<min?min:(v>max?max:v); }
           function scrollToProgress(p){
@@ -939,7 +939,7 @@
             var sectionTop = target.getBoundingClientRect().top + window.scrollY;
             var sectionH = target.offsetHeight;
             var scY = p * (sectionH + viewportH) - viewportH + sectionTop;
-            window.scrollTo({ top: Math.round(scY) });
+            window.scrollTo(0, Math.round(scY));
           }
           function updateFromEvent(ev, center){
             var clientY = ev.touches ? ev.touches[0].clientY : ev.clientY;
@@ -965,6 +965,9 @@
             if(!isNear()) return;
             dragging = true;
             bar.classList.add('dragging');
+            // Force instant scrolling during drag for perfect sync
+            root.classList.add('drag-scrolling');
+            body.classList.add('drag-scrolling');
             if(ev.cancelable) ev.preventDefault();
             // Anchor grab point inside thumb to avoid initial jump
             var clientY = ev.touches ? ev.touches[0].clientY : ev.clientY;
@@ -979,18 +982,15 @@
           function onMove(ev){
             if(!dragging) return;
             if(ev.cancelable) ev.preventDefault();
-            if (!moveTicking) {
-              moveTicking = true;
-              window.requestAnimationFrame(function(){
-                updateFromEvent(ev, false);
-                moveTicking = false;
-              });
-            }
+            // Update immediately to keep thumb and page in perfect sync
+            updateFromEvent(ev, false);
           }
           function endDrag(){
             dragging = false;
             anchorOffset = 0;
             bar.classList.remove('dragging');
+            root.classList.remove('drag-scrolling');
+            body.classList.remove('drag-scrolling');
             document.removeEventListener('touchmove', onMove, {passive:false});
             document.removeEventListener('touchend', endDrag, {passive:true});
             document.removeEventListener('mousemove', onMove);
@@ -1097,6 +1097,25 @@
       window.addEventListener('touchmove', mark, { passive: true });
     })();
   </script>
+  <style id="scroll-smoothness-boost">
+    /* Mobile: reduce scroll chain and boost responsiveness */
+    @media (max-width: 900px) {
+      html, body {
+        overscroll-behavior: contain !important;
+        touch-action: pan-y !important;
+        -webkit-overflow-scrolling: touch !important;
+      }
+    }
+    /* Ensure instant scroll while near 3D section or dragging the mobile scrollbar */
+    @media (max-width: 900px) {
+      html.near-3d-models, body.near-3d-models,
+      html.drag-scrolling, body.drag-scrolling { scroll-behavior: auto !important; }
+    }
+    /* Pause heavy decorative animations during active scrolling for smoother frames */
+    html.scrolling .blueprint-bg { animation-play-state: paused !important; }
+    html.scrolling .nav::before,
+    html.scrolling .nav::after { animation-play-state: paused !important; }
+  </style>
     <style id="post-3d-gap-fix">
     :root { --post-3d-gap: 0px; }
     /* Pull up the block immediately after 3D Models with MASSIVE visible movement */
