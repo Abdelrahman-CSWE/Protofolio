@@ -1066,6 +1066,37 @@
       }
     })();
   </script>
+  <style id="scroll-smoothness-boost">
+    /* Mobile: reduce scroll chain and boost responsiveness */
+    @media (max-width: 900px) {
+      html, body {
+        overscroll-behavior: contain !important;
+        touch-action: pan-y !important;
+        -webkit-overflow-scrolling: touch !important;
+      }
+    }
+    /* Pause heavy decorative animations during active scrolling for smoother frames */
+    html.scrolling .blueprint-bg { animation-play-state: paused !important; }
+    html.scrolling .nav::before,
+    html.scrolling .nav::after { animation-play-state: paused !important; }
+  </style>
+  <script id="scroll-smoothness-boost-js">
+    (function(){
+      'use strict';
+      var root = document.documentElement;
+      var isScrolling = false;
+      var t = null;
+      var DELAY = 120; // pause animations while actively scrolling
+      function mark(){
+        if (!isScrolling) { isScrolling = true; root.classList.add('scrolling'); }
+        if (t) clearTimeout(t);
+        t = setTimeout(function(){ isScrolling = false; root.classList.remove('scrolling'); }, DELAY);
+      }
+      window.addEventListener('scroll', mark, { passive: true });
+      window.addEventListener('wheel', mark, { passive: true });
+      window.addEventListener('touchmove', mark, { passive: true });
+    })();
+  </script>
     <style id="post-3d-gap-fix">
     :root { --post-3d-gap: 0px; }
     /* Pull up the block immediately after 3D Models with MASSIVE visible movement */
@@ -1231,6 +1262,10 @@
       text-rendering: optimizeLegibility;
       overflow-x: hidden;
       opacity: 1; /* Fixed: was set to 0 in some scripts */
+      /* Boost scroll responsiveness on touch devices */
+      touch-action: pan-y;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
     }
 
     /* Optimized Blueprint Background */
