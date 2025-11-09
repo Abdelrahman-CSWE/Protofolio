@@ -49,6 +49,305 @@
   <!-- ⚡ Disable continuous animations after load for better performance -->
   <script defer src="disable-animations-after-load.js"></script>
   <script defer src="ui-ux-enhancements.js"></script>
+  <!-- 3D Model Viewer Web Component -->
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <script>
+    // Enable professional auto-rotation for all 3D models inside #models-3d
+    (function(){
+      function enableAutoRotate(){
+        try {
+          var viewers = document.querySelectorAll('#models-3d model-viewer');
+          viewers.forEach(function(v){
+            v.setAttribute('auto-rotate', '');
+            v.setAttribute('auto-rotate-delay', '0');
+            v.setAttribute('rotation-per-second', '14.4deg'); // 25s per full rotation
+            if (v.getAttribute('src') === 'Sheet Metal.glb') {
+              v.setAttribute('camera-orbit', '120deg auto auto');
+            }
+          });
+        } catch(e){}
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', enableAutoRotate, {once:true});
+      } else {
+        enableAutoRotate();
+      }
+    })();
+  </script>
+  <!-- Styles for 3D Design Models section -->
+  <style id="models-3d-styles">
+    #models-3d {
+      padding-block: clamp(1rem, 2vw, 1.5rem);
+      padding-bottom: 1rem !important;
+      margin-bottom: 0 !important;
+      border-bottom: 0.01px solid transparent; /* prevent margin-collapsing */
+    }
+    #models-3d .container {
+      max-width: min(2200px, 99vw);
+      margin-inline: auto;
+      padding-bottom: 0 !important;
+      margin-bottom: 0 !important;
+    }
+    #models-3d .section-header {
+      margin-bottom: 0.25rem; /* tighter to reduce internal trailing space */
+      text-align: center;
+    }
+    /* Tighten the gap before the next section (DYNAMIC SHOWCASE) */
+    #models-3d + section,
+    #models-3d + div,
+    #models-3d + *,
+    #models-3d ~ section,
+    #models-3d ~ .section,
+    #models-3d ~ * {
+      margin-top: 50px !important;
+      padding-top: 0 !important;
+      border-top: none !important;
+    }
+    #models-3d ~ section .section-header,
+    #models-3d ~ .section .section-header,
+    #models-3d + section .section-header,
+    #models-3d + div .section-header {
+      margin-top: 0 !important;
+      padding-top: 0 !important;
+    }
+    /* Kill any decorative pseudo-elements on next blocks that could create visual gap */
+    #models-3d + *::before,
+    #models-3d + *::after,
+    #models-3d ~ *::before,
+    #models-3d ~ *::after {
+      content: none !important;
+      display: none !important;
+    }
+    /* Remove default top margin on the first visible element in the next section/container */
+    #models-3d ~ section > :first-child,
+    #models-3d ~ .section > :first-child,
+    #models-3d ~ * .container > :first-child {
+      margin-top: 0 !important;
+      padding-top: 0 !important;
+    }
+    /* Ensure headings at the top of next section do not add spacing */
+    #models-3d ~ section h1:first-child,
+    #models-3d ~ section h2:first-child,
+    #models-3d ~ section h3:first-child,
+    #models-3d ~ section h4:first-child,
+    #models-3d ~ section h5:first-child,
+    #models-3d ~ section h6:first-child,
+    #models-3d ~ .section h1:first-child,
+    #models-3d ~ .section h2:first-child,
+    #models-3d ~ .section h3:first-child,
+    #models-3d ~ .section h4:first-child,
+    #models-3d ~ .section h5:first-child,
+    #models-3d ~ .section h6:first-child {
+      margin-top: 0 !important;
+    }
+    /* If section badge is the first element, remove its top margin too */
+    #models-3d ~ section .section-badge:first-child,
+    #models-3d ~ .section .section-badge:first-child {
+      margin-top: 0 !important;
+    }
+    /* Hide any empty immediate wrapper between sections */
+    #models-3d + *:empty { display: none !important; }
+    /* Nudge known next sections if present */
+    #engineering-in-motion,
+    #videos {
+      margin-top: 0 !important;
+      padding-top: 0 !important;
+    }
+    /* Ensure first container of the next content has no top spacing */
+    #models-3d ~ * .container:first-child,
+    #models-3d + * > .container:first-child,
+    #models-3d + * .container:first-child {
+      margin-top: 0 !important;
+      padding-top: 0 !important;
+    }
+    /* Deep next-sibling nested sections: remove top spacing regardless of wrappers */
+    #models-3d ~ * section:first-child,
+    #models-3d ~ * .section:first-child,
+    #models-3d ~ * > section:first-of-type,
+    #models-3d + * section:first-child,
+    #models-3d + * .section:first-child {
+      margin-top: 0 !important;
+      padding-top: 0 !important;
+      border-top: none !important;
+    }
+    /* Also zero the very first element in the next sibling to avoid header margins bleeding */
+    #models-3d + * > *:first-child,
+    #models-3d ~ * > *:first-child {
+      margin-top: 0 !important;
+      padding-top: 0 !important;
+    }
+    /* Ensure next-section badges/headers do not add space when placed first */
+    #models-3d ~ * section:first-child > .section-header:first-child,
+    #models-3d ~ * section:first-child > .section-badge:first-child,
+    #models-3d ~ * section:first-child > h1:first-child,
+    #models-3d ~ * section:first-child > h2:first-child,
+    #models-3d ~ * section:first-child > h3:first-child,
+    #models-3d ~ * .section:first-child > .section-header:first-child,
+    #models-3d ~ * .section:first-child > .section-badge:first-child {
+      margin-top: 0 !important;
+      padding-top: 0 !important;
+    }
+    /* Ensure last element inside 3D section doesn't push spacing */
+    #models-3d .container > *:last-child { margin-bottom: 0 !important; padding-bottom: 0 !important; }
+    #models-3d .models-grid {
+      display: grid !important;
+      grid-template-columns: repeat(3, 1fr) !important;
+      justify-content: stretch !important;
+      justify-items: stretch !important;
+      place-items: center !important;
+      column-gap: 0.5rem !important;
+      row-gap: 3rem !important;
+      align-items: center !important;
+      margin-bottom: 0 !important;
+      padding-bottom: 0 !important;
+      padding-inline: 0rem !important;
+      min-height: auto !important;
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+    #models-3d model-viewer {
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      outline: none !important;
+      display: block;
+      justify-self: center;
+      margin: 0 auto !important;
+      padding: 0 !important;
+      overflow: visible !important;
+      transform: scale(1.05);
+      transform-origin: center center;
+      will-change: transform;
+          }
+
+    
+    
+    
+    
+    /* Hide model-viewer default loading progress bar */
+    #models-3d model-viewer::part(default-progress-bar) { display: none !important; opacity: 0 !important; visibility: hidden !important; }
+    #models-3d model-viewer::part(progress-bar) { display: none !important; opacity: 0 !important; visibility: hidden !important; }
+
+    /* Move Panel.glb model 50px to the left and scale up */
+    #models-3d model-viewer[src="Panel.glb"] {
+      transform: translateX(-50px) scale(1.15) !important;
+      transform-origin: center center !important;
+    }
+
+    /* Normalize Sheet Metal apparent size to match other models */
+    #models-3d model-viewer[src="Sheet Metal.glb"] {
+      transform: scale(1.35) !important;
+      transform-origin: center center !important;
+    }
+
+    /* Move CH.glb model 50px to the right */
+    #models-3d model-viewer[src="CH.glb"] {
+      transform: translateX(50px) !important;
+      transform-origin: center center !important;
+    }
+
+    /* Mobile fix: Move CH.glb to the left to center it on mobile */
+    @media (max-width: 900px) {
+      #models-3d model-viewer[src="CH.glb"] {
+        transform: translateX(-60px) scale(0.85) !important;
+        transform-origin: center center !important;
+      }
+
+      /* Mobile fix: Move Sheet Metal.glb to the left to center it on mobile */
+      #models-3d model-viewer[src="Sheet Metal.glb"] {
+        transform: translateX(-60px) scale(1.35) !important;
+        transform-origin: center center !important;
+      }
+    }
+
+    /* 3-column responsive panels */
+    #models-3d .model-panel {
+      width: 100% !important;
+      max-width: 100% !important;
+      aspect-ratio: 1 / 1 !important;
+      border-radius: 0px !important;
+      overflow: visible !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      background: transparent !important;
+      min-height: 450px !important;
+      box-shadow: none !important;
+      border: none !important;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    
+    #models-3d .model-panel:hover {
+      box-shadow: none !important;
+      border-color: transparent !important;
+      transform: none !important;
+    }
+    #models-3d .model-panel.empty {
+      outline: none !important;
+      box-shadow: none !important;
+    }
+
+    @media (max-width: 1200px) {
+      #models-3d .models-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        column-gap: 0.5rem !important;
+        row-gap: 3rem !important;
+        padding-inline: 0rem !important;
+        min-height: auto !important;
+      }
+      
+      #models-3d .model-panel {
+        max-width: 100% !important;
+        min-height: 420px !important;
+        box-shadow: none !important;
+        border: none !important;
+        border-radius: 0px !important;
+      }
+    }
+    @media (max-width: 900px) {
+      #models-3d .models-grid {
+        grid-template-columns: 1fr !important;
+        gap: 3rem !important;
+        padding-inline: 1rem !important;
+        min-height: auto !important;
+        max-width: 85% !important;
+        margin: 0 auto !important;
+        justify-items: center !important;
+      }
+      #models-3d .model-panel {
+        max-width: 100% !important;
+        width: 100% !important;
+        aspect-ratio: 1 / 1 !important;
+        min-height: 300px !important;
+        box-shadow: none !important;
+        border: none !important;
+        border-radius: 0px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+      
+      #models-3d .model-panel:hover {
+        box-shadow: none !important;
+        border-color: transparent !important;
+        transform: none !important;
+      }
+      
+      #models-3d model-viewer {
+        width: 100% !important;
+        height: 100% !important;
+        max-width: 100% !important;
+        margin: 0 auto !important;
+        padding: 0 !important;
+        transform: scale(0.85) !important;
+        transform-origin: center center !important;
+        will-change: transform !important;
+      }
+    }
+  </style>
   <!-- 🔢 Metrics Count-Up Animation - Professional & Lightweight -->
   <script defer src="metrics-countup.js"></script>
   <!-- 📱 Force-run hero text entrance animations on mobile via inline transitions -->
@@ -529,6 +828,53 @@
       text-align: center !important;
       margin-left: auto !important;
       margin-right: auto !important;
+    }
+  </style>
+  <style id="post-3d-gap-fix">
+    :root { --post-3d-gap: 0px; }
+    /* Pull up the block immediately after 3D Models with MASSIVE visible movement */
+    #models-3d {
+      margin-bottom: 0 !important;
+      padding-bottom: 0 !important;
+      border-bottom: 0.01px solid transparent !important;
+    }
+    #models-3d + * {
+      margin-top: 1350px !important;
+      padding-top: 0 !important;
+      border-top: none !important;
+    }
+    #models-3d + * > .container:first-child,
+    #models-3d + * > *:first-child,
+    #models-3d + * .section-header:first-child,
+    #models-3d + * .section-badge:first-child {
+      margin-top: 0 !important;
+      padding-top: 0 !important;
+    }
+    /* Keep minimal gap for subsequent sections */
+    #models-3d ~ section,
+    #models-3d ~ .section,
+    #models-3d ~ * {
+      margin-top: var(--post-3d-gap) !important;
+      padding-top: 0 !important;
+    }
+    /* Known IDs: ensure no internal offset remains */
+    #engineering-in-motion,
+    #motion,
+    #videos {
+      margin-top: 100px !important;
+      padding-top: 0 !important;
+      border-top: none !important;
+    }
+    #engineering-in-motion > .container:first-child,
+    #motion > .container:first-child,
+    #videos > .container:first-child {
+      margin-top: 0 !important;
+      padding-top: 0 !important;
+    }
+    @media (max-width: 900px){
+      :root { --post-3d-gap: 0px; }
+      #models-3d { margin-bottom: 0 !important; }
+      #models-3d + * { margin-top: 1350px !important; }
     }
   </style>
   <script>
@@ -6504,6 +6850,56 @@
   <section class="section" id="videos">
     <div class="container">
       <div class="section-header animate-on-scroll">
+        <!-- 3D Design Models Section -->
+  <section class="section" id="models-3d">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">3D INNOVATION</div>
+        <h2 class="section-title">3D Design Models</h2>
+      </div>
+      <div class="models-grid">
+        <div class="model-panel">
+        <!-- Active model: loads automatically, rotation only (no zoom/pan), clean integration -->
+        <model-viewer src="Panel.glb"
+                      alt="3D Model: Panel"
+                      bounds="tight"
+                      camera-target="auto"
+                      camera-orbit="auto auto auto"
+                      field-of-view="22deg"
+                      camera-controls
+                      disable-zoom
+                      disable-pan
+                      interaction-prompt="none"
+                      style="background: transparent;"
+                      aria-label="Interactive 3D model: Panel">
+        </model-viewer>
+        </div>
+        <div class="model-panel" aria-label="3D Model Slot 2">
+          <!-- Second model: Sheet Metal -->
+          <model-viewer src="Sheet Metal.glb"
+                        alt="3D Model: Sheet Metal"
+                        aria-label="Interactive 3D model: Sheet Metal"
+                        camera-controls
+                        disable-zoom
+                        disable-pan
+                        interaction-prompt="none"
+                        style="background: transparent;"></model-viewer>
+        </div>
+        <div class="model-panel" aria-label="3D Model Slot 3">
+          <!-- Third model: CH -->
+          <model-viewer src="CH.glb"
+                        alt="3D Model: CH"
+                        aria-label="Interactive 3D model: CH"
+                        camera-controls
+                        disable-zoom
+                        disable-pan
+                        interaction-prompt="none"
+                        style="background: transparent;"></model-viewer>
+        </div>
+      </div>
+    </div>
+  </section>
+
         <div class="section-badge">DYNAMIC SHOWCASE</div>
         <h2 class="section-title">Engineering in Motion</h2>
         <p class="section-description">Experience the power of mechanical design through dynamic video presentations</p>
@@ -7070,7 +7466,7 @@
 
   <footer class="footer">
     <div class="container">
-      <p class="footer-text">© 2025 Abdelrahman Okasha — Premium Engineering Portfolio</p>
+      <p class="footer-text">© 2025 Abdelrahman Okasha — Portfolio</p>
     </div>
   </footer>
 

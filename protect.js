@@ -4,7 +4,7 @@
 
   // Utility: passive-safe addEventListener
   const on = (target, type, handler, opts) => {
-    try { target.addEventListener(type, handler, opts || { passive: false, capture: true }); }
+    try { target.addEventListener(type, handler, opts || { passive: true, capture: true }); }
     catch (e) { target.addEventListener(type, handler, false); }
   };
 
@@ -103,11 +103,15 @@
       wrap.appendChild(img);
       wrap.appendChild(overlay);
 
-      // Block interactions
-      overlay.addEventListener('contextmenu', (e)=>{ e.preventDefault(); e.stopPropagation(); }, { passive:false });
-      overlay.addEventListener('mousedown', (e)=>{ e.preventDefault(); e.stopPropagation(); }, { passive:false });
-      overlay.addEventListener('touchstart', (e)=>{ e.preventDefault(); e.stopPropagation(); }, { passive:false });
-      overlay.addEventListener('dragstart', (e)=>{ e.preventDefault(); e.stopPropagation(); }, { passive:false });
+      // Block interactions (desktop only). On touch devices, don't intercept to keep scrolling smooth.
+      var isTouch = window.matchMedia && (window.matchMedia('(hover: none)').matches || window.matchMedia('(pointer: coarse)').matches);
+      if (isTouch) {
+        overlay.style.pointerEvents = 'none';
+      } else {
+        overlay.addEventListener('contextmenu', (e)=>{ e.preventDefault(); e.stopPropagation(); }, { passive:true });
+        overlay.addEventListener('mousedown', (e)=>{ e.preventDefault(); e.stopPropagation(); }, { passive:true });
+        overlay.addEventListener('dragstart', (e)=>{ e.preventDefault(); e.stopPropagation(); }, { passive:true });
+      }
     });
   }
 
@@ -121,40 +125,36 @@
   }
 
   function detectDevtools() {
-    // Heuristic: measure console time + dimension changes (dock undock)
-    const threshold = 160;
-    const start = performance.now();
-    // eslint-disable-next-line no-debugger
-    debugger; // Triggers a pause when devtools is open
-    const diff = performance.now() - start;
-    if (diff > threshold) {
-      setDevtoolsState(true);
-    } else {
-      setDevtoolsState(false);
-    }
+    // Lightweight heuristic without forcing debugger pause
+    try {
+      const threshold = 80;
+      const start = performance.now();
+      // minimal work
+      for (let i = 0; i < 1000; i++); // noop loop
+      const diff = performance.now() - start;
+      setDevtoolsState(diff > threshold);
+    } catch (e) {}
   }
 
   // Polling for devtools state at low frequency to reduce overhead
-  setInterval(detectDevtools, 1200);
+  (function scheduleDevtoolsCheck(){
+    const idle = window.requestIdleCallback || function(cb){ return setTimeout(cb, 1500); };
+    idle(function(){ detectDevtools(); scheduleDevtoolsCheck(); });
+  })();
 
   // 7) MutationObserver: when images are added dynamically, protect them
   const mo = new MutationObserver(() => {
-    hardenMedia();
-    coverImages();
+    const idle = window.requestIdleCallback || function(cb){ return setTimeout(cb, 0); };
+    idle(() => { hardenMedia(); coverImages(); });
   });
   mo.observe(document.documentElement, { childList: true, subtree: true });
 
   // Initial run after DOM ready
+  const boot = () => { hardenMedia(); coverImages(); injectOverlay(); };
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      hardenMedia();
-      coverImages();
-      injectOverlay();
-    });
+    document.addEventListener('DOMContentLoaded', boot, { once: true });
   } else {
-    hardenMedia();
-    coverImages();
-    injectOverlay();
+    boot();
   }
 
   // 8) Anti-drag on all elements (safety net)

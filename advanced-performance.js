@@ -132,19 +132,26 @@
   // ============================================
   
   function optimizeEventListeners() {
-    const passiveEvents = ['scroll', 'touchstart', 'touchmove', 'wheel'];
-    
-    passiveEvents.forEach(eventType => {
+    try {
+      if (EventTarget.prototype.__passivePatched) return;
       const originalAddEventListener = EventTarget.prototype.addEventListener;
       EventTarget.prototype.addEventListener = function(type, listener, options) {
-        if (type === eventType && typeof options !== 'object') {
-          options = { passive: true };
-        } else if (typeof options === 'object' && options.passive === undefined) {
-          options.passive = true;
-        }
+        try {
+          // Only default passive for scroll and wheel to avoid breaking touch preventDefault
+          if (type === 'scroll' || type === 'wheel') {
+            if (options === undefined) {
+              options = { passive: true };
+            } else if (typeof options === 'boolean') {
+              options = { capture: !!options, passive: true };
+            } else if (options && typeof options === 'object' && options.passive === undefined) {
+              options = Object.assign({}, options, { passive: true });
+            }
+          }
+        } catch (e) {}
         return originalAddEventListener.call(this, type, listener, options);
       };
-    });
+      Object.defineProperty(EventTarget.prototype, '__passivePatched', { value: true, configurable: true });
+    } catch (e) {}
   }
 
   // ============================================

@@ -120,6 +120,8 @@
 
   function optimizeEventListenersLight(){
     try{
+      // Avoid double-patching if already handled by another optimizer
+      if (EventTarget.prototype.__passivePatched) return;
       const origAdd = EventTarget.prototype.addEventListener;
       EventTarget.prototype.addEventListener = function(type, listener, options){
         try{
@@ -135,6 +137,7 @@
         }catch(e){}
         return origAdd.call(this, type, listener, options);
       };
+      Object.defineProperty(EventTarget.prototype, '__passivePatched', { value: true, configurable: true });
     }catch(e){}
   }
 

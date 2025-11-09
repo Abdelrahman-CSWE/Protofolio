@@ -489,6 +489,10 @@ function initNavbarEffects() {
 // ============================================
 
 function initSmoothScrolling() {
+  // If advanced smooth scrolling is available, avoid double-handling
+  if (window.performanceUtils && typeof window.performanceUtils.smoothScrollTo === 'function') {
+    return;
+  }
   document.addEventListener('click', (e) => {
     const anchor = e.target.closest('a[href^="#"]');
     if (anchor) {
@@ -687,22 +691,6 @@ if (document.readyState === 'loading') {
 // CONTENT PROTECTION - Optimized
 // ============================================
 
-document.addEventListener('contextmenu', e => { e.preventDefault(); return false; });
 
-document.addEventListener('keydown', e => {
-  if (e.keyCode === 123 || 
-      (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) ||
-      (e.ctrlKey && e.keyCode === 85)) {
-    e.preventDefault();
-    return false;
-  }
-});
 
-document.addEventListener('dragstart', e => { e.preventDefault(); return false; });
 
-document.addEventListener('selectstart', e => {
-  if (e.target.closest('.portfolio-project, .floating-element, .hero-content')) {
-    e.preventDefault();
-    return false;
-  }
-});
