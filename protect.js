@@ -8,12 +8,68 @@
     catch (e) { target.addEventListener(type, handler, false); }
   };
 
-  // 1) Block context menu globally (Right Click)
-  on(document, 'contextmenu', (e) => {
-    e.preventDefault();
-    e.stopPropagation();
+  // 1) Block context menu globally (Right Click) — hardened and comprehensive
+  function __blockCtxHandler(e){
+    try { e.preventDefault(); } catch(_){ }
+    try { e.stopPropagation(); } catch(_){ }
+    try { e.stopImmediatePropagation(); } catch(_){ }
     return false;
-  });
+  }
+  function __bindCtx(target){
+    if (!target) return;
+    try { target.addEventListener('contextmenu', __blockCtxHandler, { capture: true }); }
+    catch (e) { target.addEventListener('contextmenu', __blockCtxHandler, false); }
+  }
+  [window, document, document.documentElement, document.body].forEach(__bindCtx);
+  // Fallback binding as well
+  try { document.addEventListener('contextmenu', __blockCtxHandler, { capture: true }); } catch(_) { document.addEventListener('contextmenu', __blockCtxHandler, false); }
+  document.oncontextmenu = () => false;
+  if (document.body) document.body.oncontextmenu = () => false;
+
+  // Block right-button at the source to avoid native menu triggers
+  const __blockRightButton = (e) => {
+    if (e && (e.button === 2 || e.which === 3 || (e.ctrlKey && e.button === 0))) {
+      e.preventDefault();
+      e.stopPropagation();
+      try { e.stopImmediatePropagation(); } catch(_){}
+      return false;
+    }
+  };
+  // Use non-passive listeners to allow preventDefault
+  try {
+    document.addEventListener('mousedown', __blockRightButton, { capture: true });
+    document.addEventListener('mouseup', __blockRightButton, { capture: true });
+    document.addEventListener('pointerdown', __blockRightButton, { capture: true });
+    document.addEventListener('pointerup', __blockRightButton, { capture: true });
+    document.addEventListener('auxclick', (e)=>{ if(e.button===2){ __blockRightButton(e); } }, { capture: true });
+  } catch(_) {
+    document.addEventListener('mousedown', __blockRightButton, false);
+    document.addEventListener('mouseup', __blockRightButton, false);
+    document.addEventListener('pointerdown', __blockRightButton, false);
+    document.addEventListener('pointerup', __blockRightButton, false);
+    document.addEventListener('auxclick', (e)=>{ if(e.button===2){ __blockRightButton(e); } }, false);
+  }
+
+  // Ensure dynamic special elements are also protected (model-viewer, video, canvas)
+  function __hardenSpecial(){
+    try {
+      document.querySelectorAll('model-viewer, video, canvas').forEach((el) => {
+        try { el.addEventListener('contextmenu', __blockCtxHandler, { capture: true }); } catch(_) { el.addEventListener('contextmenu', __blockCtxHandler, false); }
+        try { el.addEventListener('mousedown', __blockRightButton, { capture: true }); } catch(_) { el.addEventListener('mousedown', __blockRightButton, false); }
+        try { el.addEventListener('mouseup', __blockRightButton, { capture: true }); } catch(_) { el.addEventListener('mouseup', __blockRightButton, false); }
+        try { el.addEventListener('pointerdown', __blockRightButton, { capture: true }); } catch(_) { el.addEventListener('pointerdown', __blockRightButton, false); }
+        try { el.addEventListener('pointerup', __blockRightButton, { capture: true }); } catch(_) { el.addEventListener('pointerup', __blockRightButton, false); }
+        try { el.addEventListener('auxclick', (e)=>{ if(e.button===2){ __blockRightButton(e); } }, { capture: true }); } catch(_) { el.addEventListener('auxclick', (e)=>{ if(e.button===2){ __blockRightButton(e); } }, false); }
+      });
+    } catch(e) {}
+  }
+  const __moCtx = new MutationObserver(__hardenSpecial);
+  __moCtx.observe(document.documentElement, { childList: true, subtree: true });
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', __hardenSpecial, { once: true });
+  } else {
+    __hardenSpecial();
+  }
 
   // 2) Block common key combos (Copy, Cut, View Source, DevTools)
   const blockedCombos = [
@@ -30,7 +86,13 @@
   ];
 
   on(document, 'keydown', (e) => {
-    const k = e.key.toLowerCase();
+    const k = (e.key || '').toLowerCase();
+    // Block OS context keys: Shift+F10 and ContextMenu key
+    if ((e.shiftKey && (e.key === 'F10' || e.keyCode === 121)) || e.key === 'ContextMenu' || e.keyCode === 93) {
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
+    }
     if (
       e.keyCode === 123 || // F12
       blockedCombos.some(c => (

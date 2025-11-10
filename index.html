@@ -1066,20 +1066,6 @@
       }
     })();
   </script>
-  <style id="scroll-smoothness-boost">
-    /* Mobile: reduce scroll chain and boost responsiveness */
-    @media (max-width: 900px) {
-      html, body {
-        overscroll-behavior: contain !important;
-        touch-action: pan-y !important;
-        -webkit-overflow-scrolling: touch !important;
-      }
-    }
-    /* Pause heavy decorative animations during active scrolling for smoother frames */
-    html.scrolling .blueprint-bg { animation-play-state: paused !important; }
-    html.scrolling .nav::before,
-    html.scrolling .nav::after { animation-play-state: paused !important; }
-  </style>
   <script id="scroll-smoothness-boost-js">
     (function(){
       'use strict';
