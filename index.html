@@ -233,40 +233,42 @@
     #models-3d model-viewer::part(default-progress-bar) { display: none !important; opacity: 0 !important; visibility: hidden !important; }
     #models-3d model-viewer::part(progress-bar) { display: none !important; opacity: 0 !important; visibility: hidden !important; }
 
-    /* Move Panel.glb model 50px to the left and scale up */
-    #models-3d model-viewer[src="Panel.glb"] {
-      transform: translateX(-50px) scale(1.15) !important;
-      transform-origin: center center !important;
-    }
+    @media (min-width: 901px) {
+      /* Move Panel.glb model 50px to the left and scale up */
+      #models-3d model-viewer[src="Panel.glb"] {
+        transform: translateX(-50px) scale(1.15) !important;
+        transform-origin: center center !important;
+      }
 
-    /* Normalize Sheet Metal apparent size to match other models */
-    #models-3d model-viewer[src="Sheet Metal.glb"] {
-      transform: scale(1.35) !important;
-      transform-origin: center center !important;
-    }
+      /* Normalize Sheet Metal apparent size to match other models */
+      #models-3d model-viewer[src="Sheet Metal.glb"] {
+        transform: scale(1.35) !important;
+        transform-origin: center center !important;
+      }
 
-    /* Move CH.glb model 50px to the right */
-    #models-3d model-viewer[src="CH.glb"] {
-      transform: translateX(50px) !important;
-      transform-origin: center center !important;
+      /* Move CH.glb model 50px to the right */
+      #models-3d model-viewer[src="CH.glb"] {
+        transform: translateX(50px) !important;
+        transform-origin: center center !important;
+      }
     }
 
     /* Mobile fix: Move CH.glb to the left to center it on mobile */
     @media (max-width: 900px) {
       #models-3d model-viewer[src="CH.glb"] {
-        transform: translateX(-6vw) scale(1.12) !important;
+        transform: translateX(0) scale(1.12) !important;
         transform-origin: center center !important;
       }
 
       /* Mobile fix: Move Sheet Metal.glb to the left to center it on mobile */
       #models-3d model-viewer[src="Sheet Metal.glb"] {
-        transform: translateX(-8vw) scale(1.32) !important;
+        transform: translateX(0) scale(1.32) !important;
         transform-origin: center center !important;
       }
 
       /* Mobile fix: Normalize Panel.glb to center alignment */
       #models-3d model-viewer[src="Panel.glb"] {
-        transform: translateX(-5vw) scale(1.12) !important;
+        transform: translateX(0) scale(1.12) !important;
         transform-origin: center center !important;
       }
     }
@@ -325,6 +327,12 @@
         max-width: 85% !important;
         margin: 0 auto !important;
         justify-items: center !important;
+        justify-content: center !important;
+      }
+      #models-3d .container {
+        margin-inline: auto !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
       }
       #models-3d .model-panel {
         max-width: 100% !important;
@@ -351,7 +359,7 @@
         max-width: 100% !important;
         margin: 0 auto !important;
         padding: 0 !important;
-        transform: scale(0.98) !important;
+        transform: translateX(0) scale(0.98) !important;
         transform-origin: center center !important;
         will-change: transform !important;
       }
